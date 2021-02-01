@@ -6,6 +6,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { FileUploadService } from '../../services/file-upload.service';
 
 import { Usuario } from '../../models/usuario.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil',
@@ -22,13 +23,13 @@ export class PerfilComponent implements OnInit {
 
   constructor( private fb: FormBuilder,
                private usuarioService: UsuarioService,
-               private fileUploadService: FileUploadService) {
+               private fileUploadService: FileUploadService,
+              ) {
     
     this.usuario = usuarioService.usuario;
   }
 
   ngOnInit(): void {
-
     this.perfilForm = this.fb.group({
       nombre: [ this.usuario.nombre , Validators.required ],
       email: [ this.usuario.email, [ Validators.required, Validators.email ] ],
@@ -79,5 +80,7 @@ export class PerfilComponent implements OnInit {
       })
 
   }
-
+  abrirModal(){
+    
+  }
 }

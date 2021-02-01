@@ -22,6 +22,7 @@ import { HospitalesComponent } from './mantenimientos/hospitales/hospitales.comp
 import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
 import { MedicoComponent } from './mantenimientos/medicos/medico.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
+import { PedidosComponent } from './pedidos/pedidos.component';
 
 
 
@@ -42,6 +43,7 @@ import { BusquedaComponent } from './busqueda/busqueda.component';
     MedicosComponent,
     MedicoComponent,
     BusquedaComponent,
+    PedidosComponent,
   ],
   exports: [
     DashboardComponent,
