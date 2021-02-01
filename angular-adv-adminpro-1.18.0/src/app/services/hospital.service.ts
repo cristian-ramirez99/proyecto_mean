@@ -29,6 +29,7 @@ export class HospitalService {
   }
 
 
+  
   cargarHospitales() {
 
     const url = `${ base_url }/hospitales`;
