@@ -7,6 +7,7 @@ import { ChartsModule } from 'ng2-charts';
 import { IncrementadorComponent } from './incrementador/incrementador.component';
 import { DonaComponent } from './dona/dona.component';
 import { ModalImagenComponent } from './modal-imagen/modal-imagen.component';
+import { ModalComponent } from './modal/modal.component';
 
 
 
@@ -14,12 +15,14 @@ import { ModalImagenComponent } from './modal-imagen/modal-imagen.component';
   declarations: [
     IncrementadorComponent,
     DonaComponent,
-    ModalImagenComponent
+    ModalImagenComponent,
+    ModalComponent
   ],
   exports: [
     IncrementadorComponent,
     DonaComponent,
-    ModalImagenComponent
+    ModalImagenComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule,
