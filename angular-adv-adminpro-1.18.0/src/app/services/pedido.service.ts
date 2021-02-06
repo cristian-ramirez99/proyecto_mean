@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
+import { Pedido } from '../models/pedido.mode';
 
 const base_url = environment.base_url;
 
@@ -24,7 +25,7 @@ export class PedidoService {
   }
   cargarPedidos(desde: number = 0) {
     const url = `${base_url}/whatEver/${desde}`;
-    this.http.get(url, this.headers)
+    return this.http.get(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, pedidos: any }) => resp.pedidos)
       );

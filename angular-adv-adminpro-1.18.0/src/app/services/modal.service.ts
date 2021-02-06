@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Pedido } from '../models/pedido.mode';
 
 @Injectable({
   providedIn: 'root'
@@ -6,12 +7,14 @@ import { Injectable } from '@angular/core';
 export class ModalService {
 
   private _ocultarModal: boolean = true;
+  public pedido: Pedido;
 
   get ocultarModal() {
     return this._ocultarModal;
   }
 
-  abrirModal(id: string) {
+  abrirModal(pedido: Pedido) {
+    this.pedido = pedido;
     this._ocultarModal = false;
     console.log("Estoy en modalService");
   }
