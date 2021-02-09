@@ -22,8 +22,13 @@ export class PedidosComponent implements OnInit {
     let productos: Producto[]=[];
     productos.push(new Producto('ordenador', 'bobo',40, 'no-image', new TipoProducto('pc', 'mu bonito')));
     productos.push(new Producto('tablet', 'jesus', 50, 'no-image', new TipoProducto('tablet', 'mu bonito')));
+    productos.push(new Producto('portatil', 'grauBobo', 50, 'no-image', new TipoProducto('tablet', 'mu bonito')));
+    productos.push(new Producto('portatil', 'grauBobo', 50, 'no-image', new TipoProducto('tablet', 'mu bonito')));
+
 
     this.pedidos.push(new Pedido(new Date(1, 1, 1, 1, 1), 'enviado', productos,'1fa1ras'));
+    this.pedidos.push(new Pedido(new Date(1999, 1, 11+1), 'entregado', productos,'1fa1ras'));
+
     this.cargarPedidos();
   }
   abrirModal(pedido:Pedido) {

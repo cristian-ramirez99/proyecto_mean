@@ -16,26 +16,29 @@
 
                     <h3>Pedido: {{pedido._id}}</h3>
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class=" text-center table table-striped">
                             <thead>
                                 <th>Productos</th>
-                                <th>Nombre</th>
                                 <th>Precio</th>
                                 <th>Cantidad</th>
                                 <th>Subtotal</th>
                             </thead>
-                            <div class="text-center">
+                            <tbody>
                                 <tr *ngFor="let producto of pedido.productos">
-                                    <td>
-                                        <img [src]="" [alt]="producto.nombre" class="w100 cursor">
-                                    </td>
-                                    <td [ngClass]="{'table-active':mouseOnRow,'table-light':!mouseOnRow}"
-                                        (mouseenter)="changeRowColour()" (mouseleave)="changeRowColour()">
-                                        {{producto.nombre}}</td>
+                                    <div>
+                                        <td>
+                                            <img [src]="producto.imagenUrl" [alt]="producto.nombre" class="avatar">
+                                        </td>
+                                        <td>
+                                            {{producto.nombre}}
+                                        </td>
+
+                                    </div>
                                     <td>{{producto.precio}}</td>
-                                    <td>Subtotal</td>
+                                    <td>Cantidad</td>
+                                    <td>{{producto.precio}}*xCantidad</td>
                                 </tr>
-                            </div>
+                            </tbody>
                         </table>
                     </div>
                     <div class="modal-footer">

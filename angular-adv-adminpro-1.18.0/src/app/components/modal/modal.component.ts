@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { from } from 'rxjs';
 import { Pedido } from 'src/app/models/pedido.mode';
 import { ModalService } from '../../services/modal.service';
 import { PedidoService } from '../../services/pedido.service';
@@ -16,7 +15,7 @@ export class ModalComponent implements OnInit {
 
   public pedido: Pedido;
   public primeraVez: boolean = true;
-  public mouseOnRow: boolean = false;
+  
   ngOnInit(): void {
   }
 
@@ -35,9 +34,5 @@ export class ModalComponent implements OnInit {
     }
     this.modalService.cerrarModal();
   }
-  changeRowColour() {
-    this.mouseOnRow = !this.mouseOnRow;
-  }
-
 
 }

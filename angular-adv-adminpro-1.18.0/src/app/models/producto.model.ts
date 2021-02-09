@@ -1,8 +1,12 @@
-export class TipoProducto{
+import { environment } from '../../environments/environment';
+
+const base_url = environment.base_url;
+
+export class TipoProducto {
     constructor(
-        public nombre:string,
-        public caracteristicas:string
-    ){}
+        public nombre: string,
+        public caracteristicas: string
+    ) { }
 }
 export class Producto {
 
@@ -10,9 +14,12 @@ export class Producto {
         public nombre: string,
         public descripcion: string,
         public precio: number,
-        public imagen: string,
+        public img: string,
         public tipoProducto: TipoProducto
-    ) {}
+    ) { }
+    get imagenUrl() {
+        return `${base_url}/upload/usuarios/no-image`;
 
+    }
 }
 
