@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
 
-                <input type="text" class="form-control" placeholder="Buscar pedido..." />
+                <input type="text" class="form-control" placeholder="Buscar pedido por ID..." />
 
             </div>
         </div>
@@ -44,7 +44,7 @@
                             <tr *ngFor="let pedido of pedidos">
                                 <td>{{pedido._id}}</td>
                                 <td>
-                                    {{pedido.auxDia}}{{pedido.fecha.getUTCDate()}}/
+                                    {{pedido.auxDia}}{{pedido.fecha.getDate()}}/
                                     {{pedido.auxMes}}{{pedido.fecha.getMonth()}}/
                                     {{pedido.fecha.getFullYear()}}
                                 </td>

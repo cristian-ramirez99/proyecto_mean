@@ -1,20 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Pedido } from '../models/pedido.mode';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ModalService {
-
+export class ModalActualizarPasswordService {
   private _ocultarModal: boolean = true;
-  public pedido: Pedido;
 
   get ocultarModal() {
     return this._ocultarModal;
   }
 
-  abrirModal(pedido: Pedido) {
-    this.pedido = pedido;
+  abrirModal() {
     this._ocultarModal = false;
   }
   cerrarModal() {

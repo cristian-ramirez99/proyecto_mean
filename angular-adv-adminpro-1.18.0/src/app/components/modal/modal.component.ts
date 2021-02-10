@@ -15,7 +15,7 @@ export class ModalComponent implements OnInit {
 
   public pedido: Pedido;
   public primeraVez: boolean = true;
-  
+
   ngOnInit(): void {
   }
 
@@ -34,5 +34,4 @@ export class ModalComponent implements OnInit {
     }
     this.modalService.cerrarModal();
   }
-
 }

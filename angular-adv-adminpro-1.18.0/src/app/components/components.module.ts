@@ -8,6 +8,7 @@ import { IncrementadorComponent } from './incrementador/incrementador.component'
 import { DonaComponent } from './dona/dona.component';
 import { ModalImagenComponent } from './modal-imagen/modal-imagen.component';
 import { ModalComponent } from './modal/modal.component';
+import { ModalActualizarPasswordComponent } from './modal-actualizar-password/modal-actualizar-password.component';
 
 
 
@@ -16,13 +17,16 @@ import { ModalComponent } from './modal/modal.component';
     IncrementadorComponent,
     DonaComponent,
     ModalImagenComponent,
-    ModalComponent
+    ModalComponent,
+    ModalActualizarPasswordComponent,
   ],
   exports: [
     IncrementadorComponent,
     DonaComponent,
     ModalImagenComponent,
-    ModalComponent
+    ModalComponent,
+    ModalActualizarPasswordComponent,
+
   ],
   imports: [
     CommonModule,

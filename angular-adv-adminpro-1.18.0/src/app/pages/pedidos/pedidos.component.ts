@@ -14,24 +14,24 @@ export class PedidosComponent implements OnInit {
 
   public cargando: boolean = true;
   public desde: number = 0;
-  public pedidos: Pedido[]=[];
+  public pedidos: Pedido[] = [];
 
   constructor(private modalService: ModalService,
     private pedidoService: PedidoService) { }
   ngOnInit(): void {
-    let productos: Producto[]=[];
-    productos.push(new Producto('ordenador', 'bobo',40, 'no-image', new TipoProducto('pc', 'mu bonito')));
-    productos.push(new Producto('tablet', 'jesus', 50, 'no-image', new TipoProducto('tablet', 'mu bonito')));
-    productos.push(new Producto('portatil', 'grauBobo', 50, 'no-image', new TipoProducto('tablet', 'mu bonito')));
-    productos.push(new Producto('portatil', 'grauBobo', 50, 'no-image', new TipoProducto('tablet', 'mu bonito')));
+    let productos: Producto[] = [];
+    productos.push(new Producto('ordenador', 'bobo', 40, 'no-image', new TipoProducto('pc', 'mu bonito'),2));
+    productos.push(new Producto('tablet', 'jesus', 50, 'no-image', new TipoProducto('tablet', 'mu bonito'),3));
+    productos.push(new Producto('portatil', 'grauBobo', 50, 'no-image', new TipoProducto('pc', 'mu bonito'),1));
+    productos.push(new Producto('mouse', 'mouseDeLocos', 80, 'no-image', new TipoProducto('mouse', 'bobo'),7));
 
 
-    this.pedidos.push(new Pedido(new Date(1, 1, 1, 1, 1), 'enviado', productos,'1fa1ras'));
-    this.pedidos.push(new Pedido(new Date(1999, 1, 11+1), 'entregado', productos,'1fa1ras'));
+    this.pedidos.push(new Pedido(new Date(1, 1, 1, 1, 1), 'enviado', productos, '1fa1ras'));
+    this.pedidos.push(new Pedido(new Date(1999, 10, 11), 'entregado', productos, 'asdjoasb'));
 
     this.cargarPedidos();
   }
-  abrirModal(pedido:Pedido) {
+  abrirModal(pedido: Pedido) {
     console.log("Abriendo modal");
     this.modalService.abrirModal(pedido);
   }
@@ -56,8 +56,9 @@ export class PedidosComponent implements OnInit {
 
   //Calcula el precio total de cada pedido
   calcularPrecio() {
-    let auxPrecio: number = 0;
+    let auxPrecio: number;
     this.pedidos.forEach(pedido => {
+      auxPrecio = 0;
       pedido.productos.forEach(producto => {
         auxPrecio += producto.precio;
       });

@@ -15,7 +15,9 @@ export class Producto {
         public descripcion: string,
         public precio: number,
         public img: string,
-        public tipoProducto: TipoProducto
+        public tipoProducto: TipoProducto,
+        //Esto no esta claro
+        public cantidad?: number
     ) { }
     get imagenUrl() {
         return `${base_url}/upload/usuarios/no-image`;
