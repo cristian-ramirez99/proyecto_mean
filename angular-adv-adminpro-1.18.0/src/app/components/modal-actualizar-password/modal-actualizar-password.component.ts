@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalActualizarPasswordService } from '../../services/modal-actualizar-password.service';
+import { Validators, FormBuilder } from '@angular/forms';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-actualizar-password',
@@ -7,11 +11,69 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModalActualizarPasswordComponent implements OnInit {
 
-  constructor() { }
+  public formSubmitted: boolean = false;
+  public primeraVez: boolean = true;
+  public changePasswordForm = this.fb.group({
+    antiguaPassword: ['', Validators.required],
+    nuevaPassword: ['', Validators.required],
+  });
+
+  constructor(public modalActualizarPasswordService: ModalActualizarPasswordService,
+    public usuarioService: UsuarioService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    if (this.primeraVez) {
+      this.primeraVez = false;
+      this.changePasswordForm.setValue({
+        antiguaPassword: '',
+        nuevaPassword: '',
+      })
+    }
   }
 
   cerrarModal() {
+    if (this.formSubmitted) {
+      this.formSubmitted = false;
+    }
+    if (!this.primeraVez) {
+      this.primeraVez = true;
+    }
+    this.modalActualizarPasswordService.cerrarModal();
+  }
+  actualizarPassword() {
+    if (!this.formSubmitted) {
+      this.formSubmitted = true;
+    }
+    if (this.changePasswordForm.invalid) {
+      return;
+    }
+    //Comprobar password !!!!!!!!!!!!!
+
+    //Esto iria al final si resp.ok=true
+    this.cerrarModal();
+    //Esto es para pruebas
+    Swal.fire('Accion realizada', "Su contraseña ha sido cambiada correctamente", 'success');
+    console.log(this.changePasswordForm.value);
+    //Actualizar password
+    this.usuarioService.actualizarPassword(this.changePasswordForm.value)
+      .subscribe(resp => {
+        Swal.fire('Accion realizada', 'Su contraseña ha sido cambiada correctamente', 'success');
+
+      }, (err) => {
+        // Si sucede un error
+        Swal.fire('Error', err.error.msg, 'error');
+      });
+
+
+  }
+
+  campoNoValido(campo: string): boolean {
+
+    if (this.changePasswordForm.get(campo).invalid && this.formSubmitted) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

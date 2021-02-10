@@ -57,3 +57,10 @@
     width: 100%;
     z-index: 9999;
 }
+.negrita{
+    font-weight: bold;
+}
+.negritaPotente{
+    font-weight: bold;
+    color: black;
+}
