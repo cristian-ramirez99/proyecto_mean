@@ -23,6 +23,7 @@ import { MedicosComponent } from './mantenimientos/medicos/medicos.component';
 import { MedicoComponent } from './mantenimientos/medicos/medico.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
+import { ProductoComponent } from './producto/producto.component';
 
 
 
@@ -44,6 +45,7 @@ import { PedidosComponent } from './pedidos/pedidos.component';
     MedicoComponent,
     BusquedaComponent,
     PedidosComponent,
+    ProductoComponent,
   ],
   exports: [
     DashboardComponent,

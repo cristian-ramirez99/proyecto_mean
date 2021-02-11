@@ -45,7 +45,7 @@ export class PerfilComponent implements OnInit {
         this.usuario.nombre = nombre;
         this.usuario.email = email;
 
-        Swal.fire('Guardado', 'Cambios fueron guardados', 'success');
+        Swal.fire('Accion exitosa', 'Su contraseña ha sido actualizada', 'success');
       }, (err) => {
         Swal.fire('Error', err.error.msg, 'error');
       });

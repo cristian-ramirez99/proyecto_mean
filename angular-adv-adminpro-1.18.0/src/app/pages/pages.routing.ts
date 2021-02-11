@@ -20,6 +20,8 @@ import { MedicoComponent } from './mantenimientos/medicos/medico.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
 import { AdminGuard } from '../guards/admin.guard';
 import { PedidosComponent } from './pedidos/pedidos.component';
+import { ProductoComponent } from './producto/producto.component';
+
 
 
 
@@ -37,7 +39,7 @@ const routes: Routes = [
             { path: 'promesas', component: PromesasComponent, data: { titulo: 'Promesas' } },
             { path: 'rxjs', component: RxjsComponent, data: { titulo: 'RxJs' } },
             { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de usuario' } },
-
+            { path: 'producto', component:ProductoComponent,data:{titulo:'Producto'}},
             //Perfil
             { path: 'perfil/pedidos', component: PedidosComponent, data: { titulo: 'Pedidos' } },
 

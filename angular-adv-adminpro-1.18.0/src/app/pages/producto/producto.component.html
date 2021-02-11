@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="card-title">{{producto.nombre}}</h1>
+                <p>{{producto.descripcion}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <img class="img-avatar" [src]="producto.img | imagen:'productos'">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <form (ngSumbit)="addAlCarrito()">
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <br>
+                        <select class="form-control">
+                            <option [value]="cantidad" *ngFor="let cantidad of cantidadPorUsuario">{{cantidad}}</option>
+                        </select>
+                        <div>
+                            <p>Precio total: {{producto.precio * cantidadSeleccionada}}</p>
+                        </div>
+                        <button class="btn btn-info" type="submit">Añadir al carrito</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <div *ngIf="quedaStock()">
+                    <p>En stock</p>
+                </div>
+                <div class="text-danger" *ngIf="!quedaStock()">
+                    <p>Sin stock</p>
+                </div>
+                <div>
+                    <p>Precio por unidad: {{producto.precio}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
