@@ -44,6 +44,14 @@
     width: 30px;
 }
 
+.img-producto{
+    width: 300px;
+    height: 300px;
+}
+.precio-producto{
+    color:red;
+    font-weight: bold;
+}
 .oculto {
     display: none;
 }
@@ -63,4 +71,12 @@
 .negritaPotente{
     font-weight: bold;
     color: black;
+}
+
+.title-tipoProducto{
+    margin-top: 5%;
+    margin-left: 5%;
+}
+.tipoProductos{
+    margin-left: 3%;
 }

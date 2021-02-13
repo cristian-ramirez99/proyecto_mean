@@ -23,7 +23,7 @@ import { HeaderComponent } from './header/header.component';
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
   ]
 })
 export class SharedModule { }

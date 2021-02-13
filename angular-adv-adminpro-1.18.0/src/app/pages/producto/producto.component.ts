@@ -13,7 +13,7 @@ export class ProductoComponent implements OnInit {
 
   public producto: Producto = new Producto('ordenador',
     "El oeste de Texas divide la frontera entre Mexico y Nuevo México. Es muy bella pero aspera, llena de cactus, en esta region se encuentran las Davis Mountains. Todo el terreno esta lleno de piedra caliza, torcidos arboles de mezquite y espinosos nopales. Para admirar la verdadera belleza desertica, visite el Parque Nacional de Big Bend, cerca de Brownsville. ",
-    14, 'no-image', new TipoProducto('pc', 'es bonito'), 10);
+    14, 'no-image', new TipoProducto('pc', 'es bonito'), '1',10);
   constructor() { }
 
   ngOnInit(): void {
@@ -23,5 +23,8 @@ export class ProductoComponent implements OnInit {
   }
   addAlCarrito() {
     console.log("Añadido al carrito");
+  }
+  setCantidadSeleccionada(newCantidad: number) {
+    this.cantidadSeleccionada = newCantidad;
   }
 }

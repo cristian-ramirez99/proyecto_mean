@@ -24,6 +24,7 @@ import { MedicoComponent } from './mantenimientos/medicos/medico.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { ProductoComponent } from './producto/producto.component';
+import { CarritoDeLaCompraComponent } from './carrito-de-la-compra/carrito-de-la-compra.component';
 
 
 
@@ -46,13 +47,14 @@ import { ProductoComponent } from './producto/producto.component';
     BusquedaComponent,
     PedidosComponent,
     ProductoComponent,
+    CarritoDeLaCompraComponent,
   ],
   exports: [
     DashboardComponent,
     ProgressComponent,
     Grafica1Component,
     PagesComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
   ],
   imports: [ 
     CommonModule,

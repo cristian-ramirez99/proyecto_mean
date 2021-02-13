@@ -20,10 +20,10 @@ export class PedidosComponent implements OnInit {
     private pedidoService: PedidoService) { }
   ngOnInit(): void {
     let productos: Producto[] = [];
-    productos.push(new Producto('ordenador', 'bobo', 40, 'no-image', new TipoProducto('pc', 'mu bonito'),2));
-    productos.push(new Producto('tablet', 'jesus', 50, 'no-image', new TipoProducto('tablet', 'mu bonito'),3));
-    productos.push(new Producto('portatil', 'grauBobo', 50, 'no-image', new TipoProducto('pc', 'mu bonito'),1));
-    productos.push(new Producto('mouse', 'mouseDeLocos', 80, 'no-image', new TipoProducto('mouse', 'bobo'),7));
+    productos.push(new Producto('ordenador', 'bobo', 40, 'no-image', new TipoProducto('pc', 'mu bonito'), '1', 2));
+    productos.push(new Producto('tablet', 'jesus', 50, 'no-image', new TipoProducto('tablet', 'mu bonito'), '2', 3));
+    productos.push(new Producto('portatil', 'grauBobo', 50, 'no-image', new TipoProducto('pc', 'mu bonito'), '3', 1));
+    productos.push(new Producto('mouse', 'mouseDeLocos', 80, 'no-image', new TipoProducto('mouse', 'bobo'), '4', 7));
 
 
     this.pedidos.push(new Pedido(new Date(1, 1, 1, 1, 1), 'enviado', productos, '1fa1ras'));

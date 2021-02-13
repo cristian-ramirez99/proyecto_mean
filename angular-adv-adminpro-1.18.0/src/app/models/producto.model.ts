@@ -16,7 +16,7 @@ export class Producto {
         public precio: number,
         public img: string,
         public tipoProducto: TipoProducto,
-        //Esto no esta claro
+        public _id?:string,
         public cantidad?: number
     ) { }
     get imagenUrl() {
