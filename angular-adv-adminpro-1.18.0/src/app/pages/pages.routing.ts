@@ -22,6 +22,7 @@ import { AdminGuard } from '../guards/admin.guard';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { ProductoComponent } from './producto/producto.component';
 import { CarritoDeLaCompraComponent } from './carrito-de-la-compra/carrito-de-la-compra.component';
+import { EnvioComponent } from './envio/envio.component';
 
 
 
@@ -41,11 +42,12 @@ const routes: Routes = [
             { path: 'rxjs', component: RxjsComponent, data: { titulo: 'RxJs' } },
             { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de usuario' } },
             { path: 'producto/:nombre', component: ProductoComponent, data: { titulo: 'Producto' } },
+            { path: 'envío', component: EnvioComponent, data: { titulo: 'Dirección de la entrega' } },
 
             //Perfil
             { path: 'perfil/pedidos', component: PedidosComponent, data: { titulo: 'Pedidos' } },
             { path: 'perfil/carrito', component: CarritoDeLaCompraComponent, data: { titulo: 'Carrito de la compra' } },
-            
+
             // Mantenimientos
             { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Matenimiento de Hospitales' } },
             { path: 'medicos', component: MedicosComponent, data: { titulo: 'Matenimiento de Medicos' } },

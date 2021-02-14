@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <h3>
+            <i class="fa fa-truck red" aria-hidden="true"></i>
+            ¿Donde deberiamos de hacer la entrega?
+        </h3>
+        <div class="no-saltos-de-linea">
+            <p>Por favor, elije la dirección donde desee que llegue su pedido.Una vez hecho esto, haga click en
+                <b class="negrita text-danger">Siguiente paso</b> para continuar.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-body">
+                <form>
+                    <label for="dir">Dirección</label>
+                    <input placeholder="c/ Bobo o que 2 2a 2a" name="dir" id="dir">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <button routerLink="../perfil/carrito" class="btn btn-info btn-volver">
+        Volver <i class="fa fa-caret-left" aria-hidden="true"></i>
+    </button>
+    <button routerLink="../../envío" class="btn btn-danger btn-continuar">
+        Siguiente paso <i class="fa fa-caret-right" aria-hidden="true"></i>
+    </button>
+</div>

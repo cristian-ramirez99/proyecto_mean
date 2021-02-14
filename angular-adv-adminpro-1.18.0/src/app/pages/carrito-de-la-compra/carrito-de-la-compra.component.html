@@ -6,7 +6,40 @@
     </div>
 </div>
 <div *ngIf="!carritoVacio()" class="row">
-    <div>
-        <h2>No esta vacio</h2>
+    <div class="table-responsive">
+        <table class=" table table-bordered">
+            <thead>
+                <th>Productos</th>
+                <th class="text-nowrap text-center">Precio</th>
+                <th class="text-nowrap text-center">Cantidad</th>
+                <th class="text-nowrap text-center">Subtotal</th>
+                <th class="text-nowrap text-center">Acciones</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let producto of productos">
+                    <td>
+                        <img [src]="producto.imagenUrl" [alt]="producto.nombre" class="avatar">
+                        {{producto.nombre}}
+                    </td>
+                    <td class="text-nowrap text-center">{{producto.precio}}</td>
+                    <td class="text-nowrap text-center">{{producto.cantidad}}</td>
+                    <td class="text-nowrap text-center">{{producto.precio * producto.cantidad}}</td>
+                    <td class="text-nowrap text-center" (click)="eliminarProducto(producto._id)"><i
+                            class="fa fa-trash cursor avatar" aria-hidden="true"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="margin-precioTotal">
+            <p class="negrita">Precio total: &euro;{{getPrecioTotal()}}</p>
+        </div>
+        <div>
+            <button routerLink ="../../"class="btn btn-info btn-volver">
+                <i class="fa fa-caret-left" aria-hidden="true"></i>
+                Volver a la tienda</button>
+            <button routerLink="../../envío"class="btn btn-danger btn-continuar"><i class="fa fa-credit-card" aria-hidden="true"></i>
+                Comprar ahora <i class="fa fa-caret-right" aria-hidden="true"></i>
+            </button>
+        </div>
     </div>
 </div>

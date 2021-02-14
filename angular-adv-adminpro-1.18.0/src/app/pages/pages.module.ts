@@ -25,6 +25,7 @@ import { BusquedaComponent } from './busqueda/busqueda.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { ProductoComponent } from './producto/producto.component';
 import { CarritoDeLaCompraComponent } from './carrito-de-la-compra/carrito-de-la-compra.component';
+import { EnvioComponent } from './envio/envio.component';
 
 
 
@@ -48,6 +49,7 @@ import { CarritoDeLaCompraComponent } from './carrito-de-la-compra/carrito-de-la
     PedidosComponent,
     ProductoComponent,
     CarritoDeLaCompraComponent,
+    EnvioComponent,
   ],
   exports: [
     DashboardComponent,

@@ -13,7 +13,7 @@ export class ModalComponent implements OnInit {
   constructor(public modalService: ModalService,
     public pedidoService: PedidoService) { }
 
-  public pedido: Pedido;
+  public pedido: Pedido = new Pedido(new Date(1, 1, 1, 1, 1), 'enviado', [], '1fa1ras');
   public primeraVez: boolean = true;
 
   ngOnInit(): void {

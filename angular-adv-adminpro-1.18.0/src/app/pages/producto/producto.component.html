@@ -25,7 +25,7 @@
                         <div>
                             <p>Precio total: {{producto.precio * cantidadSeleccionada}}</p>
                         </div>
-                        <button class="btn btn-info" type="submit">Añadir al carrito</button>
+                        <button (click)="addAlCarrito()"class="btn btn-info">Añadir al carrito</button>
                     </div>
                 </form>
 

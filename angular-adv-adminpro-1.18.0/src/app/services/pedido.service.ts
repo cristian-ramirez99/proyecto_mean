@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
-import { Pedido } from '../models/pedido.mode';
+import { Producto } from '../models/producto.model';
 
 const base_url = environment.base_url;
 
@@ -10,6 +10,8 @@ const base_url = environment.base_url;
   providedIn: 'root'
 })
 export class PedidoService {
+
+  public productosTemp: Producto[] = [];
 
   constructor(private http: HttpClient) { }
 

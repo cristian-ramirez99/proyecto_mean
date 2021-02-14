@@ -83,3 +83,11 @@
 .li-carrito{
     font-size: 23px ;
 }
+.btn-volver{
+    margin-left: 5%;
+    width: 20%;
+  }
+  .btn-continuar{
+    margin-left: 45%;
+    width: 20%;
+  }
