@@ -14,8 +14,8 @@ export class DashboardComponent implements OnInit {
   public productosTotales: Producto[] = [];
   public productosMostrados: Producto[] = [];
 
-  hover:boolean;
-  
+  hover: boolean;
+
   constructor(private productoService: ProductoService,
     public router: Router) { }
 
@@ -81,8 +81,11 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-  filtrarPrecio(){
+  filtrarPrecio() {
 
+  }
+  setId(id: string) {
+    this.productoService.setId(id);
   }
 
 }

@@ -11,9 +11,16 @@ const base_url = environment.base_url;
 })
 export class ProductoService {
 
+  private _id: string;
 
   constructor(private http: HttpClient) { }
 
+  get id(): string {
+    return this._id;
+  }
+  setId(id: string) {
+    this._id = id;
+  }
   get token(): string {
     return localStorage.getItem('token') || '';
   }
@@ -39,8 +46,8 @@ export class ProductoService {
         map((resp: { ok: boolean, tipoProductos: TipoProducto[] }) => resp.tipoProductos)
       );
   }
-  cargarProducto(id: string) {
-    const url = `${base_url}/producto/${id}`
+  cargarProducto() {
+    const url = `${base_url}/producto/${this._id}`
     return this.http.get(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, producto: Producto }) => resp.producto)

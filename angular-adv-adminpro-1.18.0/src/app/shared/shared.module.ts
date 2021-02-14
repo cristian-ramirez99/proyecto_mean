@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 
@@ -24,6 +25,7 @@ import { HeaderComponent } from './header/header.component';
     CommonModule,
     RouterModule,
     FormsModule,
+    PipesModule,
   ]
 })
 export class SharedModule { }

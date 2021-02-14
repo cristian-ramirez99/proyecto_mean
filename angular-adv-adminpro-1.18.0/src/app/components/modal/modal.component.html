@@ -25,15 +25,13 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let producto of pedido.productos">
-                                    <div>
-                                        <td>
-                                            <img [src]="producto.imagenUrl" [alt]="producto.nombre" class="avatar">
-                                        </td>
-                                        <td>
-                                            {{producto.nombre}}
-                                        </td>
+                                    <td>
+                                        <img [src]="producto.imagenUrl" [alt]="producto.nombre" class="avatar">
+                                    </td>
+                                    <td>
+                                        {{producto.nombre}}
+                                    </td>
 
-                                    </div>
                                     <td>{{producto.precio}}</td>
                                     <td>{{producto.cantidad}}</td>
                                     <td>{{producto.precio * producto.cantidad}}</td>

@@ -1,0 +1,15 @@
+.carrito{
+    font-size: 200px;
+}
+.padre {
+    /*IMPORTANTE*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin:0px;
+  }
+  
+  .hijo {
+    width: 420px;
+  }

@@ -1,1 +1,12 @@
-<p>carrito-de-la-compra works!</p>
+<div *ngIf="carritoVacio()" class="padre">
+    <div class="hijo text-center">
+        <i class="fa fa-shopping-cart carrito" aria-hidden="true"></i>
+        <h2>Tu carrito esta vacío, triste y solo :(</h2>
+        <button routerLink="/dashboard" class="btn btn-rounded btn-danger">Ver productos</button>
+    </div>
+</div>
+<div *ngIf="!carritoVacio()" class="row">
+    <div>
+        <h2>No esta vacio</h2>
+    </div>
+</div>
