@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Producto } from '../models/producto.model';
+import { Pedido } from '../models/pedido.mode';
 
 const base_url = environment.base_url;
 
@@ -29,7 +30,16 @@ export class PedidoService {
     const url = `${base_url}/whatEver/${desde}`;
     return this.http.get(url, this.headers)
       .pipe(
-        map((resp: { ok: boolean, pedidos: any }) => resp.pedidos)
+        map((resp: { ok: boolean, pedidos: Pedido[] }) => resp.pedidos)
       );
+  }
+  cargarPedidoTemp() {
+    //Tambien deberia de saber el usuario 
+    const url = `${base_url}/pedidoTemp`
+    return this.http.get(url, this.headers)
+      .pipe(
+        map((resp: { ok: boolean, pedidoTemp: Pedido }) => resp.pedidoTemp)
+      );
+
   }
 }

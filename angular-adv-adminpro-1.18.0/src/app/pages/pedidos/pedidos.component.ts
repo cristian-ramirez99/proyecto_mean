@@ -26,8 +26,8 @@ export class PedidosComponent implements OnInit {
     productos.push(new Producto('mouse', 'mouseDeLocos', 80, 'no-image', new TipoProducto('mouse', 'bobo'), '4', 7));
 
 
-    this.pedidos.push(new Pedido(new Date(1, 1, 1, 1, 1), 'enviado', productos, '1fa1ras'));
-    this.pedidos.push(new Pedido(new Date(1999, 10, 11), 'entregado', productos, 'asdjoasb'));
+    this.pedidos.push(new Pedido('enviado', productos, new Date(1, 1, 1, 1, 1), '1fa1ras'));
+    this.pedidos.push(new Pedido('entregado', productos, new Date(2000, 10, 12, 1, 1), 'asdjoasb'));
 
     this.cargarPedidos();
   }
@@ -46,7 +46,9 @@ export class PedidosComponent implements OnInit {
     //peticion http
     this.cargando = false;
     this.pedidoService.cargarPedidos(this.desde)
-      .subscribe(
+      .subscribe(pedidos => {
+        this.pedidos = pedidos;
+      }
 
       )
     //this.pedidos=pedidos;

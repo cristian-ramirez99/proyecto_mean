@@ -17,9 +17,50 @@
     <div class="col-md-10">
         <div class="card">
             <div class="card-body">
-                <form>
-                    <label for="dir">Dirección</label>
-                    <input placeholder="c/ Bobo o que 2 2a 2a" name="dir" id="dir">
+                <form class="form" autocomplete="off" [formGroup]="direccionForm" id="direccionForm">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label class="negrita" for="nombre">Nombre del destinatario<b class="text-danger"> *</b>
+                            </label>
+                            <input class="form-control" type="text" id="nombre" formControlName="nombre"
+                                placeholder="Toni Manresa">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="negrita" for="calle">Calle<b class="text-danger"> *</b>
+                            </label>
+                            <input class="form-control" type="text" id="calle" formControlName="calle"
+                                placeholder="c/ Beethoven ">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="negrita" for="numeroCalle">Nº Calle/Portal<b class="text-danger"> *</b>
+                            </label>
+                            <input class="form-control" type="text" id="numeroCalle" formControlName="numeroCalle"
+                                placeholder="5 2a 2a">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="negrita" for="cp">Código postal<b class="text-danger"> *</b>
+                            </label>
+                            <input class="form-control" type="text" id="cp" formControlName="cp" placeholder="08924">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="negrita" for="localidad">Localidad<b class="text-danger"> *</b>
+                            </label>
+                            <input class="form-control" type="text" id="localidad" formControlName="localidad"
+                                placeholder="Barcelona">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="negrita" for="telefono">Teléfono<b class="text-danger"> *</b>
+                            </label>
+                            <input class="form-control" type="tel" id="telefono" formControlName="telefono"
+                                placeholder="000000000">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="negrita" for="datosAdicionales">Datos adicionales</label>
+                            <textarea class="form-control" type="text" id="datosAdicionales"
+                                formControlName="datosAdicionales" placeholder="Información adicional...">
+                            </textarea>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
