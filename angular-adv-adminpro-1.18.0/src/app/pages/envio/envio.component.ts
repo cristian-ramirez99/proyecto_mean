@@ -33,12 +33,12 @@ export class EnvioComponent implements OnInit {
   ngOnInit(): void {
     this.cargarPedidoTemp();
     this.direccionForm.setValue({
-      nombre: ['', Validators.required],
-      calle: ['', Validators.required],
-      numeroCalle: ['', Validators.required],
-      cp: ['', Validators.required],
-      localidad: ['', Validators.required],
-      telefono: ['', Validators.required],
+      nombre: [''],
+      calle: [''],
+      numeroCalle: [''],
+      cp: [''],
+      localidad: [''],
+      telefono: [''],
       datosAdicionales: [''],
     })
   }

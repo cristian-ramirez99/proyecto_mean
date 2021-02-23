@@ -127,5 +127,7 @@ export class DashboardComponent implements OnInit {
     //Actualizamos mostrarProductos
     this.filtrarProductos();
   }
-
+  noExisteProductosMostrados() {
+    return this.productosMostrados.length == 0;
+  }
 }
