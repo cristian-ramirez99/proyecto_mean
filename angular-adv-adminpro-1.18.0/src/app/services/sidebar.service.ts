@@ -31,6 +31,7 @@ export class SidebarService {
   //       { titulo: 'Usuarios', url: 'usuarios' },
   //       { titulo: 'Hospitales', url: 'hospitales' },
   //       { titulo: 'Médicos', url: 'medicos' },
+  //       { titulo: 'Productos , url: 'productos'}
   //     ]
   //   },
   // ];

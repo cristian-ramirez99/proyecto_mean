@@ -26,6 +26,8 @@ import { PedidosComponent } from './pedidos/pedidos.component';
 import { ProductoComponent } from './producto/producto.component';
 import { CarritoDeLaCompraComponent } from './carrito-de-la-compra/carrito-de-la-compra.component';
 import { EnvioComponent } from './envio/envio.component';
+import { ProductosComponent } from './mantenimientos/productos/productos.component';
+import { NuevoProductoComponent } from './mantenimientos/productos/nuevo-producto/nuevo-producto.component';
 
 
 
@@ -50,6 +52,8 @@ import { EnvioComponent } from './envio/envio.component';
     ProductoComponent,
     CarritoDeLaCompraComponent,
     EnvioComponent,
+    ProductosComponent,
+    NuevoProductoComponent,
   ],
   exports: [
     DashboardComponent,

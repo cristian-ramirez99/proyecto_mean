@@ -23,6 +23,8 @@ import { PedidosComponent } from './pedidos/pedidos.component';
 import { ProductoComponent } from './producto/producto.component';
 import { CarritoDeLaCompraComponent } from './carrito-de-la-compra/carrito-de-la-compra.component';
 import { EnvioComponent } from './envio/envio.component';
+import { ProductosComponent } from './mantenimientos/productos/productos.component';
+import { NuevoProductoComponent } from './mantenimientos/productos/nuevo-producto/nuevo-producto.component';
 
 
 
@@ -52,6 +54,9 @@ const routes: Routes = [
             { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Matenimiento de Hospitales' } },
             { path: 'medicos', component: MedicosComponent, data: { titulo: 'Matenimiento de Medicos' } },
             { path: 'medico/:id', component: MedicoComponent, data: { titulo: 'Matenimiento de Medicos' } },
+            { path: 'productos', component: ProductosComponent, data: { titulo: 'Mantenimiento de Productos' } },
+            { path: 'nuevoProducto/:id', component: NuevoProductoComponent, data: { titulo: 'Mantenimiento de Productos' } },
+
 
             // Rutas de Admin
             { path: 'usuarios', canActivate: [AdminGuard], component: UsuariosComponent, data: { titulo: 'Matenimiento de Usuarios' } },

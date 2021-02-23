@@ -53,4 +53,17 @@ export class ProductoService {
         map((resp: { ok: boolean, producto: Producto }) => resp.producto)
       );
   }
+  eliminarProducto(_id: string) {
+    const url = `${base_url}/producto/${_id}`
+    return this.http.delete(url, this.headers);
+  }
+  actualizarProducto(producto: Producto) {
+    const url = `${base_url}/producto/${producto._id}`
+    return this.http.put(url, producto, this.headers);
+  }
+  crearProducto(producto: Producto) {
+    const url = `${base_url}/producto/${producto._id}`;
+    return this.http.post(url, producto, this.headers);
+  }
 }
+
