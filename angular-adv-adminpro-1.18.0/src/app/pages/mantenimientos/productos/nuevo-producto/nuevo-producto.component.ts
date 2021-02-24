@@ -28,7 +28,10 @@ export class NuevoProductoComponent implements OnInit {
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-
+    //Prueba para ver si existe productoSeleccionado
+    //this.productoSeleccionado = (new Producto('ordenador', "dsalkdklsa ",
+    //  1, 'no-image', new TipoProducto('ordenador', 'es bonito'), '1', 10));
+    /////////////////////
     this.activatedRoute.params
       .subscribe(({ id }) => this.cargarProducto(id));
 
@@ -40,9 +43,6 @@ export class NuevoProductoComponent implements OnInit {
       categoria: ['', Validators.required],
       precio: ['', Validators.required],
       stock: ['', Validators.required],
-      img: ['', Validators.required]
-
-
     });
   }
   cargarCategorias() {
@@ -73,13 +73,14 @@ export class NuevoProductoComponent implements OnInit {
           return this.router.navigateByUrl(`/dashboard/productos`);
         }
 
-        const { nombre } = producto;
+        const { nombre, descripcion, tipoProducto, precio, cantidad } = producto;
         this.productoSeleccionado = producto;
-        this.productoForm.setValue({ nombre });
+        this.productoForm.setValue({ nombre, descripcion, tipoProducto, precio, cantidad });
       });
 
   }
 
+  //Actualizar o crear producto
   guardarProducto() {
 
     const { nombre } = this.productoForm.value;
@@ -98,16 +99,11 @@ export class NuevoProductoComponent implements OnInit {
 
     } else {
       // crear
-
       this.productoService.crearProducto(this.productoForm.value)
         .subscribe((resp: any) => {
           Swal.fire('Creado', `${nombre} creado correctamente`, 'success');
-          this.router.navigateByUrl(`/dashboard/medico/${resp.medico._id}`)
+          this.router.navigateByUrl(`/dashboard/nuevoProducto/${resp.producto._id}`)
         })
     }
-
-
-
   }
-
 }

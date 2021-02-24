@@ -1,4 +1,7 @@
-
+.logo{
+    width: 60px;
+    height: 60px;
+}
 .fast{
     -webkit-animation-duration: 0.3s;
     animation-duration: 0.3s;
