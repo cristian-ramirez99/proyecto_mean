@@ -1,74 +1,67 @@
-<div class="container container-filtrar">
-    <div class="row animated fadeIn fast">
-        <div class="col-md-2 container-filtrar">
-            <!----------------------------FiltroTipoProducto---------------------------------->
-            <!-------------------------------------------------------------------------------->
-            <div class="card">
-                <header class="card-header bg-dark">
-                    <h5 class="title white">Por productos <i class="fa fa-tablet" aria-hidden="true"></i>
-                    </h5>
-                </header>
-                <div class="card-body tipoProductos animated fadeIn fast">
-                    <p (click)=onTipoProductoChange(tipo.nombre,i) *ngFor="let tipo of tipoProductos;let i=index"
-                        [ngClass]="toogle[i]? 'negrita':''" class="cursor">
-                        {{tipo.nombre}}
-                    </p>
-                </div>
-            </div>
-            <!----------------------------EndFiltroTipoProducto---------------------------------->
-            <!-------------------------------------------------------------------------------->
-
-            <!----------------------------------------------------------------------------->
-            <!----------------------------FiltroPrecio--------------------------------------->
-            <div class="card">
-                <header class="card-header bg-dark">
-                    <h5 class="title white">Por precio <i class="fa fa-eur" aria-hidden="true"></i>
-                    </h5>
-                </header>
-                <div class="card-body tipoProductos animated fadeIn fast">
-                    <div class="checkbox checkbox-primary pull-left p-t-0">
-                        <form (change)="onPrecioChange($event.target.value)">
-                            <input id="todo" type="radio" name="precio" value="0,999999"
-                                class="filled-in chk-col-light-blue" checked>
-                            <label for="todo">Cualquier precio </label>
-                            <br>
-                            <input id="5-50" type="radio" name="precio" value="5,50"
-                                class="filled-in chk-col-light-blue">
-                            <label for="5-50">&euro;5-&euro;50</label>
-                            <br>
-
-                            <input id="50-200" type="radio" name="precio" value="50,200"
-                                class="filled-in chk-col-light-blue">
-                            <label for="50-200">&euro;50-&euro;200</label>
-                            <br>
-
-                            <input id="200-500" type="radio" name="precio" value="200,500"
-                                class="filled-in chk-col-light-blue">
-                            <label for="200-500">&euro;200-&euro;500</label>
-                            <br>
-
-                            <input id="500-1000" type="radio" name="precio" value="500,1000"
-                                class="filled-in chk-col-light-blue">
-                            <label for="500-1000">&euro;500-&euro;1000</label>
-                            <br>
-
-                            <input id="1000>" type="radio" name="precio" value="1000,999999"
-                                class="filled-in chk-col-light-blue">
-                            <label for="1000>"> &euro;1000 > </label>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!----------------------------EndFiltroPrecio--------------------------------------->
-            <!-------------------------------------------------------------------------------->
+<aside>
+    <!----------------------------FiltroTipoProducto---------------------------------->
+    <!-------------------------------------------------------------------------------->
+    <div class="card">
+        <header class="card-header bg-dark">
+            <h5 class="title white">Por productos <i class="fa fa-tablet" aria-hidden="true"></i>
+            </h5>
+        </header>
+        <div class="card-body tipoProductos animated fadeIn fast">
+            <p (click)=onTipoProductoChange(tipo.nombre,i) *ngFor="let tipo of tipoProductos;let i=index"
+                [ngClass]="toogle[i]? 'negrita':''" class="cursor">
+                {{tipo.nombre}}
+            </p>
         </div>
     </div>
-</div>
+    <!----------------------------EndFiltroTipoProducto---------------------------------->
+    <!-------------------------------------------------------------------------------->
+
+    <!----------------------------------------------------------------------------->
+    <!----------------------------FiltroPrecio--------------------------------------->
+    <div class="card">
+        <header class="card-header bg-dark">
+            <h5 class="title white">Por precio <i class="fa fa-eur" aria-hidden="true"></i>
+            </h5>
+        </header>
+        <div class="card-body tipoProductos animated fadeIn fast">
+            <div class="checkbox checkbox-primary pull-left p-t-0">
+                <form (change)="onPrecioChange($event.target.value)">
+                    <input id="todo" type="radio" name="precio" value="0,999999" class="filled-in chk-col-light-blue"
+                        checked>
+                    <label for="todo">Cualquier precio </label>
+                    <br>
+                    <input id="5-50" type="radio" name="precio" value="5,50" class="filled-in chk-col-light-blue">
+                    <label for="5-50">&euro;5-&euro;50</label>
+                    <br>
+
+                    <input id="50-200" type="radio" name="precio" value="50,200" class="filled-in chk-col-light-blue">
+                    <label for="50-200">&euro;50-&euro;200</label>
+                    <br>
+
+                    <input id="200-500" type="radio" name="precio" value="200,500" class="filled-in chk-col-light-blue">
+                    <label for="200-500">&euro;200-&euro;500</label>
+                    <br>
+
+                    <input id="500-1000" type="radio" name="precio" value="500,1000"
+                        class="filled-in chk-col-light-blue">
+                    <label for="500-1000">&euro;500-&euro;1000</label>
+                    <br>
+
+                    <input id="1000>" type="radio" name="precio" value="1000,999999"
+                        class="filled-in chk-col-light-blue">
+                    <label for="1000>"> &euro;1000 > </label>
+                </form>
+            </div>
+        </div>
+        <!----------------------------EndFiltroPrecio--------------------------------------->
+        <!-------------------------------------------------------------------------------->
+    </div>
+</aside>
 <!----------------------------Productos--------------------------------------->
 <!-------------------------------------------------------------------------------->
-<div class="container container-productos">
-    <div class="row">
-        <div class="col-md-4" *ngFor="let producto of productosMostrados">
+<section>
+    <div class="row animated fadeIn fast">
+        <div class="col-md-3" *ngFor="let producto of productosMostrados">
             <div class="card">
                 <div class="card-body animated fadeIn ">
                     <a (click)=setId(producto._id) [routerLink]="['producto',producto.nombre]">
@@ -83,6 +76,6 @@
             <h3>No hay productos con las carateristicas selecionadas </h3>
         </div>
     </div>
-</div>
+</section>
 <!----------------------------EndProductos--------------------------------------->
 <!-------------------------------------------------------------------------------->

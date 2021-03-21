@@ -21,6 +21,7 @@ export class NuevoProductoComponent implements OnInit {
 
   public productoSeleccionado: Producto;
   public categorias: TipoProducto[] = [];
+  public categoriaSeleccionada: TipoProducto;
 
   constructor(private fb: FormBuilder,
     private productoService: ProductoService,
@@ -44,6 +45,12 @@ export class NuevoProductoComponent implements OnInit {
       precio: ['', Validators.required],
       stock: ['', Validators.required],
     });
+
+    //Listener onChange categoria 
+    this.productoForm.get('categoria').valueChanges
+      .subscribe(categoriaNombre => {
+        this.categoriaSeleccionada = this.categorias.find(c => c.nombre === categoriaNombre);
+      })
   }
   cargarCategorias() {
     this.productoService.cargarTipoProductos()

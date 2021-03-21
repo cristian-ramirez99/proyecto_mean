@@ -2,54 +2,65 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                
-                <input type="text"
-                        class="form-control"
-                        placeholder="Buscar producto..."
-                        #txtTermino
-                        (keyup)="buscar( txtTermino.value )"/>
+
+                <input type="text" class="form-control" placeholder="Buscar producto..." #txtTermino
+                    (keyup)="buscar( txtTermino.value )" />
 
             </div>
         </div>
     </div>
-</div> 
+</div>
 
-<div class="row animated fadeIn fast"
-    *ngIf="cargando">
+<div class="row animated fadeIn fast" *ngIf="cargando">
     <div class="col-12">
-        
+
         <div class="alert alert-info text-center">
-          <h4 class="alert-heading">Cargando</h4>
-          <i class="fa fa-spin fa-refresh fa-2x"></i>
-          <p class="mb-0">Por favor espere</p>
+            <h4 class="alert-heading">Cargando</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
         </div>
 
     </div>
-</div> 
+</div>
 
 
-<div class="row"
-    *ngIf="!cargando">
+<div class="row" *ngIf="!cargando">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
 
 
                 <div class="row">
-                    <div class="col-8">
-                        <h4 class="card-title">Productos ({{ productos.length }})</h4>
+                    <div class="col-4">
+                        <h4 class="card-title">Productos ({{ productosMostrados.length }})</h4>
                         <h6 class="card-subtitle">
                             Productos registrados en mi aplicación
                         </h6>
                     </div>
 
+                    <div class="col-md-4">
+                        <div class="text-left">
+                            <form>
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text myLabel" for="categoria">Categoria</label>
+                                        </div>
+                                        <select (change)="cambiarCategoria(c.value)" class="form-control" #c>
+                                            <option [value]="categoria.nombre" *ngFor="let categoria of tipoProductos">
+                                                {{categoria.nombre}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <div class="col">
                         <div class="text-right">
-                            <a class="btn btn-primary"
-                               routerLink="/dashboard/nuevoProducto/nuevo">
-                               <i class="fa fa-plus-square" aria-hidden="true"></i>
-                               Crear producto
-                            </a>
+                            <btn class="btn btn-primary" routerLink="/dashboard/nuevoProducto/nuevo">
+                                <i class="fa fa-plus-square" aria-hidden="true"></i>
+                                Crear producto
+                            </btn>
                         </div>
                     </div>
 
@@ -63,41 +74,47 @@
                             <tr>
                                 <th class="w100">Foto</th>
                                 <th>Nombre</th>
+                                <th>Categoria</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
                                 <th class="w100 text-nowrap">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let producto of productos">
-                                <td class="text-center"> 
-                                    <img [src]="producto.img | imagen:'productos'" 
-                                        [alt]="producto.nombre"
-                                        class="w100 cursor"
-                                        (click)="abrirModal(producto)"> 
+                            <tr *ngFor="let producto of productosMostrados">
+                                <td class="text-center">
+                                    <img [src]="producto.img | imagen:'productos'" [alt]="producto.nombre"
+                                        class="w100 cursor" (click)="abrirModal(producto)">
                                 </td>
                                 <td>
                                     {{ producto.nombre }}
                                 </td>
-
+                                <td>
+                                    {{producto.tipoProducto.nombre}}
+                                </td>
                                 <td class="text-nowrap text-center">
-                                    <a [routerLink]="['/dashboard','nuevoProducto', producto._id ]" 
-                                        data-toggle="tooltip" 
-                                        data-original-title="Editar">
-                                        <i class="fa fa-pencil text-inverse m-r-10"></i> 
+                                    {{producto.precio}}
+                                </td>
+                                <td class="text-nowrap text-center">
+                                    {{producto.cantidad}}
+                                </td>
+                                <td class="text-nowrap text-center">
+                                    <a [routerLink]="['/dashboard','nuevoProducto', producto._id ]"
+                                        data-toggle="tooltip" data-original-title="Editar">
+                                        <i class="fa fa-pencil text-inverse m-r-10"></i>
                                     </a>
-                                    
-                                    <a class="cursor"
-                                        data-toggle="tooltip" 
-                                        data-original-title="Borrar"
-                                        (click)="borrarProducto( producto )"> 
-                                        <i class="fa fa-close text-danger"></i> 
+
+                                    <a class="cursor" data-toggle="tooltip" data-original-title="Borrar"
+                                        (click)="borrarProducto( producto )">
+                                        <i class="fa fa-close text-danger"></i>
                                     </a>
                                 </td>
                             </tr>
-                            
+
                         </tbody>
                     </table>
                 </div>
-<!-- 
+                <!-- 
                 <button class="btn btn-secondary">Anteriores</button>
                 &nbsp;
                 <button class="btn btn-secondary">Siguientes</button> -->

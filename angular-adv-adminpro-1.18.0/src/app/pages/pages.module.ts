@@ -28,6 +28,8 @@ import { CarritoDeLaCompraComponent } from './carrito-de-la-compra/carrito-de-la
 import { EnvioComponent } from './envio/envio.component';
 import { ProductosComponent } from './mantenimientos/productos/productos.component';
 import { NuevoProductoComponent } from './mantenimientos/productos/nuevo-producto/nuevo-producto.component';
+import { AboutUsComponent } from './beforeauth/about-us/about-us.component';
+import { MainPageComponent } from './beforeauth/main-page/main-page.component';
 
 
 
@@ -54,6 +56,8 @@ import { NuevoProductoComponent } from './mantenimientos/productos/nuevo-product
     EnvioComponent,
     ProductosComponent,
     NuevoProductoComponent,
+    AboutUsComponent,
+    MainPageComponent
   ],
   exports: [
     DashboardComponent,

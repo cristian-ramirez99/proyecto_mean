@@ -7,6 +7,7 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { PipesModule } from '../pipes/pipes.module';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -15,11 +16,13 @@ import { PipesModule } from '../pipes/pipes.module';
     BreadcrumbsComponent,
     SidebarComponent,
     HeaderComponent,
+    FooterComponent,
   ],
   exports: [
     BreadcrumbsComponent,
     SidebarComponent,
     HeaderComponent,
+    FooterComponent,
   ],
   imports: [
     CommonModule,

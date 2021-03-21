@@ -12,17 +12,17 @@ export class FileUploadService {
 
   async actualizarFoto(
     archivo: File,
-    tipo: 'usuarios'|'medicos'|'hospitales',
+    tipo: 'usuarios' | 'medicos' | 'hospitales' | 'productos',
     id: string
   ) {
 
     try {
 
-      const url = `${ base_url }/upload/${ tipo }/${ id }`;
+      const url = `${base_url}/upload/${tipo}/${id}`;
       const formData = new FormData();
       formData.append('imagen', archivo);
 
-      const resp = await fetch( url, {
+      const resp = await fetch(url, {
         method: 'PUT',
         headers: {
           'x-token': localStorage.getItem('token') || ''
@@ -32,16 +32,16 @@ export class FileUploadService {
 
       const data = await resp.json();
 
-      if ( data.ok ) {
+      if (data.ok) {
         return data.nombreArchivo;
       } else {
         console.log(data.msg);
         return false;
       }
-      
+
     } catch (error) {
       console.log(error);
-      return false;    
+      return false;
     }
 
   }
