@@ -1,4 +1,3 @@
-  
 <div class="row">
     <div class="col-md-6">
         <div class="card">
@@ -72,11 +71,37 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Categoria</h4>
-                <h6 class="card-subtitle">{{ categoriaSeleccionada.nombre }}</h6>
-                <div class="card-body">
-                    <h6 class="card-title">Caracteristicas generales</h6>
-                    <p class="card-text"> {{categoriaSeleccionada.caracteristicas}}</p>
-                </div>
+                <h6 class="card-subtitle">Actualizar o crear </h6>
+
+                <form class="form-horizontal p-t-20" [formGroup]="categoriaForm" (submit)="guardarCategoria()">
+                    <div class="form-group row">
+                        <label for="nombre" class="col-sm-3 control-label">Nombre</label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="text" formControlName="nombre" class="form-control" id="nombre"
+                                    placeholder="Nombre de la categoria" (change)="onChangeNombreCategoria()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="descripcion" class="col-sm-3 control-label">Descripcion</label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <input type="text" formControlName="descripcion" class="form-control" id="descripcion"
+                                    placeholder="Descripcion de la categoria">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row m-b-0">
+                        <div class="offset-sm-3 col-sm-6">
+                            <button type="submit" [disabled]="categoriaForm.invalid"
+                                class="btn btn-success waves-effect waves-light" id="btnCategoria">
+                                <i class="fa fa-save"></i>
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 

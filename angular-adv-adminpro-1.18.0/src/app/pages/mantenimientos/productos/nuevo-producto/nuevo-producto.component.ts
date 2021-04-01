@@ -18,6 +18,7 @@ export class NuevoProductoComponent implements OnInit {
 
 
   public productoForm: FormGroup;
+  public categoriaForm: FormGroup;
 
   public productoSeleccionado: Producto;
   public categorias: TipoProducto[] = [];
@@ -46,11 +47,23 @@ export class NuevoProductoComponent implements OnInit {
       stock: ['', Validators.required],
     });
 
+    this.categoriaForm = this.fb.group({
+      nombre: ['', Validators.required],
+      descripcion: ['', Validators.required]
+    });
+
+
     //Listener onChange categoria 
     this.productoForm.get('categoria').valueChanges
       .subscribe(categoriaNombre => {
+        console.log(categoriaNombre);
         this.categoriaSeleccionada = this.categorias.find(c => c.nombre === categoriaNombre);
-      })
+
+        this.categoriaForm.setValue({
+          nombre: this.categoriaSeleccionada.nombre,
+          descripcion: this.categoriaSeleccionada.caracteristicas
+        });
+      });
   }
   cargarCategorias() {
     this.productoService.cargarTipoProductos()
@@ -111,6 +124,41 @@ export class NuevoProductoComponent implements OnInit {
           Swal.fire('Creado', `${nombre} creado correctamente`, 'success');
           this.router.navigateByUrl(`/dashboard/nuevoProducto/${resp.producto._id}`)
         })
+    }
+  }
+  guardarCategoria() {
+    const { nombre } = this.categoriaForm.value;
+
+    let categoriaNueva: Boolean = true;
+
+    this.categorias.forEach(categoria => {
+      if (categoria.nombre === nombre) {
+        //Modificando categoria 
+        console.log("Modificando categoria");
+        categoriaNueva = false;
+      }
+    });
+
+    if (categoriaNueva) {
+      console.log("Nueva categoria");
+    }
+  }
+  onChangeNombreCategoria() {
+    const { nombre } = this.categoriaForm.value;
+
+    let categoriaNueva: Boolean = true;
+
+    console.log(nombre);
+    this.categorias.forEach(categoria => {
+      if (categoria.nombre === nombre) {
+        //Si es una categoria que existe cambiamos el nombre del button
+        document.getElementById("btnCategoria").innerHTML = "Guardar";
+        categoriaNueva = false;
+      }
+    });
+    if (categoriaNueva) {
+      //Si es una nueva categoria cambiamos el nombre del button
+      document.getElementById("btnCategoria").innerHTML = "Crear";
     }
   }
 }
