@@ -27,9 +27,9 @@ import { ProductosComponent } from './mantenimientos/productos/productos.compone
 import { NuevoProductoComponent } from './mantenimientos/productos/nuevo-producto/nuevo-producto.component';
 import { MainPageComponent } from './beforeauth/main-page/main-page.component';
 import { AboutUsComponent } from './beforeauth/about-us/about-us.component';
-
-
-
+import { ConfirmarEnvioComponent } from './confirmar-envio/confirmar-envio.component';
+import { SitemaPagosComponent } from './sitema-pagos/sitema-pagos.component';
+import { TarjetaCreditoComponent } from './tarjeta-credito/tarjeta-credito.component';
 
 const routes: Routes = [
     {
@@ -46,11 +46,15 @@ const routes: Routes = [
             { path: 'rxjs', component: RxjsComponent, data: { titulo: 'RxJs' } },
             { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de usuario' } },
             { path: 'producto/:nombre', component: ProductoComponent, data: { titulo: 'Producto' } },
-            { path: 'envío', component: EnvioComponent, data: { titulo: 'Dirección de la entrega' } },
+            { path: 'confirmarEnvio', component: ConfirmarEnvioComponent, data: { titulo: 'Direccion de la entrega' } },
+            { path: 'sistemaPagos', component: SitemaPagosComponent, data: { titulo: 'Sistema de pago' } },
 
             //Perfil
             { path: 'perfil/pedidos', component: PedidosComponent, data: { titulo: 'Pedidos' } },
             { path: 'perfil/carrito', component: CarritoDeLaCompraComponent, data: { titulo: 'Carrito de la compra' } },
+            { path: 'perfil/envio', component: EnvioComponent, data: { titulo: 'Dirección de la entrega' } },
+            { path: 'perfil/tarjetaCredito', component: TarjetaCreditoComponent, data: { titulo: 'Tarjeta de crédito' } },
+
 
             // Mantenimientos
             { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Matenimiento de Hospitales' } },

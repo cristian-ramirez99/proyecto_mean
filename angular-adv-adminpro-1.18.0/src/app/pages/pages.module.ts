@@ -30,6 +30,9 @@ import { ProductosComponent } from './mantenimientos/productos/productos.compone
 import { NuevoProductoComponent } from './mantenimientos/productos/nuevo-producto/nuevo-producto.component';
 import { AboutUsComponent } from './beforeauth/about-us/about-us.component';
 import { MainPageComponent } from './beforeauth/main-page/main-page.component';
+import { ConfirmarEnvioComponent } from './confirmar-envio/confirmar-envio.component';
+import { SitemaPagosComponent } from './sitema-pagos/sitema-pagos.component';
+import { TarjetaCreditoComponent } from './tarjeta-credito/tarjeta-credito.component';
 
 
 
@@ -57,7 +60,10 @@ import { MainPageComponent } from './beforeauth/main-page/main-page.component';
     ProductosComponent,
     NuevoProductoComponent,
     AboutUsComponent,
-    MainPageComponent
+    MainPageComponent,
+    ConfirmarEnvioComponent,
+    SitemaPagosComponent,
+    TarjetaCreditoComponent
   ],
   exports: [
     DashboardComponent,

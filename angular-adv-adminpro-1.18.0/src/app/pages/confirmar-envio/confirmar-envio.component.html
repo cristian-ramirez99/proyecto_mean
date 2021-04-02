@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <h3>
+            <i class="fa fa-truck red" aria-hidden="true"></i>
+            ¿Donde deberiamos de hacer la entrega?
+        </h3>
+        <div class="no-saltos-de-linea">
+            <p>Por favor, elije la dirección donde desee que llegue su pedido.Una vez hecho esto, haga click en
+                <b class="negrita text-danger">Siguiente paso</b> para continuar.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="margin-top" *ngIf="!isDireccionCreada">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Creación de entrega</h5>
+                    <p class="card-text">Vaya parece que aun no has creado una dirección de entrega.</p>
+                    <a routerLink="../perfil/envio" class="btn btn-primary btn-block">Ir a crear dirección de
+                        entrega</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="margin-top" *ngIf="isDireccionCreada">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header background-dark">
+                    <h4 class="card-title white">Dirección de entrega</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text negrita">Destinatario: {{direccion.nombre}}</p>
+                    <p class="card-text negrita">Dirección: {{direccion.calle}} {{direccion.numeroCalle}}</p>
+                    <p class="card-text negrita">Localidad: {{direccion.localidad}}</p>
+                    <p class="card-text negrita">Datos adicionales: {{direccion.datosAdicionales}}</p>
+                    <div class="card-footer">
+                        <a routerLink="../perfil/envio" class="btn btn-dark btn-block btn-rounded">Cambiar dirección de
+                            entrega</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <button routerLink="../perfil/carrito" class="btn btn-info btn-volver">
+            <i class="fa fa-caret-left" aria-hidden="true"></i>
+            Volver</button>
+    </div>
+    <div *ngIf="isDireccionCreada" class="col-md-6">
+        <button routerLink="../sistemaPagos" class="btn btn-danger"><i class="fa fa-credit-card"
+                aria-hidden="true"></i>
+            Comprar ahora <i class="fa fa-caret-right" aria-hidden="true"></i>
+        </button>
+    </div>
+</div>

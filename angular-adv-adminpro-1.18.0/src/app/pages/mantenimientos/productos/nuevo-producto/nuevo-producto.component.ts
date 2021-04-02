@@ -24,6 +24,8 @@ export class NuevoProductoComponent implements OnInit {
   public categorias: TipoProducto[] = [];
   public categoriaSeleccionada: TipoProducto;
 
+  private formSubmitted: boolean = false;
+
   constructor(private fb: FormBuilder,
     private productoService: ProductoService,
     private router: Router,
@@ -129,6 +131,13 @@ export class NuevoProductoComponent implements OnInit {
 
   //Actualizar o crear producto
   guardarProducto() {
+    this.formSubmitted = true;
+
+    //Control de errores
+    if (this.stockNoValido()) {
+      console.log("No valido");
+      return;
+    }
 
     const { nombre } = this.productoForm.value;
 
@@ -142,7 +151,7 @@ export class NuevoProductoComponent implements OnInit {
       this.productoService.actualizarProducto(data)
         .subscribe(resp => {
           Swal.fire('Actualizado', `${nombre} actualizado correctamente`, 'success');
-        })
+        });
       //Borrar !!!
       Swal.fire('Actualizado', `${nombre} actualizado correctamente`, 'success');
     } else {
@@ -151,7 +160,7 @@ export class NuevoProductoComponent implements OnInit {
         .subscribe((resp: any) => {
           Swal.fire('Creado', `${nombre} creado correctamente`, 'success');
           this.router.navigateByUrl(`/dashboard/nuevoProducto/${resp.producto._id}`)
-        })
+        });
       //Borrar !!!
       Swal.fire('Creado', `${nombre} creado correctamente`, 'success');
 
@@ -197,6 +206,7 @@ export class NuevoProductoComponent implements OnInit {
 
     }
   }
+
   onChangeNombreCategoria() {
     const { nombre } = this.categoriaForm.value;
 
@@ -214,5 +224,12 @@ export class NuevoProductoComponent implements OnInit {
       //Si es una nueva categoria cambiamos el nombre del button
       document.getElementById("btnCategoria").innerHTML = "<i class='fa fa-plus-square' aria-hidden='true'></i> Crear";
     }
+  }
+  //Si stock es un entero devuelve true
+  stockNoValido(): boolean {
+    const { stock } = this.productoForm.value;
+
+    return stock % 1 != 0 && this.formSubmitted;
+
   }
 }

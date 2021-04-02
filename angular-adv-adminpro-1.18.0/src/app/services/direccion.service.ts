@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
+import { Direccion } from '../models/direccion.model';
 
 const base_url = environment.base_url;
 
@@ -31,7 +32,16 @@ export class DireccionService {
     const url = `${base_url}/direccion`;
     return this.http.get(url, this.headers)
       .pipe(
-        map((resp: { ok: boolean, direccion: string }) => resp.direccion)
+        map((resp: { ok: boolean, direccion: Direccion }) => resp.direccion)
       );
+  }
+  crearDireccion(direccion: Direccion) {
+    const url = `${base_url}/direccion`;
+    return this.http.post(url, direccion, this.headers)
+  }
+  modificarDireccion(direccion: Direccion) {
+    const url = `${base_url}/direccion/${direccion._id}`;
+    return this.http.put(url, direccion, this.headers)
+
   }
 }

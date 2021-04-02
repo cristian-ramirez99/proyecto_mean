@@ -1,58 +1,46 @@
 <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-        <h3>
-            <i class="fa fa-truck red" aria-hidden="true"></i>
-            ¿Donde deberiamos de hacer la entrega?
-        </h3>
-        <div class="no-saltos-de-linea">
-            <p>Por favor, elije la dirección donde desee que llegue su pedido.Una vez hecho esto, haga click en
-                <b class="negrita text-danger">Siguiente paso</b> para continuar.
-            </p>
-        </div>
-    </div>
-</div>
-<div class="row">
     <div class="col-md-1"></div>
     <div class="col-md-10">
         <div class="card">
             <div class="card-body">
-                <form class="form" autocomplete="off" [formGroup]="direccionForm" id="direccionForm">
+                <form class="form" autocomplete="off" [formGroup]="direccionForm" id="direccionForm"
+                    (submit)="guardarDireccion()">
                     <div class="form-row">
                         <div class="form-group col-md-12">
                             <label class="negrita" for="nombre">Nombre del destinatario<b class="text-danger"> *</b>
                             </label>
                             <input class="form-control" type="text" id="nombre" formControlName="nombre"
-                                placeholder="Toni Manresa">
+                                placeholder="Introduce el nombre">
                         </div>
                         <div class="form-group col-md-12">
                             <label class="negrita" for="calle">Calle<b class="text-danger"> *</b>
                             </label>
                             <input class="form-control" type="text" id="calle" formControlName="calle"
-                                placeholder="c/ Beethoven ">
+                                placeholder="Introduce la calle">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="negrita" for="numeroCalle">Nº Calle/Portal<b class="text-danger"> *</b>
                             </label>
                             <input class="form-control" type="text" id="numeroCalle" formControlName="numeroCalle"
-                                placeholder="5 2a 2a">
+                                placeholder="Introduce el numero de la calle y el portal">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="negrita" for="cp">Código postal<b class="text-danger"> *</b>
                             </label>
-                            <input class="form-control" type="text" id="cp" formControlName="cp" placeholder="08924">
+                            <input class="form-control" type="text" id="cp" formControlName="cp"
+                                placeholder="Introduce el codigo postal">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="negrita" for="localidad">Localidad<b class="text-danger"> *</b>
                             </label>
                             <input class="form-control" type="text" id="localidad" formControlName="localidad"
-                                placeholder="Barcelona">
+                                placeholder="Introduce la localidad">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="negrita" for="telefono">Teléfono<b class="text-danger"> *</b>
                             </label>
                             <input class="form-control" type="tel" id="telefono" formControlName="telefono"
-                                placeholder="000000000">
+                                placeholder="Introduce el telefono">
                         </div>
                         <div class="form-group col-md-12">
                             <label class="negrita" for="datosAdicionales">Datos adicionales</label>
@@ -60,17 +48,23 @@
                                 formControlName="datosAdicionales" placeholder="Información adicional...">
                             </textarea>
                         </div>
+                        <div class="col text-danger">
+                            <p *ngIf="codigoPostalNoValido()">*El codigo postal no es válido</p>
+                            <p *ngIf="telefonoNoValido()">*El telefono no es válido</p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group row m-b-0">
+                        <div class="offset-sm-3 col-sm-6">
+                            <button type="submit" [disabled]="direccionForm.invalid"
+                                class="btn btn-success waves-effect waves-light" id="btnCategoria">
+                                <i class="fa fa-save"></i>
+                                Guardar
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-    <button routerLink="../perfil/carrito" class="btn btn-info btn-volver">
-        Volver <i class="fa fa-caret-left" aria-hidden="true"></i>
-    </button>
-    <button routerLink="../../envío" class="btn btn-danger btn-continuar">
-        Siguiente paso <i class="fa fa-caret-right" aria-hidden="true"></i>
-    </button>
 </div>

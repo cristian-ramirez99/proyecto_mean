@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Pedido } from 'src/app/models/pedido.mode';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { DireccionService } from 'src/app/services/direccion.service';
+import { Direccion } from 'src/app/models/direccion.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-envio',
@@ -11,8 +12,10 @@ import { DireccionService } from 'src/app/services/direccion.service';
 })
 export class EnvioComponent implements OnInit {
 
-  public pedidoTemp: Pedido;
-  public direccion: string;
+  public direccion: Direccion;
+
+  private isDireccionCreada: boolean = false;
+  private formSubmitted = false;
 
   public direccionForm = this.fb.group(
     {
@@ -31,31 +34,82 @@ export class EnvioComponent implements OnInit {
     public dirrecionService: DireccionService) { }
 
   ngOnInit(): void {
-    this.cargarPedidoTemp();
-    this.direccionForm.setValue({
-      nombre: [''],
-      calle: [''],
-      numeroCalle: [''],
-      cp: [''],
-      localidad: [''],
-      telefono: [''],
-      datosAdicionales: [''],
-    })
+    this.cargarDireccion();
+
+    if (this.isDireccionCreada) {
+      this.direccionForm.setValue({
+        nombre: [this.direccion.nombre],
+        calle: [this.direccion.calle],
+        numeroCalle: [this.direccion.numeroCalle],
+        cp: [this.direccion.cp],
+        localidad: [this.direccion.localidad],
+        telefono: [this.direccion.telefono],
+        datosAdicionales: [this.direccion.datosAdicionales],
+      })
+    }
+
   }
-  cargarPedidoTemp() {
-    this.pedidoService.cargarPedidoTemp()
-      .subscribe(pedidoTemp => {
-        this.pedidoTemp = pedidoTemp;
-      }, (err) => {
-        console.log(err);
-      });
-  }
+
   cargarDireccion() {
     this.dirrecionService.cargarDireccion()
       .subscribe(direccion => {
         this.direccion = direccion;
-      }, (err) => {
-
+        this.isDireccionCreada = true;
       });
+  }
+  guardarDireccion() {
+    this.formSubmitted = true;
+
+    //Control de errores 
+    if (this.codigoPostalNoValido() || this.telefonoNoValido()) {
+      return;
+    }
+
+    if (this.isDireccionCreada) {
+      //Modificar direccion
+      console.log("Modificando dirrecion");
+
+      const data = {
+        ...this.direccionForm.value,
+        _id: this.direccion._id
+      }
+
+      //Put modificarDireccion
+      this.dirrecionService.modificarDireccion(data)
+        .subscribe(resp => {
+          Swal.fire('Actualizado', "Dirrección actualizada correctamente", 'success');
+        });
+      //Borrar !!!
+      Swal.fire('Actualizado', "Dirrección actualizada correctamente", 'success');
+
+    } else {
+      //Crear direccion
+      console.log("Creando dirrecion");
+
+      //Post crearDireccion
+      this.dirrecionService.crearDireccion(this.direccionForm.value)
+        .subscribe(resp => {
+          Swal.fire('Creado', "Dirección creada correctamente", 'success');
+        });
+      //Borrar !!!
+      Swal.fire('Creado', "Dirección creada correctamente", 'success');
+    }
+  }
+  public codigoPostalNoValido(): boolean {
+    const { cp } = this.direccionForm.value;
+
+    if ((cp.length != 5 || parseInt(cp) < 1000 || parseInt(cp) > 52999) && this.formSubmitted) {
+      console.log("CP mal");
+      return true;
+    }
+    return false;
+  }
+  public telefonoNoValido(): boolean {
+    const { telefono } = this.direccionForm.value;
+
+    if (!(/^\d{9}$/.test(telefono)) && this.formSubmitted) {
+      return true;
+    }
+    return false;
   }
 }
