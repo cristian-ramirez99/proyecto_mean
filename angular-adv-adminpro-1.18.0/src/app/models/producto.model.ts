@@ -5,7 +5,8 @@ const base_url = environment.base_url;
 export class TipoProducto {
     constructor(
         public nombre: string,
-        public caracteristicas: string
+        public caracteristicas: string,
+        public _id?,
     ) { }
 }
 export class Producto {
@@ -16,7 +17,7 @@ export class Producto {
         public precio: number,
         public img: string,
         public tipoProducto: TipoProducto,
-        public _id?:string,
+        public _id?: string,
         public cantidad?: number
     ) { }
     get imagenUrl() {

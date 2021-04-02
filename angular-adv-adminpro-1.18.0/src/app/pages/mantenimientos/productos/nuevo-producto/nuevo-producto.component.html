@@ -25,7 +25,7 @@
                     </div>
                     <div class="form-group row">
                         <label for="categoria" class="col-sm-3 control-label">Categoria</label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-5">
                             <div class="input-group">
                                 <select class="form-control" formControlName="categoria">
                                     <option value="">Seleccione una categoria</option>
@@ -54,6 +54,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label for="descripcionProducto" class="col-sm-3 control-label">Descripción</label>
+                        <div class="col-sm-6">
+                            <div class="input-group">
+                                <textarea  rows="4" id="descripcionProducto" formControlName="descripcion" class="form-control"
+                                    placeholder="Descripcion del producto"></textarea>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group row m-b-0">
                         <div class="offset-sm-3 col-sm-6">
                             <button type="submit" [disabled]="productoForm.invalid"
@@ -67,6 +76,8 @@
             </div>
         </div>
     </div>
+
+    <!--TipoProducto-->
     <div class="col animated fadeIn fast" *ngIf="categoriaSeleccionada">
         <div class="card">
             <div class="card-body">
@@ -87,8 +98,8 @@
                         <label for="descripcion" class="col-sm-3 control-label">Descripcion</label>
                         <div class="col-sm-6">
                             <div class="input-group">
-                                <input type="text" formControlName="descripcion" class="form-control" id="descripcion"
-                                    placeholder="Descripcion de la categoria">
+                                <textarea  rows="4" formControlName="descripcion" class="form-control"
+                                    id="descripcion" placeholder="Descripcion de la categoria"></textarea>
                             </div>
                         </div>
                     </div>

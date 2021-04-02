@@ -34,10 +34,6 @@ export class NuevoProductoComponent implements OnInit {
     //this.productoSeleccionado = (new Producto('ordenador', "dsalkdklsa ",
     //  1, 'no-image', new TipoProducto('ordenador', 'es bonito'), '1', 10));
     /////////////////////
-    this.activatedRoute.params
-      .subscribe(({ id }) => this.cargarProducto(id));
-
-    this.cargarCategorias();
 
     this.productoForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -52,12 +48,22 @@ export class NuevoProductoComponent implements OnInit {
       descripcion: ['', Validators.required]
     });
 
+    this.activatedRoute.params
+      .subscribe(({ id }) => this.cargarProducto(id));
+
+    this.cargarCategorias();
 
     //Listener onChange categoria 
     this.productoForm.get('categoria').valueChanges
       .subscribe(categoriaNombre => {
-        console.log(categoriaNombre);
+
+        //Si no es primera vez
+        if (this.categoriaSeleccionada) {
+          document.getElementById("btnCategoria").innerHTML = "<i class='fa fa-save'></i> Guardar";
+        }
+
         this.categoriaSeleccionada = this.categorias.find(c => c.nombre === categoriaNombre);
+
 
         this.categoriaForm.setValue({
           nombre: this.categoriaSeleccionada.nombre,
@@ -71,11 +77,11 @@ export class NuevoProductoComponent implements OnInit {
         this.categorias = categorias;
       });
     //Borrar esto !!!!!!
-    this.categorias.push(new TipoProducto('ordenador', '123'));
-    this.categorias.push(new TipoProducto('gráfica', '123'));
-    this.categorias.push(new TipoProducto('procesador', '123'));
-    this.categorias.push(new TipoProducto('tablet', '123'));
-    this.categorias.push(new TipoProducto('otros', '123'));
+    this.categorias.push(new TipoProducto('ordenador', 'Caracteristicas ordenador'));
+    this.categorias.push(new TipoProducto('gráfica', 'Caracteristicas grafica'));
+    this.categorias.push(new TipoProducto('procesador', 'Caracteristicas procesador'));
+    this.categorias.push(new TipoProducto('tablet', 'Caracteristicas tablet'));
+    this.categorias.push(new TipoProducto('otros', 'Caracteristicas otros'));
   }
   cargarProducto(id: string) {
     if (id === 'nuevo') {
@@ -95,8 +101,29 @@ export class NuevoProductoComponent implements OnInit {
 
         const { nombre, descripcion, tipoProducto, precio, cantidad } = producto;
         this.productoSeleccionado = producto;
-        this.productoForm.setValue({ nombre, descripcion, tipoProducto, precio, cantidad });
+
+        this.productoForm.setValue({
+          nombre: nombre,
+          descripcion: descripcion,
+          categoria: tipoProducto.nombre,
+          precio: precio,
+          stock: cantidad
+        });
       });
+
+    //Borrar !!!
+    const p: Producto = (new Producto('ordenador', "dsalkdklsa ",
+      1, 'no-image', new TipoProducto('ordenador', 'es bonito'), '1', 10));
+
+    const { nombre, descripcion, precio, cantidad } = p;
+
+    this.productoForm.setValue({
+      nombre: nombre,
+      descripcion: descripcion,
+      categoria: "ordenador",
+      precio: precio,
+      stock: cantidad
+    });
 
   }
 
@@ -116,7 +143,8 @@ export class NuevoProductoComponent implements OnInit {
         .subscribe(resp => {
           Swal.fire('Actualizado', `${nombre} actualizado correctamente`, 'success');
         })
-
+      //Borrar !!!
+      Swal.fire('Actualizado', `${nombre} actualizado correctamente`, 'success');
     } else {
       // crear
       this.productoService.crearProducto(this.productoForm.value)
@@ -124,41 +152,67 @@ export class NuevoProductoComponent implements OnInit {
           Swal.fire('Creado', `${nombre} creado correctamente`, 'success');
           this.router.navigateByUrl(`/dashboard/nuevoProducto/${resp.producto._id}`)
         })
+      //Borrar !!!
+      Swal.fire('Creado', `${nombre} creado correctamente`, 'success');
+
     }
   }
   guardarCategoria() {
     const { nombre } = this.categoriaForm.value;
 
-    let categoriaNueva: Boolean = true;
+    let isCategoriaNueva: Boolean = true;
 
-    this.categorias.forEach(categoria => {
-      if (categoria.nombre === nombre) {
+    for (let i = 0; this.categorias.length > i; i++) {
+      if (this.categorias[i].nombre === nombre) {
         //Modificando categoria 
         console.log("Modificando categoria");
-        categoriaNueva = false;
-      }
-    });
+        isCategoriaNueva = false;
 
-    if (categoriaNueva) {
+        //PUT modificarTipoProducto
+        this.productoService.modificarTipoProducto(this.categorias[i])
+          .subscribe((resp: any) => {
+            Swal.fire('Actualizado', `Categoria ${nombre} actualizada correctamente`, 'success');
+            this.categorias[i].caracteristicas = this.categoriaForm.value.descripcion;
+          })
+        //Borrar !!!!!!!
+        Swal.fire('Actualizado', `Categoria ${nombre} actualizada correctamente`, 'success');
+        this.categorias[i].caracteristicas = this.categoriaForm.value.descripcion;
+
+      }
+    }
+
+    //Crear nueva categoria
+    if (isCategoriaNueva) {
       console.log("Nueva categoria");
+      this.productoService.crearTipoProducto(this.categoriaForm.value)
+        .subscribe((resp: any) => {
+          Swal.fire('Creado', ` Categoria ${nombre} creada correctamente`, 'success');
+
+          //Añadimos la nueva categoria al array
+          this.categorias.push(new TipoProducto(nombre, this.categoriaForm.value.descripcion));
+        })
+      //Borrar !!!!!!!
+      Swal.fire('Creado', ` Categoria ${nombre} creada correctamente`, 'success');
+      this.categorias.push(new TipoProducto(nombre, this.categoriaForm.value.descripcion));
+
     }
   }
   onChangeNombreCategoria() {
     const { nombre } = this.categoriaForm.value;
 
-    let categoriaNueva: Boolean = true;
+    let isCategoriaNueva: Boolean = true;
 
-    console.log(nombre);
     this.categorias.forEach(categoria => {
+      console.log(categoria.nombre);
       if (categoria.nombre === nombre) {
         //Si es una categoria que existe cambiamos el nombre del button
-        document.getElementById("btnCategoria").innerHTML = "Guardar";
-        categoriaNueva = false;
+        document.getElementById("btnCategoria").innerHTML = "<i class='fa fa-save'></i> Guardar";
+        isCategoriaNueva = false;
       }
     });
-    if (categoriaNueva) {
+    if (isCategoriaNueva) {
       //Si es una nueva categoria cambiamos el nombre del button
-      document.getElementById("btnCategoria").innerHTML = "Crear";
+      document.getElementById("btnCategoria").innerHTML = "<i class='fa fa-plus-square' aria-hidden='true'></i> Crear";
     }
   }
 }
