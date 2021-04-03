@@ -12,7 +12,7 @@ export class ConfirmarEnvioComponent implements OnInit {
   public direccion: Direccion;
   public isDireccionCreada: boolean = true;
 
-  constructor(private direccionService: DireccionService) { }
+  constructor(private direccionService: DireccionService,) { }
 
 
   ngOnInit(): void {

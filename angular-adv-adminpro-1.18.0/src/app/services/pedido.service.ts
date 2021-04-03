@@ -27,7 +27,7 @@ export class PedidoService {
     }
   }
   cargarPedidos(desde: number = 0) {
-    const url = `${base_url}/whatEver/${desde}`;
+    const url = `${base_url}/pedidos/${desde}`;
     return this.http.get(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, pedidos: Pedido[] }) => resp.pedidos)
@@ -40,6 +40,14 @@ export class PedidoService {
       .pipe(
         map((resp: { ok: boolean, pedidoTemp: Pedido }) => resp.pedidoTemp)
       );
+  }
+  hacerPedido(pedido: Pedido) {
+    const url = `${base_url}/pedidos/${pedido._id}`
+    return this.http.put(url, pedido, this.headers);
+  }
+  crearPedido(pedido: Pedido) {
+    const url = `${base_url}/pedidos`;
+    return this.http.post(url, pedido, this.headers);
 
   }
 }

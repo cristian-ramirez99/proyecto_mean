@@ -1,7 +1,8 @@
-.red{
-    color: red;
-}
 
+.truck{
+    color: red;
+	transform: rotateY(180deg);
+}
 .margin-top{
     margin-top: 40px;
 }

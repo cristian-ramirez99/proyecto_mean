@@ -16,19 +16,9 @@
                 <div class="bottom">
                     <div class="wrapper">
                         <ul class="forecast">
-¡                            <li class="active">
-                                <span class="date">Yesterday</span>
-                                <span class="lnr lnr-sun condition">
-                                    <span class="temp">23<span class="deg">0</span><span
-                                            class="temp-type">C</span></span>
-                                </span>
-                            </li>
-                            <li>
-                                <span class="date">Tomorrow</span>
-                                <span class="lnr lnr-cloud condition">
-                                    <span class="temp">21<span class="deg">0</span><span
-                                            class="temp-type">C</span></span>
-                                </span>
+                            <li class="active">
+                                <button class="btn btn-dark btn-block btn-rounded" (click)="abrirModal()">Confirmar forma
+                                    de pago</button>
                             </li>
                         </ul>
                     </div>
@@ -53,18 +43,8 @@
                     <div class="wrapper">
                         <ul class="forecast">
                             <li class="active">
-                                <span class="date">Yesterday</span>
-                                <span class="lnr lnr-sun condition">
-                                    <span class="temp">22<span class="deg">0</span><span
-                                            class="temp-type">C</span></span>
-                                </span>
-                            </li>
-                            <li>
-                                <span class="date">Tomorrow</span>
-                                <span class="lnr lnr-cloud condition">
-                                    <span class="temp">18<span class="deg">0</span><span
-                                            class="temp-type">C</span></span>
-                                </span>
+                                <button class="btn btn-dark btn-block btn-rounded" (click)="alertConfirmarContrareembolso()">Confirmar
+                                    forma de pago</button>
                             </li>
                         </ul>
                     </div>
@@ -73,3 +53,4 @@
         </div>
     </div>
 </div>
+<app-modal-tarjeta-credito></app-modal-tarjeta-credito>

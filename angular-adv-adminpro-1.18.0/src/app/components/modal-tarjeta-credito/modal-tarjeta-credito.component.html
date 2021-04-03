@@ -1,0 +1,30 @@
+<div class="fondo-modal-imagen animated fadeIn fast" (mouseenter)="ngOnInit()"
+    [class.oculto]="modalTarjetaCreditoService.ocultarModal">
+
+    <div class="modal fade show " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
+        style="display: block;">
+
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title negritaPotente" id="exampleModalLabel1">Tarjeta de crédito</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarModal()">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="modal-title negrita">Banco</h6>
+                    <p> {{ tarjetaCredito.numero | ocultarNumero}}</p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cerrarModal()">
+                            Cancelar
+                        </button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal" (click)="hacerPedido()">
+                            Pagar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
