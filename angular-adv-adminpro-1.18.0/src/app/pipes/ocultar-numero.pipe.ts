@@ -13,10 +13,6 @@ export class OcultarNumeroPipe implements PipeTransform {
         const mitad = "******";
         const final = numero.slice(-4);
 
-        console.log(inicio);
-        console.log(mitad);
-        console.log(final);
-        
         return ''.concat(inicio, mitad, final);
     }
 

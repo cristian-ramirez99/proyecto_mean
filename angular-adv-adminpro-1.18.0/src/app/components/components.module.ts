@@ -11,6 +11,7 @@ import { ModalComponent } from './modal/modal.component';
 import { ModalActualizarPasswordComponent } from './modal-actualizar-password/modal-actualizar-password.component';
 import { ModalTarjetaCreditoComponent } from './modal-tarjeta-credito/modal-tarjeta-credito.component';
 import { PipesModule } from '../pipes/pipes.module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -37,7 +38,8 @@ import { PipesModule } from '../pipes/pipes.module';
     FormsModule,
     ReactiveFormsModule,
     ChartsModule,
-    PipesModule
+    PipesModule,
+    RouterModule,
   ]
 })
 export class ComponentsModule { }

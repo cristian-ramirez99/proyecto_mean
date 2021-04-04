@@ -6,6 +6,13 @@ import { ModalTarjetaCreditoService } from '../../services/modal-tarjeta-credito
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
+//Comision del 3%
+const comisionContrarrembolso: number = 0.03;
+
+//Comision del 20%
+const comisionEnvio: number = 0.2;
+const precioMinimoSinComisionDeEnvio: number = 20;
+
 @Component({
   selector: 'app-sitema-pagos',
   templateUrl: './sitema-pagos.component.html',
@@ -28,12 +35,13 @@ export class SitemaPagosComponent implements OnInit {
       .subscribe(pedido => {
         this.pedido = pedido;
       });
+
     //Borrar !!!
     let productos: Producto[] = [];
     productos.push(new Producto('ordenador', 'bobo', 40, 'no-image', new TipoProducto('pc', 'mu bonito'), '1', 2));
     productos.push(new Producto('ordenador', 'bobo', 40, 'no-image', new TipoProducto('pc', 'mu bonito'), '1', 2));
 
-    this.pedido = new Pedido('temporal', productos);
+    this.pedido = new Pedido('temporal', productos, null, 'e21df1sg', 19);
   }
   hacerPedido() {
     this.pedido.fecha = new Date();
@@ -57,13 +65,13 @@ export class SitemaPagosComponent implements OnInit {
       })
   }
   abrirModal() {
-    this.modalTarjetaCreditoService.abrirModal(63);
+    this.modalTarjetaCreditoService.abrirModal(this.pedido);
   }
 
-  alertConfirmarContrareembolso() {
+  alertConfirmarContrarrembolso() {
     Swal.fire({
       title: 'Estas seguro?',
-      text: "Seguro que quieres pagar contrareembolso?",
+      text: "Seguro que quieres pagar contrarrembolso?",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -76,5 +84,17 @@ export class SitemaPagosComponent implements OnInit {
         this.hacerPedido();
       }
     })
+  }
+
+  hayCosteDeEnvio(): boolean {
+    return this.pedido.precio < precioMinimoSinComisionDeEnvio;
+  }
+
+  precioEnvio(): number {
+    return this.pedido.precio * comisionEnvio;
+  }
+
+  precioContrarrembolso(): number {
+    return this.pedido.precio * comisionContrarrembolso;
   }
 }

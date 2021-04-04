@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-tarjeta-credito',
@@ -12,10 +13,23 @@ export class TarjetaCreditoComponent implements OnInit {
   isFormActivado: boolean = false;
   isTarjetaGirada: boolean = false;
 
-  constructor() { }
+
+  public tarjetaCreditoForm = this.fb.group(
+    {
+      tipo: ['', Validators.required],
+      titular: ['', Validators.required],
+      numero: ['', Validators.required],
+      fechaCaducidad: ['', Validators.required],
+      cvv: ['', Validators.required],
+    }
+  );
+  constructor(public fb: FormBuilder) { }
 
   ngOnInit(): void {
 
+  }
+  guardarTarjetaCredito() {
+    console.log("Guardando tarjeta");
   }
   abrirForm() {
     this.isFormActivado = !this.isFormActivado;

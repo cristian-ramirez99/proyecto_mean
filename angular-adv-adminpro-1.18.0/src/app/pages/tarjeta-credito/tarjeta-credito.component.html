@@ -53,42 +53,61 @@
             <i class="fas fa-plus"></i>
         </button>
     </div>
+</div>
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-body">
+                <form class="form" autocomplete="off" [formGroup]="tarjetaCreditoForm" id="tarjetaCreditoForm"
+                    (submit)="guardarTarjetaCredito()">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label class="negrita" for="tipo">Nombre del destinatario<b class="text-danger"> *</b>
+                            </label>
+                            <input class="form-control" type="text" id="tipo" formControlName="tipo"
+                                placeholder="Introduce el tipo">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="negrita" for="titular">Calle<b class="text-danger"> *</b>
+                            </label>
+                            <input class="form-control" type="text" id="titular" formControlName="titular"
+                                placeholder="Introduce el titular">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="negrita" for="numero">Nº Calle/Portal<b class="text-danger"> *</b>
+                            </label>
+                            <input class="form-control" type="text" id="numero" formControlName="numero"
+                                placeholder="Introduce el numero">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="negrita" for=" fechaCaducidad">Código postal<b class="text-danger"> *</b>
+                            </label>
+                            <input class="form-control" type="text" id=" fechaCaducidad"
+                                formControlName=" fechaCaducidad" placeholder="Introduce la  fechaCaducidad">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="negrita" for="cvv">Localidad<b class="text-danger"> *</b>
+                            </label>
+                            <input class="form-control" type="text" id="cvv" formControlName="cvv"
+                                placeholder="Introduce el cvv">
+                        </div>
+                        <div class="col text-danger">
 
-    <!-- Formulario -->
-    <form action="" id="formulario-tarjeta"
-        class="formulario-tarjeta" [className]="isFormActivado? 'formulario-tarjeta.active' : 'formulario-tarjeta'">
-        <div class="grupo">
-            <label for="inputNumero">Número Tarjeta</label>
-            <input type="text" id="inputNumero" maxlength="19" autocomplete="off">
-        </div>
-        <div class="grupo">
-            <label for="inputNombre">Nombre</label>
-            <input type="text" id="inputNombre" maxlength="19" autocomplete="off">
-        </div>
-        <div class="flexbox">
-            <div class="grupo expira">
-                <label for="selectMes">Expiracion</label>
-                <div class="flexbox">
-                    <div class="grupo-select">
-                        <select name="mes" id="selectMes">
-                            <option disabled selected>Mes</option>
-                        </select>
-                        <i class="fas fa-angle-down"></i>
+                        </div>
                     </div>
-                    <div class="grupo-select">
-                        <select name="year" id="selectYear">
-                            <option disabled selected>Año</option>
-                        </select>
-                        <i class="fas fa-angle-down"></i>
+                    <br>
+                    <div class="form-group row m-b-0">
+                        <div class="offset-sm-3 col-sm-6">
+                            <button type="submit" [disabled]="tarjetaCreditoForm.invalid"
+                                class="btn btn-success waves-effect waves-light" id="btnCategoria">
+                                <i class="fa fa-save"></i>
+                                Guardar
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="grupo ccv">
-                <label for="inputCCV">CCV</label>
-                <input type="text" id="inputCCV" maxlength="3">
+                </form>
             </div>
         </div>
-        <button type="submit" class="btn-enviar">Enviar</button>
-    </form>
+    </div>
 </div>

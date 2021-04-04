@@ -1,4 +1,4 @@
-<div class="fondo-modal-imagen animated fadeIn fast" (mouseenter)="ngOnInit()"
+<div class="fondo-modal-imagen animated fadeIn fast superPoner" (mouseenter)="ngOnInit()"
     [class.oculto]="modalTarjetaCreditoService.ocultarModal">
 
     <div class="modal fade show " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1"
@@ -14,11 +14,31 @@
                 </div>
                 <div class="modal-body">
                     <h6 class="modal-title negrita">Banco</h6>
-                    <p> {{ tarjetaCredito.numero | ocultarNumero}}</p>
+                    <div (click)="cambiarVisibilidadTarjeta()" class="cursor">
+                        <p *ngIf="!mostrarTarjeta"> {{ tarjetaCredito.numero | ocultarNumero}}
+                            <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        </p>
+                        <p *ngIf="mostrarTarjeta"> {{ tarjetaCredito.numero}}
+                            <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        </p>
+                    </div>
+                    <div *ngIf="mostrarTarjeta">
+                        <p>{{tarjetaCredito.tipo}}</p>
+                        <p>{{tarjetaCredito.titular}}</p>
+                        <p>
+                            {{tarjetaCredito.fechaCaducidad.getDate()
+                            |fecha:true}}/{{tarjetaCredito.fechaCaducidad.getFullYear() | fecha:false}}
+                        </p>
+                        <p>{{tarjetaCredito.cvv}}</p>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cerrarModal()">
                             Cancelar
                         </button>
+                        <button class="btn btn-primary" data-dismiss="modal" routerLink="../perfil/envio">
+                            Cambiar tarjeta de crédito
+                        </button>
+
                         <button type="button" class="btn btn-info" data-dismiss="modal" (click)="hacerPedido()">
                             Pagar
                         </button>

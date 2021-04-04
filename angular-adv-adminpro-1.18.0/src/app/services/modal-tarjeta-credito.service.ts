@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Pedido } from '../models/pedido.mode';
 
 @Injectable({
   providedIn: 'root'
@@ -8,14 +9,14 @@ export class ModalTarjetaCreditoService {
   constructor() { }
 
   private _ocultarModal: boolean = true;
-  public precioPedido: number;
+  public pedido: Pedido;
 
   get ocultarModal() {
     return this._ocultarModal;
   }
 
-  abrirModal(precioPedido: number) {
-    this.precioPedido = precioPedido;
+  abrirModal(pedido: Pedido) {
+    this.pedido = pedido;
 
     this._ocultarModal = false;
   }
