@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
+const VISA: string = "visa";
+const MASTERCARD: string = "mastercard";
+
 @Component({
   selector: 'app-tarjeta-credito',
   templateUrl: './tarjeta-credito.component.html',
   styleUrls: ['../../../assets/css/pages/tarjeta-credito.css', './tarjeta-credito.component.css']
 })
 export class TarjetaCreditoComponent implements OnInit {
-  btnAbrirFormulario = document.getElementById('btn-abrir-formulario');
-  formulario = document.getElementById('formulario-tarjeta');
 
-  isFormActivado: boolean = false;
-  isTarjetaGirada: boolean = false;
+  public tipos = [VISA, MASTERCARD];
 
+
+  public esVisa: boolean = true;
 
   public tarjetaCreditoForm = this.fb.group(
     {
@@ -31,10 +33,13 @@ export class TarjetaCreditoComponent implements OnInit {
   guardarTarjetaCredito() {
     console.log("Guardando tarjeta");
   }
-  abrirForm() {
-    this.isFormActivado = !this.isFormActivado;
-  }
-  girarTarjeta() {
-    this.isTarjetaGirada = !this.isTarjetaGirada;
+  onChangeTipo() {
+    const { tipo } = this.tarjetaCreditoForm.value;
+
+    if (tipo === VISA) {
+      this.esVisa = true;
+    } else if (tipo === MASTERCARD) {
+      this.esVisa = false;
+    }
   }
 }

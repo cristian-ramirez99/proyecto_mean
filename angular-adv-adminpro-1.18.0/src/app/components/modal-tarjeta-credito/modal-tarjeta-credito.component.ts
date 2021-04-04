@@ -42,7 +42,7 @@ export class ModalTarjetaCreditoComponent implements OnInit {
         this.tarjetaCredito = tarjeta;
       });
     //Borrar !!!
-    this.tarjetaCredito = new TarjetaCredito('VISA', "El pana manuel", "1234567891234567", new Date(2020, 8, 12), "123", "e1g2h12fgvd");
+    this.tarjetaCredito = new TarjetaCredito('VISA', "El pana manuel", "1234567891234567", new Date(2022, 8, 12), "123", "e1g2h12fgvd");
   }
 
   hacerPedido() {
