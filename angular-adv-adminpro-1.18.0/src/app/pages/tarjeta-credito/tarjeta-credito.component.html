@@ -10,17 +10,18 @@
             <div class="datos">
                 <div class="grupo" id="numero">
                     <p class="label">Número Tarjeta</p>
-                    <p class="numero">#### #### #### ####</p>
+                    <p class="numero" #pNumero>#### #### #### ####</p>
                 </div>
                 <div class="flexbox">
                     <div class="grupo" id="nombre">
                         <p class="label">Nombre Tarjeta</p>
-                        <p class="nombre">Jhon Doe</p>
+                        <p class="nombre" #pTitular>Jhon Doe</p>
                     </div>
 
                     <div class="grupo" id="expiracion">
                         <p class="label">Expiracion</p>
-                        <p class="expiracion"><span class="mes">MM</span> / <span class="year">AA</span></p>
+                        <p class="expiracion"><span class="mes" #spanMes>MM</span> / <span class="year"
+                                #spanYear>AA</span></p>
                     </div>
                 </div>
             </div>
@@ -28,8 +29,8 @@
     </section>
 </div>
 <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
         <div class="card">
             <div class="card-body">
                 <form class="form" autocomplete="off" [formGroup]="tarjetaCreditoForm" id="tarjetaCreditoForm"
@@ -38,32 +39,46 @@
                         <div class="form-group col-md-4">
                             <label class="negrita" for="tipo">Tipo<b class="text-danger"> *</b>
                             </label>
-                                <select (change)="onChangeTipo()" class="form-control" formControlName="tipo">
-                                    <option value="">Seleccione una tipo</option>
-                                    <option [value]="tipo" *ngFor="let tipo of tipos">
-                                        {{tipo}}
-                                    </option>
-                                </select>
+                            <select (change)="onChangeTipo()" class="form-control" formControlName="tipo">
+                                <option value="">Seleccione una tipo</option>
+                                <option [value]="tipo" *ngFor="let tipo of tipos">
+                                    {{tipo}}
+                                </option>
+                            </select>
                         </div>
                         <div class="form-group col-md-12">
                             <label class="negrita" for="titular">Titular<b class="text-danger"> *</b>
                             </label>
-                            <input class="form-control" type="text" id="titular" formControlName="titular"
-                                placeholder="Introduce el titular">
+                            <input (keyup)="onChangeTitular()" class="form-control" type="text" id="titular"
+                                formControlName="titular" placeholder="Introduce el titular">
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-12">
                             <label class="negrita" for="numero">Número<b class="text-danger"> *</b>
                             </label>
-                            <input class="form-control" type="text" id="numero" maxlength="16" eformControlName="numero"
-                                placeholder="Introduce el numero">
+                            <input (keyup)="onChangeNumero()" class="form-control" type="text" id="numero"
+                                maxlength="16" formControlName="numero" placeholder="Introduce el numero">
                         </div>
-                        <div class="form-group col-md-6">
-                            <label class="negrita" for=" fechaCaducidad">Fecha de caducidad<b class="text-danger"> *</b>
+                        <div class="form-group col-md-4">
+                            <label class="negrita" for="mes">Mes<b class="text-danger"> *</b>
                             </label>
-                            <input class="form-control" type="date" id=" fechaCaducidad"
-                                formControlName=" fechaCaducidad" placeholder="Introduce la  fechaCaducidad">
+                            <select (change)="onChangeMes()" class="form-control" formControlName="mes">
+                                <option value="">Seleccione un mes</option>
+                                <option [value]="mes" *ngFor="let mes of meses">
+                                    {{mes}}
+                                </option>
+                            </select>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
+                            <label class="negrita" for="year">Año<b class="text-danger"> *</b>
+                            </label>
+                            <select (change)="onChangeYear()" class="form-control" formControlName="year">
+                                <option value="">Seleccione un año</option>
+                                <option [value]="year" *ngFor="let year of years">
+                                    {{year}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
                             <label class="negrita" for="cvv">CVV<b class="text-danger"> *</b>
                             </label>
                             <input class="form-control" type="text" id="cvv" maxlength="3" formControlName="cvv"
