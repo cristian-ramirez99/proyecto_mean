@@ -51,16 +51,28 @@ export class TarjetaCreditoComponent implements OnInit {
         this.isTarjetaCreditoCreada = true;
 
         this.tarjetaCreditoForm.setValue({
-          tipo: [tarjeta.tipo],
-          titular: [tarjeta.titular],
-          numero: [tarjeta.numero],
-          mes: [tarjeta.fechaCaducidad.getDate()],
-          year: [tarjeta.fechaCaducidad.getFullYear()],
-          cvv: [tarjeta.cvv],
+          tipo: tarjeta.tipo,
+          titular: tarjeta.titular,
+          numero: tarjeta.numero,
+          mes: tarjeta.fechaCaducidad.getDate(),
+          year: tarjeta.fechaCaducidad.getFullYear(),
+          cvv: tarjeta.cvv,
         })
 
       });
+    //Borrar !!!
+    this.isTarjetaCreditoCreada = true;
+    const tarjeta = new TarjetaCredito('MASTERCARD', 'Manolo', '1234567891234567', new Date(), '123', 'djhsa123');
+    this.tarjetaCredito = tarjeta;
 
+    this.tarjetaCreditoForm.setValue({
+      tipo: tarjeta.tipo,
+      titular: tarjeta.titular,
+      numero: tarjeta.numero,
+      mes: tarjeta.fechaCaducidad.getDate() - 1,
+      year: tarjeta.fechaCaducidad.getFullYear(),
+      cvv: tarjeta.cvv,
+    })
   }
   guardarTarjetaCredito() {
     this.formSumbitted = true;

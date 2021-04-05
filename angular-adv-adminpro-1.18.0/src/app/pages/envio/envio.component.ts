@@ -35,19 +35,6 @@ export class EnvioComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarDireccion();
-
-    if (this.isDireccionCreada) {
-      this.direccionForm.setValue({
-        nombre: [this.direccion.nombre],
-        calle: [this.direccion.calle],
-        numeroCalle: [this.direccion.numeroCalle],
-        cp: [this.direccion.cp],
-        localidad: [this.direccion.localidad],
-        telefono: [this.direccion.telefono],
-        datosAdicionales: [this.direccion.datosAdicionales],
-      })
-    }
-
   }
 
   cargarDireccion() {
@@ -56,6 +43,20 @@ export class EnvioComponent implements OnInit {
         this.direccion = direccion;
         this.isDireccionCreada = true;
       });
+    //Borrar !!!
+    this.isDireccionCreada = true;
+    const direccion = new Direccion("NoTiene", "Calle MDLR", "12 23 1o 1a", "08921", "Barcelona", "123456789", "Buen dato", "12213fag");
+    this.direccion = direccion;
+    
+    this.direccionForm.setValue({
+      nombre: this.direccion.nombre,
+      calle: this.direccion.calle,
+      numeroCalle: this.direccion.numeroCalle,
+      cp: this.direccion.cp,
+      localidad: this.direccion.localidad,
+      telefono: this.direccion.telefono,
+      datosAdicionales: this.direccion.datosAdicionales,
+    })
   }
   guardarDireccion() {
     this.formSubmitted = true;
@@ -98,7 +99,7 @@ export class EnvioComponent implements OnInit {
   public codigoPostalNoValido(): boolean {
     const { cp } = this.direccionForm.value;
 
-    if ((cp.length != 5 || parseInt(cp) < 1000 || parseInt(cp) > 52999) && this.formSubmitted) {
+    if ((parseInt(cp) < 1000 || parseInt(cp) > 52999) && this.formSubmitted) {
       console.log("CP mal");
       return true;
     }

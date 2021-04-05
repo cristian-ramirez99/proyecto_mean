@@ -27,8 +27,8 @@
                         <div class="form-group col-md-6">
                             <label class="negrita" for="cp">Código postal<b class="text-danger"> *</b>
                             </label>
-                            <input class="form-control" type="text" id="cp" formControlName="cp"
-                                placeholder="Introduce el codigo postal">
+                            <input class="form-control" type="text" id="cp" formControlName="cp" minlength="5"
+                                maxlength="5" placeholder="Introduce el codigo postal">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="negrita" for="localidad">Localidad<b class="text-danger"> *</b>
@@ -40,7 +40,7 @@
                             <label class="negrita" for="telefono">Teléfono<b class="text-danger"> *</b>
                             </label>
                             <input class="form-control" type="tel" id="telefono" formControlName="telefono"
-                                placeholder="Introduce el telefono">
+                                minlength="9" maxlength="9" placeholder="Introduce el telefono">
                         </div>
                         <div class="form-group col-md-12">
                             <label class="negrita" for="datosAdicionales">Datos adicionales</label>
