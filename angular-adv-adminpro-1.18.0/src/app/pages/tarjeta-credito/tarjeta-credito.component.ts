@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-
-const VISA: string = "visa";
-const MASTERCARD: string = "mastercard";
+import { TarjetaCredito } from 'src/app/models/tarjetaCredito.model';
+import { TarjetaCreditoService } from 'src/app/services/tarjeta-credito.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-tarjeta-credito',
@@ -15,11 +15,11 @@ export class TarjetaCreditoComponent implements OnInit {
   @ViewChild('pNumero') pNumero: ElementRef;
   @ViewChild('pTitular') pTitular: ElementRef;
 
-  public tipos = [VISA, MASTERCARD];
+  public tipos = ["VISA", "MASTERCARD"];
   public meses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   public years: number[] = [];
 
-  public esVisa: boolean = true;
+  public tarjetaCredito: TarjetaCredito = new TarjetaCredito('VISA', 'Jhon Doe', '**** **** **** ****', new Date(), '123', '');
 
   public tarjetaCreditoForm = this.fb.group(
     {
@@ -34,31 +34,103 @@ export class TarjetaCreditoComponent implements OnInit {
 
   //Tarda 5 años en caducar la tarjeta
   private tiempoCaducidadTarjetaEnYears: number = 5;
+  private formSumbitted: boolean = false;
+  private isTarjetaCreditoCreada: boolean = false;
 
-  constructor(public fb: FormBuilder) { }
+  constructor(public fb: FormBuilder,
+    private tarjetaCreditoService: TarjetaCreditoService) { }
 
   ngOnInit(): void {
+    this.cargarCincoYearsDesdeElActual()
+    this.cargarTarjetaCredito();
+  }
+  cargarTarjetaCredito() {
+    this.tarjetaCreditoService.cargarTarjetaCredito()
+      .subscribe((tarjeta: TarjetaCredito) => {
+        this.tarjetaCredito = tarjeta;
+        this.isTarjetaCreditoCreada = true;
+
+        this.tarjetaCreditoForm.setValue({
+          tipo: [tarjeta.tipo],
+          titular: [tarjeta.titular],
+          numero: [tarjeta.numero],
+          mes: [tarjeta.fechaCaducidad.getDate()],
+          year: [tarjeta.fechaCaducidad.getFullYear()],
+          cvv: [tarjeta.cvv],
+        })
+
+      });
+
+  }
+  guardarTarjetaCredito() {
+    this.formSumbitted = true;
+    console.log(this.tarjetaCreditoForm.value);
+
+    if (this.campoNoEsNumero('numero')) {
+      return false;
+    }
+
+    if (this.campoNoEsNumero('cvv')) {
+      return false;
+    }
+    if (this.titularNoValido()) {
+      return false;
+    }
+
+    //Modificar tarjeta
+    if (this.isTarjetaCreditoCreada) {
+      this.tarjetaCreditoService.modificarTarjetaCredito(this.tarjetaCreditoForm.value)
+        .subscribe(resp => {
+          Swal.fire('Actualizado', 'Tarjeta atualizada correctamente', 'success');
+
+        });
+      //Borrar !!!
+      Swal.fire('Actualizado', 'Tarjeta atualizada correctamente', 'success');
+
+      //Crear tarjeta
+    } else {
+      this.tarjetaCreditoService.crearTarjetaCredito(this.tarjetaCreditoForm.value)
+        .subscribe(resp => {
+          Swal.fire('Creado', 'Tarjeta creada correctamente', 'success');
+          this.isTarjetaCreditoCreada = true;
+        });
+      //Borrar !!!
+      Swal.fire('Creado', 'Tarjeta creada correctamente', 'success');
+      this.isTarjetaCreditoCreada = true;
+
+
+    }
+  }
+
+  cargarCincoYearsDesdeElActual() {
     const añoActual = new Date().getFullYear();
 
     for (let i = 0; this.tiempoCaducidadTarjetaEnYears > i; i++) {
       this.years[i] = añoActual + i;
     }
   }
-  guardarTarjetaCredito() {
-    console.log("Guardando tarjeta");
+  //Comprueba si solo contiene letras
+  titularNoValido(): boolean {
+    const { titular } = this.tarjetaCreditoForm.value;
+
+    return this.formSumbitted && !/^[A-Za-z]+$/.test(titular);
+
   }
+
+  campoNoEsNumero(campo: string): boolean {
+    const campoValue = this.tarjetaCreditoForm.get(campo).value;
+
+    return this.formSumbitted && isNaN(Number(campoValue));
+  }
+
   onChangeTipo() {
     const { tipo } = this.tarjetaCreditoForm.value;
-
-    if (tipo === VISA) {
-      this.esVisa = true;
-    } else if (tipo === MASTERCARD) {
-      this.esVisa = false;
-    }
+    this.tarjetaCredito.tipo = tipo;
   }
+
+
   onChangeMes() {
     const { mes } = this.tarjetaCreditoForm.value;
-
     this.spanMes.nativeElement.innerHTML = mes;
   }
   onChangeYear() {

@@ -3,25 +3,26 @@
     <section class="tarjeta" id="tarjeta">
         <div class="delantera">
             <div class="logo-marca" id="logo-marca">
-                <img *ngIf="esVisa" src='../../../assets/images/tarjeta-credito/logos/{{tipos[0]}}.png' alt="visa">
-                <img *ngIf="!esVisa" src='../../../assets/images/tarjeta-credito/logos/{{tipos[1]}}.png' alt="visa">
+                <img src='../../../assets/images/tarjeta-credito/logos/{{tarjetaCredito.tipo}}.png' alt="tipo">
             </div>
             <img src="../../../assets/images/tarjeta-credito/chip-tarjeta.png" class="chip" alt="">
             <div class="datos">
                 <div class="grupo" id="numero">
                     <p class="label">Número Tarjeta</p>
-                    <p class="numero" #pNumero>#### #### #### ####</p>
+                    <p class="numero" #pNumero>{{tarjetaCredito.numero}}</p>
                 </div>
                 <div class="flexbox">
                     <div class="grupo" id="nombre">
                         <p class="label">Nombre Tarjeta</p>
-                        <p class="nombre" #pTitular>Jhon Doe</p>
+                        <p class="nombre" #pTitular>{{tarjetaCredito.titular}}</p>
                     </div>
 
                     <div class="grupo" id="expiracion">
                         <p class="label">Expiracion</p>
-                        <p class="expiracion"><span class="mes" #spanMes>MM</span> / <span class="year"
-                                #spanYear>AA</span></p>
+                        <p class="expiracion">
+                            <span class="mes" #spanMes>{{tarjetaCredito.fechaCaducidad.getDate() -1}}</span> / <span
+                                class="year" #spanYear>{{tarjetaCredito.fechaCaducidad.getFullYear()}}</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -56,7 +57,8 @@
                             <label class="negrita" for="numero">Número<b class="text-danger"> *</b>
                             </label>
                             <input (keyup)="onChangeNumero()" class="form-control" type="text" id="numero"
-                                maxlength="16" formControlName="numero" placeholder="Introduce el numero">
+                                formControlName="numero" placeholder="Introduce el numero" minlength="16"
+                                maxlength="16">
                         </div>
                         <div class="form-group col-md-4">
                             <label class="negrita" for="mes">Mes<b class="text-danger"> *</b>
@@ -81,18 +83,20 @@
                         <div class="form-group col-md-4">
                             <label class="negrita" for="cvv">CVV<b class="text-danger"> *</b>
                             </label>
-                            <input class="form-control" type="text" id="cvv" maxlength="3" formControlName="cvv"
-                                placeholder="Introduce el cvv">
+                            <input class="form-control" type="text" id="cvv" formControlName="cvv"
+                                placeholder="Introduce el cvv" minlength="3" maxlength="3">
                         </div>
                         <div class="col text-danger">
-
+                            <p *ngIf="titularNoValido()">* El titular no es válido</p>
+                            <p *ngIf="campoNoEsNumero('numero')">* El numero no es válido</p>
+                            <p *ngIf="campoNoEsNumero('cvv')">* El CVV no es válido</p>
                         </div>
                     </div>
                     <br>
                     <div class="form-group row m-b-0">
                         <div class="offset-sm-3 col-sm-6">
                             <button type="submit" [disabled]="tarjetaCreditoForm.invalid"
-                                class="btn btn-success waves-effect waves-light" id="btnCategoria">
+                                class="btn btn-success waves-effect waves-light">
                                 <i class="fa fa-save"></i>
                                 Guardar
                             </button>
