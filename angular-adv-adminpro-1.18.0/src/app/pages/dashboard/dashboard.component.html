@@ -9,7 +9,7 @@
         <div class="card-body tipoProductos animated fadeIn fast">
             <p (click)=onTipoProductoChange(tipo.nombre,i) *ngFor="let tipo of tipoProductos;let i=index"
                 [ngClass]="toogle[i]? 'negrita':''" class="cursor">
-                {{tipo.nombre}}
+                {{tipo.nombre}} ({{cantidadTipoProductos[i]}})
             </p>
         </div>
     </div>

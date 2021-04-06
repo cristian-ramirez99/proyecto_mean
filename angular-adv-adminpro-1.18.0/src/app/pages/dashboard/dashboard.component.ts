@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Producto, TipoProducto } from 'src/app/models/producto.model';
@@ -12,6 +13,8 @@ import { ProductoService } from '../../services/producto.service';
 export class DashboardComponent implements OnInit {
 
   public tipoProductos: TipoProducto[] = [];
+  public cantidadTipoProductos: number[] = [];
+
   public productosTotales: Producto[] = [];
   public productosMostrados: Producto[] = [];
 
@@ -31,7 +34,7 @@ export class DashboardComponent implements OnInit {
 
     this.productosMostrados = this.productosTotales;
     this.cargarTipoProductos();
-
+    this.calcularCantidadTipoProducto(this.precioMin, this.precioMax);
   }
   //Hace peticion GET y obtiene todos los productos
   cargarProductos() {
@@ -89,6 +92,30 @@ export class DashboardComponent implements OnInit {
     this.tipoProductos.push(new TipoProducto('otros', '123'));
   }
 
+  calcularCantidadTipoProducto(precioMin: number, precioMax: number) {
+    //Inicializamos el array y ponemos todos los valores a 0
+    this.cantidadTipoProductos = new Array(this.tipoProductos.length);
+    this.cantidadTipoProductos = this.cantidadTipoProductos.fill(0);
+
+    //Añadimos la canitdad de cualquier tipo de producto
+    for (let i = 0; this.productosTotales.length > i; i++) {
+      if (this.productosTotales[i].precio >= precioMin && this.productosTotales[i].precio <= precioMax) {
+        this.cantidadTipoProductos[0]++;
+
+      }
+    }
+
+    //Calculamos la cantidad de tipoProductos que hay
+    for (let i = 0; this.productosTotales.length > i; i++) {
+      for (let j = 1; this.tipoProductos.length > j; j++) {
+        if (this.tipoProductos[j].nombre === this.productosTotales[i].nombre &&
+          this.productosTotales[i].precio >= precioMin && this.productosTotales[i].precio <= precioMax) {
+          this.cantidadTipoProductos[j]++;
+        }
+      }
+    }
+  }
+
   //Actualiza productosMostrados filtrando el precio
   filtrarProductos() {
     //Si tiene cualquier producto
@@ -127,6 +154,7 @@ export class DashboardComponent implements OnInit {
 
     //Actualizamos mostrarProductos
     this.filtrarProductos();
+    this.calcularCantidadTipoProducto(this.precioMin, this.precioMax);
   }
   noExisteProductosMostrados() {
     return this.productosMostrados.length == 0;
