@@ -47,30 +47,6 @@ export class ProductosComponent implements OnInit {
         this.productosTotales = productos;
         this.productosMostrados = productos;
       });
-    this.productosTotales.push(new Producto('ordenador', "dsalkdklsa ",
-      1, 'no-image', new TipoProducto('ordenador', 'es bonito'), '1', 10));
-    this.productosTotales.push(new Producto('ordenador', "dsalkdklsa ",
-      20, 'no-image', new TipoProducto('ordenador', 'es bonito'), '2', 10));
-    this.productosTotales.push(new Producto('gráfica', "dsalkdklsa ",
-      50, 'no-image', new TipoProducto('gráfica', 'es bonito'), '3', 10));
-    this.productosTotales.push(new Producto('tablet', "dsalkdklsa ",
-      100, 'no-image', new TipoProducto('tablet', 'es bonito'), '4', 10));
-    this.productosTotales.push(new Producto('otros', "dsalkdklsa ",
-      200, 'no-image', new TipoProducto('otros', 'es bonito'), '5', 10));
-    this.productosTotales.push(new Producto('otros', "dsalkdklsa ",
-      300, 'no-image', new TipoProducto('otros', 'es bonito'), '6', 10));
-    this.productosTotales.push(new Producto('procesador', "dsalkdklsa ",
-      500, 'no-image', new TipoProducto('procesador', 'es bonito'), '7', 10));
-    this.productosTotales.push(new Producto('gráfica', "dsalkdklsa ",
-      750, 'no-image', new TipoProducto('gráfica', 'es bonito'), '8', 10));
-    this.productosTotales.push(new Producto('ordenador', "dsalkdklsa ",
-      40, 'no-image', new TipoProducto('ordenador', 'es bonito'), '9', 10));
-    this.productosTotales.push(new Producto('ordenador', "dsalkdklsa ",
-      1020, 'no-image', new TipoProducto('ordenador', 'es bonito'), '10', 10));
-
-      //Borrar !!!!!!!
-      this.productosMostrados = this.productosTotales;
-
   }
 
   //Hace peticion GET y obtiene todos los TipoProductos 
@@ -79,18 +55,11 @@ export class ProductosComponent implements OnInit {
 
     this.productoService.cargarTipoProductos()
       .subscribe(tipoProductos => {
+        console.log(tipoProductos);
         this.tipoProductos = tipoProductos;
         //Añadimo al princip del array el tipoProducto = cualquier producto
-        this.tipoProductos.unshift(new TipoProducto('Cualquier producto', '123'));
-
+        this.tipoProductos.unshift(new TipoProducto('Cualquier producto', ''));
       })
-    //PARA PRUEBAS 
-    this.tipoProductos.push(new TipoProducto('Cualquier producto', '123'));
-    this.tipoProductos.push(new TipoProducto('ordenador', '123'));
-    this.tipoProductos.push(new TipoProducto('gráfica', '123'));
-    this.tipoProductos.push(new TipoProducto('procesador', '123'));
-    this.tipoProductos.push(new TipoProducto('tablet', '123'));
-    this.tipoProductos.push(new TipoProducto('otros', '123'));
   }
 
   buscar(termino: string) {

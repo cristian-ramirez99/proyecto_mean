@@ -18,7 +18,9 @@ export class Producto {
         public img: string,
         public tipoProducto: TipoProducto,
         public _id?: string,
-        public cantidad?: number
+        public cantidad?: number,
+        public stock?: number
+
     ) { }
     get imagenUrl() {
         return `${base_url}/upload/usuarios/no-image`;

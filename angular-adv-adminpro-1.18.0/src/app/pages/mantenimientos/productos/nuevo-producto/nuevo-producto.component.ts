@@ -37,6 +37,8 @@ export class NuevoProductoComponent implements OnInit {
     //  1, 'no-image', new TipoProducto('ordenador', 'es bonito'), '1', 10));
     /////////////////////
 
+    this.cargarCategorias();
+
     this.productoForm = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
@@ -53,7 +55,6 @@ export class NuevoProductoComponent implements OnInit {
     this.activatedRoute.params
       .subscribe(({ id }) => this.cargarProducto(id));
 
-    this.cargarCategorias();
 
     //Listener onChange categoria 
     this.productoForm.get('categoria').valueChanges
@@ -76,15 +77,11 @@ export class NuevoProductoComponent implements OnInit {
   cargarCategorias() {
     this.productoService.cargarTipoProductos()
       .subscribe(categorias => {
+        console.log(categorias);
         this.categorias = categorias;
       });
-    //Borrar esto !!!!!!
-    this.categorias.push(new TipoProducto('ordenador', 'Caracteristicas ordenador'));
-    this.categorias.push(new TipoProducto('gráfica', 'Caracteristicas grafica'));
-    this.categorias.push(new TipoProducto('procesador', 'Caracteristicas procesador'));
-    this.categorias.push(new TipoProducto('tablet', 'Caracteristicas tablet'));
-    this.categorias.push(new TipoProducto('otros', 'Caracteristicas otros'));
   }
+  
   cargarProducto(id: string) {
     if (id === 'nuevo') {
       return;

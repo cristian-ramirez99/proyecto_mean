@@ -61,7 +61,7 @@ export class ProductoService {
   }
   
   cargarTipoProductos() {
-    const url = `${base_url}/tipoProductos`
+    const url = `${base_url}/tipoProducto`;
     return this.http.get(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, tipoProductos: TipoProducto[] }) => resp.tipoProductos)
