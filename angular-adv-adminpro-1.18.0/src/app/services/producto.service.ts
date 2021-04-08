@@ -40,26 +40,26 @@ export class ProductoService {
       );
   }
 
-  cargarProducto() {
-    const url = `${base_url}/producto/${this._id}`
+  cargarProducto(_id: string) {
+    const url = `${base_url}/productos/${_id}`
     return this.http.get(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, producto: Producto }) => resp.producto)
       );
   }
   eliminarProducto(_id: string) {
-    const url = `${base_url}/producto/${_id}`
+    const url = `${base_url}/productos/${_id}`
     return this.http.delete(url, this.headers);
   }
   actualizarProducto(producto: Producto) {
-    const url = `${base_url}/producto/${producto._id}`
+    const url = `${base_url}/productos/${producto._id}`
     return this.http.put(url, producto, this.headers);
   }
   crearProducto(producto: Producto) {
-    const url = `${base_url}/producto`;
+    const url = `${base_url}/productos`;
     return this.http.post(url, producto, this.headers);
   }
-  
+
   cargarTipoProductos() {
     const url = `${base_url}/tipoProducto`;
     return this.http.get(url, this.headers)

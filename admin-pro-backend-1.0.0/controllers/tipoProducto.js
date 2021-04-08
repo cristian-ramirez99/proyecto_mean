@@ -57,39 +57,6 @@ const crearTipoProducto = async (req, res = response) => {
         })
     }
 }
-const borrarMedico = async (req, res = response) => {
-
-    const id = req.params.id;
-
-    try {
-
-        const medico = await Medico.findById(id);
-
-        if (!medico) {
-            return res.status(404).json({
-                ok: true,
-                msg: 'Medico no encontrado por id',
-            });
-        }
-
-        await Medico.findByIdAndDelete(id);
-
-        res.json({
-            ok: true,
-            msg: 'Médico borrado'
-        });
-
-    } catch (error) {
-
-        console.log(error);
-
-        res.status(500).json({
-            ok: false,
-            msg: 'Hable con el administrador'
-        })
-    }
-
-}
 const eliminarTipoProducto = async (req, res) => {
     const id = req.params.id;
 
@@ -122,6 +89,43 @@ const eliminarTipoProducto = async (req, res) => {
         })
     }
 }
+const actualizarTipoProducto = async (req, res = response) => {
+    const id = req.params.id;
+
+    try {
+
+        const tipoProducto = await TipoProducto.findById(id);
+
+        if (!tipoProducto) {
+            return res.status(404).json({
+                ok: true,
+                msg: 'Tipo producto no encontrado por id',
+            });
+        }
+
+        const cambiosTipoProducto = {
+            ...req.body,
+        }
+
+        const tipoProductoActualizado = await TipoProducto.findByIdAndUpdate(id, cambiosTipoProducto, { new: true });
+
+
+        res.json({
+            ok: true,
+            tipoProducto: tipoProductoActualizado
+        })
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
+
+}
 
 
 
@@ -129,5 +133,6 @@ module.exports = {
     getTipoProductos,
     getTipoProductoById,
     crearTipoProducto,
-    eliminarTipoProducto
+    eliminarTipoProducto,
+    actualizarTipoProducto
 }

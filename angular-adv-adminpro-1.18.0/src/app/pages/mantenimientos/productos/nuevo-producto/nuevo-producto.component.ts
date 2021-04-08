@@ -81,14 +81,14 @@ export class NuevoProductoComponent implements OnInit {
         this.categorias = categorias;
       });
   }
-  
+
   cargarProducto(id: string) {
     if (id === 'nuevo') {
       return;
     }
 
     //Falta pasar por parametro id en cargarProducto(id)
-    this.productoService.cargarProducto()
+    this.productoService.cargarProducto(id)
       .pipe(
         delay(100)
       )
@@ -98,7 +98,7 @@ export class NuevoProductoComponent implements OnInit {
           return this.router.navigateByUrl(`/dashboard/productos`);
         }
 
-        const { nombre, descripcion, tipoProducto, precio, cantidad } = producto;
+        const { nombre, descripcion, tipoProducto, precio, stock } = producto;
         this.productoSeleccionado = producto;
 
         this.productoForm.setValue({
@@ -106,24 +106,9 @@ export class NuevoProductoComponent implements OnInit {
           descripcion: descripcion,
           categoria: tipoProducto.nombre,
           precio: precio,
-          stock: cantidad
+          stock: stock
         });
       });
-
-    //Borrar !!!
-    const p: Producto = (new Producto('ordenador', "dsalkdklsa ",
-      1, 'no-image', new TipoProducto('ordenador', 'es bonito'), '1', 10));
-
-    const { nombre, descripcion, precio, cantidad } = p;
-
-    this.productoForm.setValue({
-      nombre: nombre,
-      descripcion: descripcion,
-      categoria: "ordenador",
-      precio: precio,
-      stock: cantidad
-    });
-
   }
 
   //Actualizar o crear producto
@@ -140,17 +125,21 @@ export class NuevoProductoComponent implements OnInit {
 
     if (this.productoSeleccionado) {
       // actualizar
+
+     // const { categoria, ...producto } = this.productoForm.value;
+
+
       const data = {
         ...this.productoForm.value,
         _id: this.productoSeleccionado._id
       }
+      console.log(data);
 
       this.productoService.actualizarProducto(data)
         .subscribe(resp => {
           Swal.fire('Actualizado', `${nombre} actualizado correctamente`, 'success');
         });
-      //Borrar !!!
-      Swal.fire('Actualizado', `${nombre} actualizado correctamente`, 'success');
+
     } else {
       // crear
       this.productoService.crearProducto(this.productoForm.value)
@@ -158,9 +147,6 @@ export class NuevoProductoComponent implements OnInit {
           Swal.fire('Creado', `${nombre} creado correctamente`, 'success');
           this.router.navigateByUrl(`/dashboard/nuevoProducto/${resp.producto._id}`)
         });
-      //Borrar !!!
-      Swal.fire('Creado', `${nombre} creado correctamente`, 'success');
-
     }
   }
   guardarCategoria() {

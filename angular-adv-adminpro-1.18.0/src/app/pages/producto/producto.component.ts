@@ -25,7 +25,7 @@ export class ProductoComponent implements OnInit {
   }
   cargarProducto() {
     console.log("Cargando producto");
-    this.productoService.cargarProducto()
+    this.productoService.cargarProducto("dsahduhsahdsilojhdas")
       .subscribe(producto => {
         this.producto = producto;
       }

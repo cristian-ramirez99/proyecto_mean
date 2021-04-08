@@ -1,6 +1,6 @@
-import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { delay } from 'rxjs/operators';
 import { Producto, TipoProducto } from 'src/app/models/producto.model';
 import { ProductoService } from '../../services/producto.service';
 
@@ -24,17 +24,13 @@ export class DashboardComponent implements OnInit {
 
   public toogle: boolean[] = [];
 
-  hover: boolean;
-
   constructor(private productoService: ProductoService,
     public router: Router) { }
 
   ngOnInit(): void {
+    this.cargarTipoProductos();
     this.cargarProductos();
 
-    this.productosMostrados = this.productosTotales;
-    this.cargarTipoProductos();
-    this.calcularCantidadTipoProducto(this.precioMin, this.precioMax);
   }
   //Hace peticion GET y obtiene todos los productos
   cargarProductos() {
@@ -42,29 +38,9 @@ export class DashboardComponent implements OnInit {
       .subscribe(productos => {
         this.productosTotales = productos;
         this.productosMostrados = productos;
-      });
+        this.calcularCantidadTipoProducto(this.precioMin, this.precioMax);
 
-    //PARA PRUEBAS 10 productos
-    this.productosTotales.push(new Producto('ordenador', "dsalkdklsa ",
-      1, 'no-image', new TipoProducto('ordenador', 'es bonito'), '1', 10));
-    this.productosTotales.push(new Producto('ordenador', "dsalkdklsa ",
-      20, 'no-image', new TipoProducto('ordenador', 'es bonito'), '2', 10));
-    this.productosTotales.push(new Producto('gráfica', "dsalkdklsa ",
-      50, 'no-image', new TipoProducto('gráfica', 'es bonito'), '3', 10));
-    this.productosTotales.push(new Producto('tablet', "dsalkdklsa ",
-      100, 'no-image', new TipoProducto('tablet', 'es bonito'), '4', 10));
-    this.productosTotales.push(new Producto('otros', "dsalkdklsa ",
-      200, 'no-image', new TipoProducto('otros', 'es bonito'), '5', 10));
-    this.productosTotales.push(new Producto('otros', "dsalkdklsa ",
-      300, 'no-image', new TipoProducto('otros', 'es bonito'), '6', 10));
-    this.productosTotales.push(new Producto('procesador', "dsalkdklsa ",
-      500, 'no-image', new TipoProducto('procesador', 'es bonito'), '7', 10));
-    this.productosTotales.push(new Producto('gráfica', "dsalkdklsa ",
-      750, 'no-image', new TipoProducto('gráfica', 'es bonito'), '8', 10));
-    this.productosTotales.push(new Producto('ordenador', "dsalkdklsa ",
-      40, 'no-image', new TipoProducto('ordenador', 'es bonito'), '9', 10));
-    this.productosTotales.push(new Producto('ordenador', "dsalkdklsa ",
-      1020, 'no-image', new TipoProducto('ordenador', 'es bonito'), '10', 10));
+      });
   }
   //Hace peticion GET y obtiene todos los TipoProductos 
   cargarTipoProductos() {
@@ -73,8 +49,9 @@ export class DashboardComponent implements OnInit {
     this.productoService.cargarTipoProductos()
       .subscribe(tipoProductos => {
         this.tipoProductos = tipoProductos;
+
         //Añadimo al princip del array el tipoProducto = cualquier producto
-        this.tipoProductos.unshift(new TipoProducto('Cualquier producto', '123'));
+        this.tipoProductos.unshift(new TipoProducto('Cualquier producto', ''));
 
         //Inicializamos el array que resalta el tipoProducto seleccionado
         this.toogle = new Array(this.tipoProducto.length);
@@ -82,14 +59,6 @@ export class DashboardComponent implements OnInit {
         //Por default mostramos en negrita 'Cualquier producto'
         this.toogle[0] = true;
       })
-    //PARA PRUEBAS 
-    this.toogle[0] = true;
-    this.tipoProductos.push(new TipoProducto('Cualquier producto', '123'));
-    this.tipoProductos.push(new TipoProducto('ordenador', '123'));
-    this.tipoProductos.push(new TipoProducto('gráfica', '123'));
-    this.tipoProductos.push(new TipoProducto('procesador', '123'));
-    this.tipoProductos.push(new TipoProducto('tablet', '123'));
-    this.tipoProductos.push(new TipoProducto('otros', '123'));
   }
 
   calcularCantidadTipoProducto(precioMin: number, precioMax: number) {
@@ -108,7 +77,8 @@ export class DashboardComponent implements OnInit {
     //Calculamos la cantidad de tipoProductos que hay
     for (let i = 0; this.productosTotales.length > i; i++) {
       for (let j = 1; this.tipoProductos.length > j; j++) {
-        if (this.tipoProductos[j].nombre === this.productosTotales[i].nombre &&
+
+        if (this.tipoProductos[j].nombre === this.productosTotales[i].tipoProducto.nombre &&
           this.productosTotales[i].precio >= precioMin && this.productosTotales[i].precio <= precioMax) {
           this.cantidadTipoProductos[j]++;
         }

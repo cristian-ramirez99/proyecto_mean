@@ -11,20 +11,39 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 const {
     getProductos,
     crearProducto,
+    getProductoById,
+    eliminarProducto,
+    actualizarProducto
 } = require('../controllers/productos');
 
 const router = Router();
 
 router.get('/', validarJWT, getProductos);
 
+router.get('/:id', validarJWT, getProductoById);
+
 router.post('/',
-[ 
-    validarJWT,
-    check('nombre',"El nombre del producto es necesario").not().isEmpty(),
-    check('descripcion',"La descripcion del producto es necesaria").not().isEmpty(),
-    check('precio',"El precio del producto es necesario").not().isEmpty(),
-    validarCampos,
-]
-, crearProducto);
+    [
+        validarJWT,
+        check('nombre', "El nombre del producto es necesario").not().isEmpty(),
+        check('descripcion', "La descripcion del producto es necesaria").not().isEmpty(),
+        check('precio', "El precio del producto es necesario").not().isEmpty(),
+        check('tipoProducto', 'El tipoProducto id debe de ser válido').isMongoId(),
+        validarCampos,
+    ]
+    , crearProducto);
+
+router.put('/:id',
+    [
+        validarJWT,
+        check('nombre', "El nombre del producto es necesario").not().isEmpty(),
+        check('descripcion', "La descripcion del producto es necesaria").not().isEmpty(),
+        check('precio', "El precio del producto es necesario").not().isEmpty(),
+        check('tipoProducto', 'El tipoProducto id debe de ser válido').isMongoId(),
+        validarCampos,
+    ]
+    , actualizarProducto);
+
+router.delete('/:id', validarJWT, eliminarProducto);
 
 module.exports = router;

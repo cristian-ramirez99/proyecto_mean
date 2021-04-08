@@ -13,6 +13,7 @@ const {
     getTipoProductoById,
     crearTipoProducto,
     eliminarTipoProducto,
+    actualizarTipoProducto,
 } = require('../controllers/tipoProducto');
 
 const router = Router();
@@ -29,6 +30,15 @@ router.post('/',
         validarCampos,
     ],
     crearTipoProducto);
+
+router.put('/:id',
+    [
+        validarJWT,
+        check('nombre', 'El nombre del tipo producto es necesario').not().isEmpty(),
+        check('caracteristicas', 'Las caracteristicas del tipo producto son necesarias').not().isEmpty(),
+        validarCampos,
+    ],
+    actualizarTipoProducto);
 
 router.delete('/:id', validarJWT, eliminarTipoProducto);
 
