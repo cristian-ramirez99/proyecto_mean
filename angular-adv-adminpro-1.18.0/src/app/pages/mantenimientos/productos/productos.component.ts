@@ -20,7 +20,9 @@ export class ProductosComponent implements OnInit {
   public productosTotales: Producto[] = [];
   public productosMostrados: Producto[] = [];
   public tipoProductos: TipoProducto[] = [];
-  private imgSubs: Subscription;
+  public imgSubs: Subscription;
+
+  private nombreTipoProductoSeleccionado: String = "Cualquier producto";
 
   constructor(private productoService: ProductoService,
     private modalImagenService: ModalImagenService,
@@ -51,11 +53,9 @@ export class ProductosComponent implements OnInit {
 
   //Hace peticion GET y obtiene todos los TipoProductos 
   cargarTipoProductos() {
-    console.log("Cargando tipo productos");
 
     this.productoService.cargarTipoProductos()
       .subscribe(tipoProductos => {
-        console.log(tipoProductos);
         this.tipoProductos = tipoProductos;
 
         //Añadimo al princip del array el tipoProducto = cualquier producto
@@ -70,8 +70,12 @@ export class ProductosComponent implements OnInit {
     }
 
     this.busquedasService.buscar('productos', termino)
-      .subscribe(resp => {
-        // this.productos = resp;
+      .subscribe((resp: any) => {
+        if (this.nombreTipoProductoSeleccionado === "Cualquier producto") {
+          this.productosMostrados = resp;
+        } else {
+          this.productosMostrados = resp.filter(producto => producto.tipoProducto.nombre === this.nombreTipoProductoSeleccionado);
+        }
       });
   }
 
@@ -106,11 +110,13 @@ export class ProductosComponent implements OnInit {
     })
   }
   cambiarCategoria(nombreCategoria: String) {
-    console.log(nombreCategoria);
     //Si tiene cualquier producto
     if (nombreCategoria === "Cualquier producto") {
       this.productosMostrados = this.productosTotales;
+      this.nombreTipoProductoSeleccionado = "Cualquier producto";
+
     } else {
+      this.nombreTipoProductoSeleccionado = nombreCategoria;
       this.productosMostrados = this.productosTotales.filter(producto => producto.tipoProducto.nombre === nombreCategoria);
     }
   }

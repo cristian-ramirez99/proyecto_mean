@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators';
 import { Usuario } from '../models/usuario.model';
 import { Hospital } from '../models/hospital.model';
 import { Medico } from '../models/medico.model';
-import { ProductosComponent } from '../pages/mantenimientos/productos/productos.component';
 import { Producto } from '../models/producto.model';
 
 const base_url = environment.base_url;
@@ -70,14 +69,14 @@ export class BusquedasService {
             case 'usuarios':
               return this.transformarUsuarios(resp.resultados)
 
-            case 'productos':
-              return this.transformarProductos(resp.resultado)
-
             case 'hospitales':
               return this.transformarHospitales(resp.resultados)
 
             case 'medicos':
               return this.transformarMedicos(resp.resultados)
+
+            case 'productos':
+              return this.transformarProductos(resp.resultados)
 
             default:
               return [];

@@ -54,6 +54,7 @@ export class MedicosComponent implements OnInit, OnDestroy {
 
     this.busquedasService.buscar( 'medicos', termino )
         .subscribe( resp => {
+          console.log(resp);
           this.medicos = resp;
         });
   }
