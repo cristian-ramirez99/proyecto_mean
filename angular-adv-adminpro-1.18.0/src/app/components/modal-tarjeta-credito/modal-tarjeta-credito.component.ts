@@ -52,7 +52,7 @@ export class ModalTarjetaCreditoComponent implements OnInit {
       return;
     }
 
-    this.pedidoService.hacerPedido(this.pedido)
+    this.pedidoService.actualizarPedido(this.pedido)
       .subscribe(resp => {
         Swal.fire('Pedido realizado', 'Su pedido le llegara en 7 días hábiles', 'success').
           then((result) => {
@@ -61,7 +61,7 @@ export class ModalTarjetaCreditoComponent implements OnInit {
             }
           });
       });
-      
+
     //Borrar !!!
     Swal.fire('Pedido realizado', 'Su pedido le llegara en 7 días hábiles', 'success').
       then((result) => {

@@ -40,7 +40,7 @@ export class ProductosComponent implements OnInit {
   }
 
   cargarProductos() {
-    this.cargando = false;
+    this.cargando = true;
     this.productoService.cargarProductos()
       .subscribe(productos => {
         this.cargando = false;
@@ -57,6 +57,7 @@ export class ProductosComponent implements OnInit {
       .subscribe(tipoProductos => {
         console.log(tipoProductos);
         this.tipoProductos = tipoProductos;
+
         //Añadimo al princip del array el tipoProducto = cualquier producto
         this.tipoProductos.unshift(new TipoProducto('Cualquier producto', ''));
       })

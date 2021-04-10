@@ -18,11 +18,14 @@ export class NuevoProductoComponent implements OnInit {
 
 
   public productoForm: FormGroup;
-  public categoriaForm: FormGroup;
+  public tipoProductoForm: FormGroup;
 
   public productoSeleccionado: Producto;
-  public categorias: TipoProducto[] = [];
-  public categoriaSeleccionada: TipoProducto;
+  public tipoProductos: TipoProducto[] = [];
+  public tipoProductoSeleccionado: TipoProducto;
+
+  //Por problemas por async lo almaceno como global
+  public productos: Producto[] = [];
 
   private formSubmitted: boolean = false;
 
@@ -32,53 +35,32 @@ export class NuevoProductoComponent implements OnInit {
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    //Prueba para ver si existe productoSeleccionado
-    //this.productoSeleccionado = (new Producto('ordenador', "dsalkdklsa ",
-    //  1, 'no-image', new TipoProducto('ordenador', 'es bonito'), '1', 10));
-    /////////////////////
-
-    this.cargarCategorias();
+    this.cargarTipoProductos();
 
     this.productoForm = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
-      categoria: ['', Validators.required],
+      tipoProducto: ['', Validators.required],
       precio: ['', Validators.required],
       stock: ['', Validators.required],
     });
 
-    this.categoriaForm = this.fb.group({
+    this.tipoProductoForm = this.fb.group({
       nombre: ['', Validators.required],
-      descripcion: ['', Validators.required]
+      caracteristicas: ['', Validators.required]
     });
 
     this.activatedRoute.params
       .subscribe(({ id }) => this.cargarProducto(id));
 
+    this.onChangeTipoProducto();
 
-    //Listener onChange categoria 
-    this.productoForm.get('categoria').valueChanges
-      .subscribe(categoriaNombre => {
-
-        //Si no es primera vez
-        if (this.categoriaSeleccionada) {
-          document.getElementById("btnCategoria").innerHTML = "<i class='fa fa-save'></i> Guardar";
-        }
-
-        this.categoriaSeleccionada = this.categorias.find(c => c.nombre === categoriaNombre);
-
-
-        this.categoriaForm.setValue({
-          nombre: this.categoriaSeleccionada.nombre,
-          descripcion: this.categoriaSeleccionada.caracteristicas
-        });
-      });
+    this.cargarProductos();
   }
-  cargarCategorias() {
+  async cargarTipoProductos() {
     this.productoService.cargarTipoProductos()
-      .subscribe(categorias => {
-        console.log(categorias);
-        this.categorias = categorias;
+      .subscribe(tipoProducto => {
+        this.tipoProductos = tipoProducto;
       });
   }
 
@@ -104,7 +86,7 @@ export class NuevoProductoComponent implements OnInit {
         this.productoForm.setValue({
           nombre: nombre,
           descripcion: descripcion,
-          categoria: tipoProducto.nombre,
+          tipoProducto: tipoProducto._id,
           precio: precio,
           stock: stock
         });
@@ -117,7 +99,6 @@ export class NuevoProductoComponent implements OnInit {
 
     //Control de errores
     if (this.stockNoValido()) {
-      console.log("No valido");
       return;
     }
 
@@ -126,14 +107,10 @@ export class NuevoProductoComponent implements OnInit {
     if (this.productoSeleccionado) {
       // actualizar
 
-     // const { categoria, ...producto } = this.productoForm.value;
-
-
       const data = {
         ...this.productoForm.value,
         _id: this.productoSeleccionado._id
       }
-      console.log(data);
 
       this.productoService.actualizarProducto(data)
         .subscribe(resp => {
@@ -149,65 +126,99 @@ export class NuevoProductoComponent implements OnInit {
         });
     }
   }
-  guardarCategoria() {
-    const { nombre } = this.categoriaForm.value;
 
-    let isCategoriaNueva: Boolean = true;
+  crearTipoProducto() {
+    const { nombre } = this.tipoProductoForm.value;
 
-    for (let i = 0; this.categorias.length > i; i++) {
-      if (this.categorias[i].nombre === nombre) {
-        //Modificando categoria 
-        console.log("Modificando categoria");
-        isCategoriaNueva = false;
+    this.productoService.crearTipoProducto(this.tipoProductoForm.value)
+      .subscribe(resp => {
+        Swal.fire('Creado', ` Tipo producto ${nombre} creado correctamente`, 'success');
+        this.cargarTipoProductos();
+      })
+  }
+  actualizarTipoProducto() {
+    const { nombre } = this.tipoProductoForm.value;
 
-        //PUT modificarTipoProducto
-        this.productoService.modificarTipoProducto(this.categorias[i])
-          .subscribe((resp: any) => {
-            Swal.fire('Actualizado', `Categoria ${nombre} actualizada correctamente`, 'success');
-            this.categorias[i].caracteristicas = this.categoriaForm.value.descripcion;
-          })
-        //Borrar !!!!!!!
-        Swal.fire('Actualizado', `Categoria ${nombre} actualizada correctamente`, 'success');
-        this.categorias[i].caracteristicas = this.categoriaForm.value.descripcion;
+    const data = {
+      ...this.tipoProductoForm.value,
+      _id: this.tipoProductoSeleccionado._id
+    }
+    //PUT modificarTipoProducto
+    this.productoService.modificarTipoProducto(data)
+      .subscribe((resp: any) => {
+        Swal.fire('Actualizado', `Tipo producto ${nombre} actualizado correctamente`, 'success');
+        this.cargarTipoProductos();
+      })
+  }
+  isTipoProductoNuevo() {
+    const { nombre } = this.tipoProductoForm.value;
 
+    for (let i = 0; this.tipoProductos.length > i; i++) {
+      if (this.tipoProductos[i].nombre === nombre) {
+        //Modificando tipoProducto 
+        return false;
       }
     }
+    return true;
+  }
+  async eliminarTipoProducto() {
+    const { tipoProducto } = this.productoForm.value;
 
-    //Crear nueva categoria
-    if (isCategoriaNueva) {
-      console.log("Nueva categoria");
-      this.productoService.crearTipoProducto(this.categoriaForm.value)
-        .subscribe((resp: any) => {
-          Swal.fire('Creado', ` Categoria ${nombre} creada correctamente`, 'success');
+    //Miramos si algun produto tiene ese tipoProducto
+    const borrarProducto = this.tipoProductoNoPerteneceANingunProducto(tipoProducto);
 
-          //Añadimos la nueva categoria al array
-          this.categorias.push(new TipoProducto(nombre, this.categoriaForm.value.descripcion));
+    console.log(borrarProducto);
+
+    //Si ningun producto tiene ese tipoProducto, borramos el tipoProducto
+    if (borrarProducto) {
+      this.productoService.eliminarTipoProducto(tipoProducto)
+        .subscribe(resp => {
+          Swal.fire('Eliminado', 'Tipo producto eliminado correctamente', 'success');
+          this.tipoProductoSeleccionado = null;
+          this.cargarTipoProductos();
         })
-      //Borrar !!!!!!!
-      Swal.fire('Creado', ` Categoria ${nombre} creada correctamente`, 'success');
-      this.categorias.push(new TipoProducto(nombre, this.categoriaForm.value.descripcion));
 
+      //Si algun producto tiene ese tipoProducto mostramos mensaje de error
+    } else {
+      Swal.fire('Error', 'Tipo producto pertenece a algun producto', 'error');
     }
   }
+  tipoProductoNoPerteneceANingunProducto(id: string): boolean {
+    let istipoProductoBorrable: boolean = true;
 
-  onChangeNombreCategoria() {
-    const { nombre } = this.categoriaForm.value;
-
-    let isCategoriaNueva: Boolean = true;
-
-    this.categorias.forEach(categoria => {
-      console.log(categoria.nombre);
-      if (categoria.nombre === nombre) {
-        //Si es una categoria que existe cambiamos el nombre del button
-        document.getElementById("btnCategoria").innerHTML = "<i class='fa fa-save'></i> Guardar";
-        isCategoriaNueva = false;
+    this.productos.forEach(producto => {
+      //Si algun producto tiene ese tipoProducto
+      if (producto.tipoProducto._id === id) {
+        istipoProductoBorrable = false;
       }
     });
-    if (isCategoriaNueva) {
-      //Si es una nueva categoria cambiamos el nombre del button
-      document.getElementById("btnCategoria").innerHTML = "<i class='fa fa-plus-square' aria-hidden='true'></i> Crear";
-    }
+    return istipoProductoBorrable;
   }
+  cargarProductos() {
+    this.productoService.cargarProductos()
+      .subscribe((productos: Producto[]) => {
+        this.productos = productos;
+      })
+  }
+  onChangeTipoProducto() {
+    this.productoForm.get('tipoProducto').valueChanges
+      .subscribe(id => {
+
+        //Si no es primera vez
+        if (this.tipoProductoSeleccionado) {
+          document.getElementById("btnTipoProducto").innerHTML = "<i class='fa fa-save'></i> Guardar";
+        }
+
+        this.tipoProductoSeleccionado = this.tipoProductos.find(c => c._id === id);
+
+
+        this.tipoProductoForm.setValue({
+          nombre: this.tipoProductoSeleccionado.nombre,
+          caracteristicas: this.tipoProductoSeleccionado.caracteristicas
+        });
+      });
+  }
+
   //Si stock es un entero devuelve true
   stockNoValido(): boolean {
     const { stock } = this.productoForm.value;

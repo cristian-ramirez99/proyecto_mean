@@ -23,7 +23,13 @@ export class Producto {
 
     ) { }
     get imagenUrl() {
-        return `${base_url}/upload/usuarios/no-image`;
+        if (!this.img) {
+            return `${base_url}/upload/usuarios/no-image`;
+        } else if (this.img) {
+            return `${base_url}/upload/producto/${this.img}`;
+        } else {
+            return `${base_url}/upload/usuarios/no-image`;
+        }
 
     }
 }

@@ -22,10 +22,10 @@
                         <select (change)="setCantidadSeleccionada(c.value)" class="form-control" #c>
                             <option [value]="cantidad" *ngFor="let cantidad of cantidadPorUsuario">{{cantidad}}</option>
                         </select>
-                        <div>
+                        <div class="padding-precio">
                             <p>Precio total: {{producto.precio * cantidadSeleccionada}}</p>
                         </div>
-                        <button (click)="addAlCarrito()"class="btn btn-info">Añadir al carrito</button>
+                        <button (click)="addAlCarrito()" class="btn btn-info">Añadir al carrito</button>
                     </div>
                 </form>
 

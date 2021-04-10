@@ -67,13 +67,17 @@ export class ProductoService {
         map((resp: { ok: boolean, tipoProductos: TipoProducto[] }) => resp.tipoProductos)
       );
   }
-  modificarTipoProducto(categoria: TipoProducto) {
-    const url = `${base_url}/tipoProducto/${categoria._id}`;
-    return this.http.put(url, categoria.caracteristicas, this.headers);
+  modificarTipoProducto(tipoProducto: TipoProducto) {
+    const url = `${base_url}/tipoProducto/${tipoProducto._id}`;
+    return this.http.put(url, tipoProducto, this.headers);
   }
-  crearTipoProducto(categoria: TipoProducto) {
+  crearTipoProducto(tipoProducto: TipoProducto) {
     const url = `${base_url}/tipoProducto`;
-    return this.http.post(url, categoria, this.headers)
+    return this.http.post(url, tipoProducto, this.headers)
+  }
+  eliminarTipoProducto(_id: string) {
+    const url = `${base_url}/tipoProducto/${_id}`;
+    return this.http.delete(url, this.headers);
   }
 }
 

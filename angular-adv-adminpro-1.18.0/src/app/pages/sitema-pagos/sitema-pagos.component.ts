@@ -47,7 +47,7 @@ export class SitemaPagosComponent implements OnInit {
     this.pedido.fecha = new Date();
     this.pedido.estado = 'proceso';
 
-    this.pedidoService.hacerPedido(this.pedido)
+    this.pedidoService.actualizarPedido(this.pedido)
       .subscribe((resp: any) => {
         Swal.fire('Pedido realizado', 'Su pedido le llegara en 7 días hábiles', 'success').
           then((result) => {

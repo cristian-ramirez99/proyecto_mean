@@ -1,6 +1,6 @@
 /*
     Productos
-    ruta: '/api/producto'
+    ruta: '/api/productos'
 */
 const { Router } = require('express');
 const { check } = require('express-validator');

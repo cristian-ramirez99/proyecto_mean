@@ -30,6 +30,8 @@ app.use('/api/login', require('./routes/auth'));
 app.use('/api/upload', require('./routes/uploads'));
 app.use('/api/tipoProducto', require('./routes/tipoProducto'));
 app.use('/api/productos', require('./routes/productos'));
+app.use('/api/pedidos', require('./routes/pedidos'));
+
 
 
 app.listen(process.env.PORT, () => {

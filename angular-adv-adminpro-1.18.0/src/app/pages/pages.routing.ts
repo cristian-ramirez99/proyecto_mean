@@ -45,7 +45,7 @@ const routes: Routes = [
             { path: 'promesas', component: PromesasComponent, data: { titulo: 'Promesas' } },
             { path: 'rxjs', component: RxjsComponent, data: { titulo: 'RxJs' } },
             { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de usuario' } },
-            { path: 'producto/:nombre', component: ProductoComponent, data: { titulo: 'Producto' } },
+            { path: 'producto/:id', component: ProductoComponent, data: { titulo: 'Producto' } },
             { path: 'confirmarEnvio', component: ConfirmarEnvioComponent, data: { titulo: 'Direccion de la entrega' } },
             { path: 'sistemaPagos', component: SitemaPagosComponent, data: { titulo: 'Sistema de pago' } },
 

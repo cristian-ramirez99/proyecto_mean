@@ -29,7 +29,6 @@ export class FileUploadService {
         },
         body: formData
       });
-
       const data = await resp.json();
 
       if (data.ok) {

@@ -64,7 +64,7 @@
         <div class="col-md-3" *ngFor="let producto of productosMostrados">
             <div class="card">
                 <div class="card-body animated fadeIn ">
-                    <a (click)=setId(producto._id) [routerLink]="['producto',producto.nombre]">
+                    <a (click)=setId(producto._id) [routerLink]="['producto',producto._id]">
                         <img class="img-producto" [src]="producto.img | imagen:'productos'">
                     </a>
                     <h3 class="negrita">{{producto.nombre}}</h3>

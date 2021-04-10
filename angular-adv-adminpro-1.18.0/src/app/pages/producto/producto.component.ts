@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Pedido } from 'src/app/models/pedido.mode';
 import { Producto, TipoProducto } from 'src/app/models/producto.model';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { ProductoService } from 'src/app/services/producto.service';
@@ -14,33 +16,69 @@ export class ProductoComponent implements OnInit {
   public cantidadPorUsuario = [1, 2, 3, 4, 5];
   public cantidadSeleccionada: number = 1;
 
-  public producto: Producto = new Producto('ordenador',
-    "El oeste de Texas divide la frontera entre Mexico y Nuevo México. Es muy bella pero aspera, llena de cactus, en esta region se encuentran las Davis Mountains. Todo el terreno esta lleno de piedra caliza, torcidos arboles de mezquite y espinosos nopales. Para admirar la verdadera belleza desertica, visite el Parque Nacional de Big Bend, cerca de Brownsville. ",
-    14, 'no-image', new TipoProducto('pc', 'es bonito'), '1', 10);
+  public producto: Producto;
+  public pedidoTemp: Pedido;
+
   constructor(private productoService: ProductoService,
-    public pedidoService: PedidoService) { }
+    public pedidoService: PedidoService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.cargarProducto();
+
+    this.activatedRoute.params
+      .subscribe(({ id }) => this.cargarProducto(id));
+
+    this.cargarPedidoTemp();
   }
-  cargarProducto() {
-    console.log("Cargando producto");
-    this.productoService.cargarProducto("dsahduhsahdsilojhdas")
+  cargarProducto(id: string) {
+    console.log(id);
+    this.productoService.cargarProducto(id)
       .subscribe(producto => {
         this.producto = producto;
-      }
-
-      )
+      })
   }
   quedaStock() {
     return this.producto.cantidad > 0;
   }
-  addAlCarrito() {
-    console.log("Añadido al carrito");
-    //La cantidad no esta !!!!!!!!!!!!!!!
-    this.pedidoService.productosTemp.push(this.producto);
-    Swal.fire('Accion realizada con éxito','Producto añadido al carrito','success');
+
+  cargarPedidoTemp() {
+    this.pedidoService.cargarPedidoTemp()
+      .subscribe(pedidoTemp => {
+        this.pedidoTemp = pedidoTemp;
+      })
   }
+  addAlCarrito() {
+    if (this.quedaStock) {
+
+      //Si existe pedidoTemporal
+      if (this.pedidoTemp) {
+        this.pedidoTemp.productos.push(this.producto);
+        this.actualizarPedido();
+
+        //Crear pedidoTemporal
+      } else {
+        this.crearPedido();
+      }
+    }
+  }
+  actualizarPedido() {
+    this.pedidoService.actualizarPedido(this.pedidoTemp)
+      .subscribe(resp => {
+        Swal.fire('Accion realizada con éxito', 'Producto añadido al carrito(actualizar)', 'success');
+      })
+  }
+  crearPedido() {
+    let productos: Producto[] = [];
+    productos.push(this.producto);
+
+    const pedido = new Pedido('temporal', productos);
+
+    this.pedidoService.crearPedido(pedido)
+      .subscribe(resp => {
+        Swal.fire('Accion realizada con éxito', 'Producto añadido al carrito(crear)', 'success');
+      })
+  }
+
   setCantidadSeleccionada(newCantidad: number) {
     this.cantidadSeleccionada = newCantidad;
   }

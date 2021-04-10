@@ -24,13 +24,13 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="categoria" class="col-sm-3 control-label">Categoria</label>
+                        <label for="tipoProducto" class="col-sm-3 control-label">Categoria</label>
                         <div class="col-sm-5">
                             <div class="input-group">
-                                <select class="form-control" formControlName="categoria">
+                                <select class="form-control" formControlName="tipoProducto">
                                     <option value="">Seleccione una categoria</option>
-                                    <option [value]="categoria.nombre" *ngFor="let categoria of categorias">
-                                        {{categoria.nombre}}
+                                    <option [value]="tipoProducto._id" *ngFor="let tipoProducto of tipoProductos">
+                                        {{tipoProducto.nombre}}
                                     </option>
                                 </select>
                             </div>
@@ -82,37 +82,51 @@
     </div>
 
     <!--TipoProducto-->
-    <div class="col animated fadeIn fast" *ngIf="categoriaSeleccionada">
+    <div class="col animated fadeIn fast" *ngIf="tipoProductoSeleccionado">
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Categoria</h4>
                 <h6 class="card-subtitle">Actualizar o crear </h6>
 
-                <form class="form-horizontal p-t-20" [formGroup]="categoriaForm" (submit)="guardarCategoria()">
+                <form class="form-horizontal p-t-20" [formGroup]="tipoProductoForm">
                     <div class="form-group row">
                         <label for="nombre" class="col-sm-3 control-label">Nombre</label>
                         <div class="col-sm-6">
                             <div class="input-group">
                                 <input type="text" formControlName="nombre" class="form-control" id="nombre"
-                                    placeholder="Nombre de la categoria" (keyup)="onChangeNombreCategoria()">
+                                    placeholder="Nombre de la categoria">
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="descripcion" class="col-sm-3 control-label">Descripcion</label>
+                        <label for="caracteristicas" class="col-sm-3 control-label">Descripcion</label>
                         <div class="col-sm-6">
                             <div class="input-group">
-                                <textarea rows="4" formControlName="descripcion" class="form-control" id="descripcion"
-                                    placeholder="Descripcion de la categoria"></textarea>
+                                <textarea rows="4" formControlName="caracteristicas" class="form-control"
+                                    id="caracteristicas" placeholder="Descripcion de la categoria"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="form-group row m-b-0">
-                        <div class="offset-sm-3 col-sm-6">
-                            <button type="submit" [disabled]="categoriaForm.invalid"
-                                class="btn btn-success waves-effect waves-light" id="btnCategoria">
+                        <div class="offset-sm-3 col-sm-2">
+                            <button (click)="actualizarTipoProducto()" [disabled]="tipoProductoForm.invalid"
+                                class="btn btn-success waves-effect waves-light" id="btnTipoProducto">
                                 <i class="fa fa-save"></i>
                                 Guardar
+                            </button>
+                        </div>
+                        <div *ngIf="isTipoProductoNuevo()" class="offset-sm-3 col-sm-2">
+                            <button (click)="crearTipoProducto()" [disabled]="tipoProductoForm.invalid"
+                                class="btn btn-primary waves-effect waves-light" id="btnTipoProducto">
+                                <i class='fa fa-plus-square' aria-hidden='true'></i>
+                                Crear
+                            </button>
+                        </div>
+                        <div *ngIf="!isTipoProductoNuevo()" class="offset-sm-3 col-sm-2">
+                            <button (click)="eliminarTipoProducto()" [disabled]="tipoProductoForm.invalid"
+                                class="btn btn-danger waves-effect waves-light" id="btnTipoProducto">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                Eliminar
                             </button>
                         </div>
                     </div>

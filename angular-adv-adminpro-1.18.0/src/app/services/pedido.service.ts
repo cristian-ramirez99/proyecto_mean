@@ -41,7 +41,7 @@ export class PedidoService {
         map((resp: { ok: boolean, pedidoTemp: Pedido }) => resp.pedidoTemp)
       );
   }
-  hacerPedido(pedido: Pedido) {
+  actualizarPedido(pedido: Pedido) {
     const url = `${base_url}/pedidos/${pedido._id}`
     return this.http.put(url, pedido, this.headers);
   }
