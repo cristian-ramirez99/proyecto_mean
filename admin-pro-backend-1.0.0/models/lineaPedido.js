@@ -2,6 +2,11 @@ const { Schema, model } = require('mongoose');
 
 const LineaPedidoSchema = Schema({
 
+    pedido: {
+        type: Schema.Types.ObjectId,
+        ref: 'Pedido',
+        required: true
+    },
     producto: {
         type: Schema.Types.ObjectId,
         ref: 'Producto',

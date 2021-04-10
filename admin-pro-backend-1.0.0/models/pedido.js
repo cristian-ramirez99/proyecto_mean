@@ -8,7 +8,6 @@ const PedidoSchema = Schema({
     lineaPedido: [{
         type: Schema.Types.ObjectId,
         ref: 'LineaPedido',
-        required: true
     }],
     fecha: {
         type: Number,

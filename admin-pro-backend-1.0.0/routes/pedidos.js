@@ -9,25 +9,16 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 const {
-    getPedido,
-    getPedidoById,
-    actualizarPedido,
     crearPedido
 } = require('../controllers/pedidos');
 
 const router = Router();
 
-router.get('/', validarJWT, getPedido);
 
-router.get('/:id', validarJWT, getPedidoById);
-
-router.post('/', validarJWT, crearPedido);
-
-router.put('/:id',
-    [
-        validarJWT,
-        check('estado', 'El estado es necesario').not().isEmpty(),
-        validarCampos
-    ], actualizarPedido);
+router.post('/',     [
+    validarJWT,
+    check('estado','El estado es necesario').not().isEmpty(),
+    validarCampos
+],crearPedido);
 
 module.exports = router;

@@ -31,6 +31,7 @@ app.use('/api/upload', require('./routes/uploads'));
 app.use('/api/tipoProducto', require('./routes/tipoProducto'));
 app.use('/api/productos', require('./routes/productos'));
 app.use('/api/pedidos', require('./routes/pedidos'));
+app.use('/api/lineaPedidos', require('./routes/lineaPedidos'));
 
 
 
