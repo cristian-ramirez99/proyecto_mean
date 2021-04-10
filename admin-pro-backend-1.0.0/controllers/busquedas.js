@@ -3,60 +3,69 @@ const { response } = require('express');
 const Usuario = require('../models/usuario');
 const Medico = require('../models/medico');
 const Hospital = require('../models/hospital');
+const Producto = require('../models/productos');
 
 
-const getTodo = async(req, res = response ) => {
+const getTodo = async (req, res = response) => {
 
     const busqueda = req.params.busqueda;
-    const regex = new RegExp( busqueda, 'i' );
+    const regex = new RegExp(busqueda, 'i');
 
-    const [ usuarios, medicos, hospitales ] = await Promise.all([
+    const [usuarios, medicos, hospitales, productos] = await Promise.all([
         Usuario.find({ nombre: regex }),
         Medico.find({ nombre: regex }),
         Hospital.find({ nombre: regex }),
+        Producto.find({ nombre: regex }),
     ]);
 
     res.json({
         ok: true,
         usuarios,
         medicos,
-        hospitales
+        hospitales,
+        productos
     })
 
 }
 
-const getDocumentosColeccion = async(req, res = response ) => {
+const getDocumentosColeccion = async (req, res = response) => {
 
-    const tabla    = req.params.tabla;
+    const tabla = req.params.tabla;
     const busqueda = req.params.busqueda;
-    const regex    = new RegExp( busqueda, 'i' );
+    const regex = new RegExp(busqueda, 'i');
 
     let data = [];
 
-    switch ( tabla ) {
+    switch (tabla) {
         case 'medicos':
             data = await Medico.find({ nombre: regex })
-                                .populate('usuario', 'nombre img')
-                                .populate('hospital', 'nombre img');
-        break;
+                .populate('usuario', 'nombre img')
+                .populate('hospital', 'nombre img');
+            break;
 
         case 'hospitales':
             data = await Hospital.find({ nombre: regex })
-                                    .populate('usuario', 'nombre img');
-        break;
+                .populate('usuario', 'nombre img');
+            break;
 
         case 'usuarios':
             data = await Usuario.find({ nombre: regex });
-            
-        break;
-    
+
+            break;
+
+        case 'productos':
+            data = await Producto.find({ nombre: regex })
+                .populate('tipoProducto', 'nombre caracteristicas')
+            break;
+
+
         default:
             return res.status(400).json({
                 ok: false,
-                msg: 'La tabla tiene que ser usuarios/medicos/hospitales'
+                msg: 'La tabla tiene que ser usuarios/medicos/hospitales/productos'
             });
     }
-    
+
     res.json({
         ok: true,
         resultados: data

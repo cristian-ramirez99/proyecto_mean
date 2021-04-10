@@ -2,7 +2,7 @@ const { response } = require('express');
 
 const LineaPedido = require('../models/lineaPedido');
 
-const getLineaPedidosByIdPedido =async (req, res) => {
+const getLineaPedidosByIdPedido = async (req, res) => {
 
     const id = req.params.id;
 
@@ -24,8 +24,8 @@ const getLineaPedidosByIdPedido =async (req, res) => {
         })
     }
 }
-const crearLineaPedido =async (req, res) => {
- 
+const crearLineaPedido = async (req, res) => {
+
     const lineaPedido = new LineaPedido({
         ...req.body
     });
@@ -47,10 +47,41 @@ const crearLineaPedido =async (req, res) => {
             msg: 'Hable con el administrador'
         })
     }
+}
 
+const eliminarLineaPedido = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const lineaPedido = await LineaPedido.findById(id);
+
+        if (!lineaPedido) {
+            return res.status(404).json({
+                ok: true,
+                msg: 'Linea pedido no encontrado por id',
+            });
+        }
+
+        await LineaPedido.findByIdAndDelete(id);
+
+        res.json({
+            ok: true,
+            msg: 'Linea pedido borrado'
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
 }
 
 module.exports = {
     getLineaPedidosByIdPedido,
-    crearLineaPedido
+    crearLineaPedido,
+    eliminarLineaPedido
 }

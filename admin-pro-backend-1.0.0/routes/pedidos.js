@@ -9,16 +9,26 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 const {
-    crearPedido
+    crearPedido,
+    getPedidoTemp,
+    getPedidos,
+    eliminarPedido
 } = require('../controllers/pedidos');
 
 const router = Router();
 
+router.post('/',
+    [
+        validarJWT,
+        check('estado', 'El estado es necesario').not().isEmpty(),
+        check('usuario', 'El usuario id debe de ser válido').isMongoId(),
+        validarCampos
+    ], crearPedido);
 
-router.post('/',     [
-    validarJWT,
-    check('estado','El estado es necesario').not().isEmpty(),
-    validarCampos
-],crearPedido);
+router.get('/temp/:id', validarJWT, getPedidoTemp);
+
+router.get('/:id', validarJWT, getPedidos);
+
+router.delete('/:id', validarJWT, eliminarPedido);
 
 module.exports = router;

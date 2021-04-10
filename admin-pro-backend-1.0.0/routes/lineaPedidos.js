@@ -9,7 +9,8 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 
 const {
     getLineaPedidosByIdPedido,
-    crearLineaPedido
+    crearLineaPedido,
+    eliminarLineaPedido,
 } = require('../controllers/lineaPedido');
 const { validarCampos } = require('../middlewares/validar-campos');
 
@@ -24,5 +25,7 @@ router.post('/', [
     check('pedido', 'El pedido id debe de ser válido').isMongoId(),
     validarCampos
 ], crearLineaPedido);
+
+router.delete('/:id', validarJWT, eliminarLineaPedido);
 
 module.exports = router;
