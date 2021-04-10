@@ -3,8 +3,9 @@
     <div class="inner">
         <nav id="nav">
             <a [routerLink]="['/','yavadevs']">Home</a>
+            <a [routerLink]="['/','yavadevs','aboutUs']">About us </a>
+            <a [routerLink]="['/','yavadevs','shopInfo']">Shop Info </a>
             <a [routerLink]="['/','login']">Iniciar sesión</a>
-            <a [routerLink]="['/','yavadevs','aboutUs']">Abouts us </a>
         </nav>
         <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
     </div>
@@ -12,58 +13,46 @@
 
 <!-- Banner -->
 <section id="banner">
-    <h1>Abouts us</h1>
+    <h1>About us</h1>
     <p>Descubre quiénes somos</p>
 </section>
 
 <!-- Main -->
-<section id="main" class="wrapper">
+<section id="main" class="wrapper noWhite">
     <div class="inner">
         <header class="align-center">
-            <h2>Elements</h2>
-            <p>Aliquam erat volutpat nam dui </p>
+            <h2 class="defaultText">Yavadevs</h2>
+            <p> ¿Por que nosotros?</p>
         </header>
 
         <!-- Content -->
-        <h2 id="content">Sample Content</h2>
-        <p>Praesent ac adipiscing ullamcorper semper ut amet ac risus. Lorem sapien ut odio odio nunc. Ac adipiscing
-            nibh porttitor erat risus justo adipiscing adipiscing amet placerat accumsan. Vis. Faucibus odio magna
-            tempus adipiscing a non. In mi primis arcu ut non accumsan vivamus ac blandit adipiscing adipiscing arcu
-            metus praesent turpis eu ac lacinia nunc ac commodo gravida adipiscing eget accumsan ac nunc adipiscing
-            adipiscing.</p>
+        <h2 id="content" class="defaultText">Nuestro objetivo</h2>
+        <p><b>Nuestro principal objetivo como empresa és el de mejorar la calidad de las tiendas con nuestro modelo, un 
+            innovador aunque simple metodo de escoger tus productos en una tienda presencial para que toda persona que no
+            quiera comprar online pueda asistir personalmente a ver el producto.</b></p>
         <div class="row">
             <div class="6u 12u$(small)">
-                <h3>Sem turpis amet semper</h3>
-                <p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non
-                    faucibus ornare mi ut ante amet placerat aliquet. Volutpat commodo eu sed ante lacinia. Sapien a
-                    lorem in integer ornare praesent commodo adipiscing arcu in massa commodo lorem accumsan at odio
-                    massa ac ac. Semper adipiscing varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
+                <h3>Nos preocupamos por vuestra seguridad</h3>
+                <p><b>Por todo los problemas que nos ha traído el COVID-19, y las adaptaciones que tenemos que sufrir como 
+                    ciudadanos, hemos creado una tienda la cual permita comprar cosas sin tener que tocarlas. 
+                    És una tienda física a la vez que online, en la tienda física las compras se realizan mediante códigos QR.
+                </b></p>
             </div>
             <div class="6u$ 12u$(small)">
-                <h3>Magna odio tempus commodo</h3>
-                <p>In arcu accumsan arcu adipiscing accumsan orci ac. Felis id enim aliquet. Accumsan ac integer
-                    lobortis commodo ornare aliquet accumsan erat tempus amet porttitor. Ante commodo blandit adipiscing
-                    integer semper orci eget. Faucibus commodo adipiscing mi eu nullam accumsan morbi arcu ornare odio
-                    mi adipiscing nascetur lacus ac interdum morbi accumsan vis mi accumsan ac praesent.</p>
+                <h3>Ayudemos al medioambiente</h3>
+                <p><b>Como empresa tenemos el objetivo de reducir en la medida de lo posible los residuos que generaremos,
+                    los envios que se realizen a corta distancia de nuestros almacenes, se harán con vehiculos electricos.
+                    Todos los paquetes que enviaremos serán de materiales biodegradables y minimizaremos el uso de plástico
+                    consiguiendo así, un mundo mejor para todos
+                </b></p>
             </div>
-            <!-- Break -->
-            <div class="4u 12u$(medium)">
-                <h3>Interdum sapien gravida</h3>
-                <p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non
-                    faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan
-                    varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
-            </div>
-            <div class="4u 12u$(medium)">
-                <h3>Faucibus consequat lorem</h3>
-                <p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non
-                    faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan
-                    varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
-            </div>
-            <div class="4u$ 12u$(medium)">
-                <h3>Accumsan montes viverra</h3>
-                <p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non
-                    faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan
-                    varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
+            <div class="6u$ 12u$(small)">
+                <h3>Nuestra Visión</h3>
+                <p><b>Como hemos mencionado anteriormente creemos en un modelo futurista de la compra del dia a dia, pensamos
+                    que de esta manera estas pequeñas acciones diarias se nos harán mas simples, de ese modo podremos
+                    aplicar ese tiempo en lo que realmente nos importa. No solo eso, acercamos la tecnología a la gente que
+                    mas la necesita, así ayudandolos con sus pequeñas dificultades, a las que se enfrentan a diario.
+                </b></p>
             </div>
         </div>
     </div>
@@ -73,37 +62,30 @@
 <section id="two" class="wrapper style1 special">
     <div class="inner">
         <header>
-            <h2>Ipsum Feugiat</h2>
-            <p>Semper suscipit posuere apede</p>
+            <h2>El equipo</h2>
+            <p>Conoce a los desarrolladores</p>
         </header>
         <div class="flex flex-4">
             <div class="box person">
-                <div class="image round">
-                    <img src="../../../../assets/images/equipo/pic03.jpg" alt="Person 1" />
+                <div class="image round quitarBlue">
+                    <img src="../../../../assets/images/equipo/picCristian.png" alt="Person 1" />
                 </div>
-                <h3>Magna</h3>
+                <h3>Cristian Ramirez</h3>
                 <p>Cipdum dolor</p>
             </div>
             <div class="box person">
-                <div class="image round">
-                    <img src="../../../../assets/images/equipo/pic04.jpg" alt="Person 2" />
+                <div class="image round quitarBlue">
+                    <img src="../../../../assets/images/equipo/picGrau.jpg" alt="Person 2" />
                 </div>
-                <h3>Ipsum</h3>
+                <h3>Sergi Grau</h3>
                 <p>Vestibulum comm</p>
             </div>
             <div class="box person">
-                <div class="image round">
-                    <img src="../../../../assets/images/equipo/pic05.jpg" alt="Person 3" />
+                <div class="image round quitarBlue">
+                    <img src="../../../../assets/images/equipo/picAlmope.png" alt="Person 3" />
                 </div>
-                <h3>Tempus</h3>
+                <h3>Albert Montesinos-</h3>
                 <p>Fusce pellentes</p>
-            </div>
-            <div class="box person">
-                <div class="image round">
-                    <img src="../../../../assets/images/equipo/pic06.jpg" alt="Person 4" />
-                </div>
-                <h3>Dolore</h3>
-                <p>Praesent placer</p>
             </div>
         </div>
     </div>

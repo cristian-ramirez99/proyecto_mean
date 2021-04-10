@@ -33,7 +33,7 @@ import { MainPageComponent } from './beforeauth/main-page/main-page.component';
 import { ConfirmarEnvioComponent } from './confirmar-envio/confirmar-envio.component';
 import { SitemaPagosComponent } from './sitema-pagos/sitema-pagos.component';
 import { TarjetaCreditoComponent } from './tarjeta-credito/tarjeta-credito.component';
-
+import { ShopPageComponent } from './beforeauth/shop-page/shop-page.component';
 
 
 
@@ -63,7 +63,8 @@ import { TarjetaCreditoComponent } from './tarjeta-credito/tarjeta-credito.compo
     MainPageComponent,
     ConfirmarEnvioComponent,
     SitemaPagosComponent,
-    TarjetaCreditoComponent
+    TarjetaCreditoComponent,
+    ShopPageComponent,
   ],
   exports: [
     DashboardComponent,
@@ -72,7 +73,7 @@ import { TarjetaCreditoComponent } from './tarjeta-credito/tarjeta-credito.compo
     PagesComponent,
     AccountSettingsComponent,
   ],
-  imports: [ 
+  imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

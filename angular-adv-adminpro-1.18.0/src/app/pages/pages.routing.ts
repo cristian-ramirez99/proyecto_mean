@@ -30,6 +30,7 @@ import { AboutUsComponent } from './beforeauth/about-us/about-us.component';
 import { ConfirmarEnvioComponent } from './confirmar-envio/confirmar-envio.component';
 import { SitemaPagosComponent } from './sitema-pagos/sitema-pagos.component';
 import { TarjetaCreditoComponent } from './tarjeta-credito/tarjeta-credito.component';
+import { ShopPageComponent } from './beforeauth/shop-page/shop-page.component';
 
 const routes: Routes = [
     {
@@ -73,6 +74,8 @@ const routes: Routes = [
         children: [
             { path: '', component: MainPageComponent, data: { titulo: 'Pagina principal' } },
             { path: 'aboutUs', component: AboutUsComponent, data: { titulo: 'About us' } },
+            { path: 'shopInfo', component: ShopPageComponent, data: { titulo: 'Shop' } },
+
         ]
     },
 ];

@@ -3,8 +3,9 @@
     <div class="inner">
         <nav id="nav">
             <a [routerLink]="['/','yavadevs']">Home</a>
+            <a [routerLink]="['/','yavadevs','aboutUs']">About us </a>
+            <a [routerLink]="['/','yavadevs','shopInfo']">Shop Info </a>
             <a [routerLink]="['/','login']">Iniciar sesión</a>
-            <a [routerLink]="['aboutUs']">Abouts us </a>
         </nav>
         <a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
     </div>
@@ -12,39 +13,43 @@
 
 <!-- Banner -->
 <section id="banner">
-    <h1>Welcome to Theory</h1>
-    <p>A free responsive HTML5 website template by TEMPLATED.</p>
+    <h1>Yavadevs</h1>
+    <p>Haciendo Software Inteligentemente</p>
 </section>
 
 <!-- One -->
-<section id="one" class="wrapper">
+<section id="one" class="wrapper noWhite">
     <div class="inner">
         <div class="flex flex-3">
             <article>
                 <header>
-                    <h3>Magna tempus sed amet<br /> aliquam veroeros</h3>
+                <h3>¿Quien somos?<br /> ¡Conocenos!</h3>
                 </header>
-                <p>Morbi interdum mollis sapien. Sed ac risus. Phasellus lacinia, magna a ullamcorper laoreet,
-                    lectus arcu.</p>
+                <p><b>Somos una pequeña empresa que acaba de entrar en el sector, traemos grandes ideas para mejorar
+                    la calidad de nuestros servicios.</b></p>
+                          
                 <footer>
+                    <a routerLink="/yavadevs/aboutUs" class="text-primary m-l-5"><b>Leer mas...</b></a>
                 </footer>
             </article>
             <article>
                 <header>
-                    <h3>Interdum lorem pulvinar<br /> adipiscing vitae</h3>
+                    <h3>Compra online<br /> ¡Hecha un vistazo!</h3>
                 </header>
-                <p>Morbi interdum mollis sapien. Sed ac risus. Phasellus lacinia, magna a ullamcorper laoreet,
-                    lectus arcu.</p>
+                <p><b>Puedes hacer tus compras en esta web donde verás todos los productos a tu disposición, añadelos 
+                    a tu lista y haz tu pedido!.</b></p>
                 <footer>
+                    <a routerLink="/login" class="text-primary m-l-5"><b>Entra en nuestra tienda!</b></a>
                 </footer>
             </article>
             <article>
                 <header>
-                    <h3>Libero purus magna sapien<br /> sed ullamcorper</h3>
+                    <h3>¡Visitanos!<br /> Ven a nuestra ShowRoom</h3>
                 </header>
-                <p>Morbi interdum mollis sapien. Sed ac risus. Phasellus lacinia, magna a ullamcorper laoreet,
-                    lectus arcu.</p>
+                <p><b>En nuestra tienda puedes ver y probar nuestros productos, pero tus compras se siguen tramitando online,
+                    de esta manera te olvidarás de cargar cualquier producto!</b></p>
                 <footer>
+                    <a routerLink="/yavadevs/shopInfo" class="text-primary m-l-5"><b>Aprende sobre nuestra app!</b></a>
                 </footer>
             </article>
         </div>
@@ -55,48 +60,48 @@
 <section id="two" class="wrapper style1 special">
     <div class="inner">
         <header>
-            <h2>Ipsum Feugiat</h2>
-            <p>Semper suscipit posuere apede</p>
+            <h2>Nuestros primeros clientes</h2>
+            <p>Tomamos todo el feedback posible</p>
         </header>
         <div class="flex flex-4">
             <div class="box person">
-                <div class="image round">
-                    <img src="../../../../assets/images/equipo/pic03.jpg" alt="Person 1" />
+                <div class="image round quitarBlue">
+                    <img src="../../../../assets/images/equipo/picCristian.png" alt="Person 1" />
                 </div>
-                <h3>Magna</h3>
-                <p>Cipdum dolor</p>
+                <h3>Cristian</h3>
+                <p>Autocompra Humilde</p>
             </div>
             <div class="box person">
-                <div class="image round">
-                    <img src="../../../../assets/images/equipo/pic04.jpg" alt="Person 2" />
+                <div class="image round quitarBlue">
+                    <img src="../../../../assets/images/equipo/picXavi.png" alt="Person 2" />
                 </div>
-                <h3>Ipsum</h3>
-                <p>Vestibulum comm</p>
+                <h3>Xavier Garcia</h3>
+                <p>Primer usuario de la app movil</p>
             </div>
             <div class="box person">
-                <div class="image round">
-                    <img src="../../../../assets/images/equipo/pic05.jpg" alt="Person 3" />
+                <div class="image round quitarBlue">
+                    <img src="../../../../assets/images/equipo/picAlex.png" alt="Person 3" />
                 </div>
-                <h3>Tempus</h3>
-                <p>Fusce pellentes</p>
+                <h3>BetaTester</h3>
+                <p>Puto pesao</p>
             </div>
             <div class="box person">
-                <div class="image round">
-                    <img src="../../../../assets/images/equipo/pic06.jpg" alt="Person 4" />
+                <div class="image round quitarBlue">
+                    <img src="../../../../assets/images/equipo/picFernando.jpg" alt="Person 4" />
                 </div>
-                <h3>Dolore</h3>
-                <p>Praesent placer</p>
+                <h3>Fernando</h3>
+                <p>Asistente Técnico</p>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Three -->
-<section id="three" class="wrapper special">
+<section id="three" class="wrapper special noWhite">
     <div class="inner">
         <header class="align-center">
-            <h2>Nunc Dignissim</h2>
-            <p>Aliquam erat volutpat nam dui </p>
+            <h2>Nuestras Interfaces</h2>
+            <p>Elige la que se adapte mejor a tus necesidades</p>
         </header>
         <div class="flex flex-2">
             <article>
@@ -104,10 +109,12 @@
                     <img src="../../../../assets/images/gallery/pic01.jpg" alt="Pic 01" />
                 </div>
                 <header>
-                    <h3>Praesent placerat magna</h3>
+                    <h3>¡Hecha un vistazo a nuestra web!</h3>
                 </header>
-                <p>Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
-                    eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor lorem ipsum.</p>
+                <p><b>En la pagina principal de la web podrás ver todos los productos disponibles, 
+                    filtra para obtener resultados mas precisos y encontrar el producto que deseas.
+                    Una vez tengas claro el pedido, ¡ dirigete al carrito para finalizar tu compra !
+                </b></p>
                 <footer>
                 </footer>
             </article>
@@ -116,10 +123,11 @@
                     <img src="../../../../assets/images/gallery/pic02.jpg" alt="Pic 02" />
                 </div>
                 <header>
-                    <h3>Fusce pellentesque tempus</h3>
+                    <h3>¿Quieres ver el producto antes de comprar?</h3>
                 </header>
-                <p>Sed adipiscing ornare risus. Morbi est est, blandit sit amet, sagittis vel, euismod vel, velit.
-                    Pellentesque egestas sem. Suspendisse commodo ullamcorper magna non comodo sodales tempus.</p>
+                <p><b>Acercate a nuestra tienda, desde allí podrás usar la aplicación móvil para llenar 
+                    tu cesta y hacer tu pedido desde la web. </b></p>
+                <a routerLink="/yavadevs/shopInfo" class="text-primary m-l-5"><b>Aprende sobre nuestra app!</b></a>
             </article>
         </div>
     </div>
