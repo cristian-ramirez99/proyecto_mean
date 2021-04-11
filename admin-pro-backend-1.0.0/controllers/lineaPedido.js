@@ -9,7 +9,8 @@ const getLineaPedidosByIdPedido = async (req, res) => {
     try {
         //Falta tipoProducto por algun lado
         const lineaPedido = await LineaPedido.find({ 'pedido': id })
-            .populate('producto', 'nombre descripcion precio img stock');
+            .populate('producto', 'nombre descripcion precio img stock')
+            .populate('pedido', 'precio fecha');
 
         res.json({
             ok: true,
