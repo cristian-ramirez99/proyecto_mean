@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Producto, TipoProducto } from '../models/producto.model';
 import { map } from 'rxjs/operators';
 
+import { ProductoForm } from '../interfaces/producto-form.interface';
+
 const base_url = environment.base_url;
 
 @Injectable({
@@ -51,7 +53,7 @@ export class ProductoService {
     const url = `${base_url}/productos/${_id}`
     return this.http.delete(url, this.headers);
   }
-  actualizarProducto(producto: Producto) {
+  actualizarProducto(producto: ProductoForm) {
     const url = `${base_url}/productos/${producto._id}`
     return this.http.put(url, producto, this.headers);
   }

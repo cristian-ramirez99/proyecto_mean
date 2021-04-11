@@ -31,7 +31,7 @@ const getPedidoTemp = async (req, res) => {
     const uid = req.params.id;
 
     try {
-        const pedido = await Pedido.find({ usuario: uid, estado: 'temporal' })
+        const pedido = await Pedido.findOne({ usuario: uid, estado: 'temporal' })
 
         res.json({
             ok: true,

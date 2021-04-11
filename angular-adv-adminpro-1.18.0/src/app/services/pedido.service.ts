@@ -12,8 +12,6 @@ const base_url = environment.base_url;
 })
 export class PedidoService {
 
-  public productosTemp: Producto[] = [];
-
   constructor(private http: HttpClient) { }
 
   get token(): string {
@@ -26,19 +24,20 @@ export class PedidoService {
       }
     }
   }
-  cargarPedidos(desde: number = 0) {
-    const url = `${base_url}/pedidos/${desde}`;
+
+  cargarPedidos(uid: string) {
+    const url = `${base_url}/pedidos/${uid}`;
     return this.http.get(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, pedidos: Pedido[] }) => resp.pedidos)
       );
   }
-  cargarPedidoTemp() {
+  cargarPedidoTemp(uid: string) {
     //Tambien deberia de saber el usuario 
-    const url = `${base_url}/pedidoTemp`
+    const url = `${base_url}/pedidos/temp/${uid}`
     return this.http.get(url, this.headers)
       .pipe(
-        map((resp: { ok: boolean, pedidoTemp: Pedido }) => resp.pedidoTemp)
+        map((resp: { ok: boolean, pedido: Pedido }) => resp.pedido)
       );
   }
   actualizarPedido(pedido: Pedido) {

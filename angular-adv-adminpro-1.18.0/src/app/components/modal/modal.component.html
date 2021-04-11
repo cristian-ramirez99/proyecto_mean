@@ -24,16 +24,17 @@
                                 <th>Subtotal</th>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let producto of pedido.productos">
+                                <tr *ngFor="let lineaPedido of lineaPedidos">
                                     <td>
-                                        <img [src]="producto.imagenUrl" [alt]="producto.nombre" class="avatar">
-                                        {{producto.nombre}}
+                                        <img [src]="lineaPedido.producto | imagen:'productos'" [alt]="lineaPedido.producto.nombre"
+                                            class="avatar">
+                                        {{lineaPedido.producto.nombre}}
                                     </td>
 
 
-                                    <td>{{producto.precio}}</td>
-                                    <td>{{producto.cantidad}}</td>
-                                    <td>{{producto.precio * producto.cantidad}}</td>
+                                    <td>{{lineaPedido.producto.precio}}</td>
+                                    <td>{{lineaPedido.producto.cantidad}}</td>
+                                    <td>{{lineaPedido.producto.precio * lineaPedido.cantidad}}</td>
                                 </tr>
                             </tbody>
                         </table>

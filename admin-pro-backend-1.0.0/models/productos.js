@@ -21,9 +21,6 @@ const ProductosSchema = Schema({
         ref: 'TipoProducto',
         required: true
     },
-    cantidad: {
-        type: Number,
-    },
     stock: {
         type: Number
     }

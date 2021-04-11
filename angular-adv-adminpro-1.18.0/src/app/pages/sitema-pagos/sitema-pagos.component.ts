@@ -21,28 +21,15 @@ const precioMinimoSinComisionDeEnvio: number = 20;
 export class SitemaPagosComponent implements OnInit {
 
   public pedido: Pedido;
+  public idPedido: string;
 
   constructor(private pedidoService: PedidoService,
     private modalTarjetaCreditoService: ModalTarjetaCreditoService,
     private router: Router) { }
 
   ngOnInit(): void {
-    this.cargarPedidoTemp();
   }
 
-  cargarPedidoTemp() {
-    this.pedidoService.cargarPedidoTemp()
-      .subscribe(pedido => {
-        this.pedido = pedido;
-      });
-
-    //Borrar !!!
-    let productos: Producto[] = [];
-    productos.push(new Producto('ordenador', 'bobo', 40, 'no-image', new TipoProducto('pc', 'mu bonito'), '1', 2));
-    productos.push(new Producto('ordenador', 'bobo', 40, 'no-image', new TipoProducto('pc', 'mu bonito'), '1', 2));
-
-    this.pedido = new Pedido('temporal', productos, null, 'e21df1sg', 19);
-  }
   hacerPedido() {
     this.pedido.fecha = new Date();
     this.pedido.estado = 'proceso';

@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Pedido } from 'src/app/models/pedido.mode';
-import { Producto, TipoProducto } from 'src/app/models/producto.model';
+import { Producto } from 'src/app/models/producto.model';
+import { LineaPedido } from 'src/app/models/lineaPedido.model';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { ProductoService } from 'src/app/services/producto.service';
+import { LineaPedidoService } from 'src/app/services/linea-pedido.service';
+
 import Swal from 'sweetalert2';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-producto',
@@ -17,66 +21,97 @@ export class ProductoComponent implements OnInit {
   public cantidadSeleccionada: number = 1;
 
   public producto: Producto;
-  public pedidoTemp: Pedido;
+  public lineaPedido: LineaPedido;
+  public idPedido: string;
 
   constructor(private productoService: ProductoService,
     public pedidoService: PedidoService,
+    public lineaPedidoService: LineaPedidoService,
+    public usuarioService: UsuarioService,
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
 
     this.activatedRoute.params
       .subscribe(({ id }) => this.cargarProducto(id));
-
-    this.cargarPedidoTemp();
   }
   cargarProducto(id: string) {
-    console.log(id);
     this.productoService.cargarProducto(id)
       .subscribe(producto => {
         this.producto = producto;
       })
   }
   quedaStock() {
-    return this.producto.cantidad > 0;
+    return this.producto.stock > 0;
   }
 
-  cargarPedidoTemp() {
-    this.pedidoService.cargarPedidoTemp()
-      .subscribe(pedidoTemp => {
-        this.pedidoTemp = pedidoTemp;
-      })
-  }
-  addAlCarrito() {
-    if (this.quedaStock) {
+  async addAlCarrito() {
+    if (this.producto.stock >= this.cantidadSeleccionada) {
+      //Si no existe pedidoTemp para ese usuario lo creamos
 
-      //Si existe pedidoTemporal
-      if (this.pedidoTemp) {
-        this.pedidoTemp.productos.push(this.producto);
-        this.actualizarPedido();
+      const uid = this.usuarioService.uid;
 
-        //Crear pedidoTemporal
-      } else {
-        this.crearPedido();
+      //CargarPedioTemp
+      await this.pedidoService.cargarPedidoTemp(uid)
+        .toPromise().
+        then((data: any) => {
+          const { _id } = data
+          this.idPedido = _id;
+        })
+
+      //Si no exitste pedidoTemp
+      if (!this.idPedido) {
+
+        const pedidoTemp: Pedido = new Pedido('temporal', this.usuarioService.uid);
+
+        //Crear pedidoTemp
+        await this.pedidoService.crearPedido(pedidoTemp)
+          .toPromise()
+          .then((data: any) => {
+            const { pedido } = data
+            this.idPedido = pedido._id;
+          });
+
       }
+
+      const data = {
+        producto: this.producto._id,
+        pedido: this.idPedido,
+        cantidad: this.cantidadSeleccionada
+      }
+
+      //Creamos linea de pedido con el id pedido
+      this.lineaPedidoService.crearLineaPedido(data)
+        .subscribe(resp => {
+          Swal.fire('Accion realizada con éxito', 'Producto añadido al carrito', 'success');
+          console.log(resp);
+        })
+
+      //Modificamos el stock del producto
+      this.producto.stock -= this.cantidadSeleccionada;
+      console.log(this.producto);
+
+      const { nombre, descripcion, precio, stock, _id } = this.producto;
+      
+      const producto = {
+        nombre,
+        descripcion,
+        precio,
+        stock,
+        _id,
+        tipoProducto: this.producto.tipoProducto._id
+      }
+
+      //Modificamos el stock en la BBDD
+      this.productoService.actualizarProducto(producto)
+        .subscribe(resp => {
+          console.log("Stock quitado");
+        })
+
+      //Si no queda stock o cantidad>stock
+    } else {
+      Swal.fire('Error', 'No queda suficiente stock para la cantidad seleccionada', 'error');
     }
-  }
-  actualizarPedido() {
-    this.pedidoService.actualizarPedido(this.pedidoTemp)
-      .subscribe(resp => {
-        Swal.fire('Accion realizada con éxito', 'Producto añadido al carrito(actualizar)', 'success');
-      })
-  }
-  crearPedido() {
-    let productos: Producto[] = [];
-    productos.push(this.producto);
-
-    const pedido = new Pedido('temporal', productos);
-
-    this.pedidoService.crearPedido(pedido)
-      .subscribe(resp => {
-        Swal.fire('Accion realizada con éxito', 'Producto añadido al carrito(crear)', 'success');
-      })
   }
 
   setCantidadSeleccionada(newCantidad: number) {

@@ -3,7 +3,7 @@ import { Producto } from "./producto.model";
 export class Pedido {
     constructor(
         public estado: 'temporal' | 'enviado' | 'proceso' | 'entregado' | 'cancelado',
-        public productos: Producto[],
+        public usuario: string,
         public fecha?: Date,
         public _id?: string,
         public precio?: number,

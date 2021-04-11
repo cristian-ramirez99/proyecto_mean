@@ -1,45 +1,61 @@
-<div *ngIf="carritoVacio()" class="padre">
-    <div class="hijo text-center">
-        <i class="fa fa-shopping-cart carrito" aria-hidden="true"></i>
-        <h2>Tu carrito esta vacío, triste y solo :(</h2>
-        <button routerLink="/dashboard" class="btn btn-rounded btn-danger">Ver productos</button>
+<div class="row animated fadeIn fast" *ngIf="cargando">
+    <div class="col-12">
+
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+
     </div>
 </div>
-<div *ngIf="!carritoVacio()" class="row">
-    <div class="table-responsive">
-        <table class=" table table-bordered">
-            <thead>
-                <th>Productos</th>
-                <th class="text-nowrap text-center">Precio</th>
-                <th class="text-nowrap text-center">Cantidad</th>
-                <th class="text-nowrap text-center">Subtotal</th>
-                <th class="text-nowrap text-center">Acciones</th>
-            </thead>
-            <tbody>
-                <tr *ngFor="let producto of productos">
-                    <td>
-                        <img [src]="producto.imagenUrl" [alt]="producto.nombre" class="avatar">
-                        {{producto.nombre}}
-                    </td>
-                    <td class="text-nowrap text-center">{{producto.precio}}</td>
-                    <td class="text-nowrap text-center">{{producto.cantidad}}</td>
-                    <td class="text-nowrap text-center">{{producto.precio * producto.cantidad}}</td>
-                    <td class="text-nowrap text-center" (click)="eliminarProducto(producto._id)"><i
-                            class="fa fa-trash cursor avatar" aria-hidden="true"></i>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="margin-precioTotal">
-            <p class="negrita">Precio total: &euro;{{getPrecioTotal()}}</p>
+
+<div class="animated fadeIn fast" *ngIf="!cargando">
+    <div *ngIf="carritoVacio()" class="padre">
+        <div class="hijo text-center">
+            <i class="fa fa-shopping-cart carrito" aria-hidden="true"></i>
+            <h2>Tu carrito esta vacío, triste y solo :(</h2>
+            <button routerLink="/dashboard" class="btn btn-rounded btn-danger">Ver productos</button>
         </div>
-        <div>
-            <button routerLink="../../" class="btn btn-info btn-volver">
-                <i class="fa fa-caret-left" aria-hidden="true"></i>
-                Volver a la tienda</button>
-            <button routerLink="../../confirmarEnvio" class="btn btn-danger btn-continuar">
-                Siguiente paso <i class="fa fa-caret-right" aria-hidden="true"></i>
-            </button>
+    </div>
+    <div *ngIf="!carritoVacio()" class="row">
+        <div class="table-responsive">
+            <table class=" table table-bordered">
+                <thead>
+                    <th>Productos</th>
+                    <th class="text-nowrap text-center">Precio</th>
+                    <th class="text-nowrap text-center">Cantidad</th>
+                    <th class="text-nowrap text-center">Subtotal</th>
+                    <th class="text-nowrap text-center">Acciones</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lineaPedido of lineaPedidos">
+                        <td>
+                            <img [src]="lineaPedido.producto.img | imagen:'productos'"
+                                [alt]="lineaPedido.producto.nombre" class="avatar">
+                            {{lineaPedido.producto.nombre}}
+                        </td>
+                        <td class="text-nowrap text-center">{{lineaPedido.producto.precio}}</td>
+                        <td class="text-nowrap text-center">{{lineaPedido.cantidad}}</td>
+                        <td class="text-nowrap text-center">{{lineaPedido.producto.precio * lineaPedido.cantidad}}
+                        </td>
+                        <td class="text-nowrap text-center" (click)="eliminarProducto(lineaPedido._id)"><i
+                                class="fa fa-trash cursor avatar" aria-hidden="true"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="margin-precioTotal">
+                <p class="negrita">Precio total: &euro;{{getPrecioTotal()}}</p>
+            </div>
+            <div>
+                <button routerLink="../../" class="btn btn-info btn-volver">
+                    <i class="fa fa-caret-left" aria-hidden="true"></i>
+                    Volver a la tienda</button>
+                <button routerLink="../../confirmarEnvio" class="btn btn-danger btn-continuar">
+                    Siguiente paso <i class="fa fa-caret-right" aria-hidden="true"></i>
+                </button>
+            </div>
         </div>
     </div>
 </div>

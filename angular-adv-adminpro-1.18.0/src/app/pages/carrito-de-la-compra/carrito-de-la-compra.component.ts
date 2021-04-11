@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LineaPedido } from 'src/app/models/lineaPedido.model';
 import { Pedido } from 'src/app/models/pedido.mode';
 import { Producto, TipoProducto } from 'src/app/models/producto.model';
+import { LineaPedidoService } from 'src/app/services/linea-pedido.service';
 import { PedidoService } from 'src/app/services/pedido.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-carrito-de-la-compra',
@@ -12,36 +15,69 @@ import { PedidoService } from 'src/app/services/pedido.service';
 export class CarritoDeLaCompraComponent implements OnInit {
 
   constructor(public router: Router,
-    public pedidoService: PedidoService) { }
+    public pedidoService: PedidoService,
+    public lineaPedidoService: LineaPedidoService,
+    public usuarioService: UsuarioService
+  ) { }
 
-  public productos: Producto[] = [];
+  public cargando: boolean = true;
 
-  ngOnInit(): void {
-    this.productos = this.pedidoService.productosTemp;
-    //producto vacio
-    //let productos: Producto[] = [];
-    this.productos.push(new Producto('ordenador', 'bobo', 40, 'no-image', new TipoProducto('pc', 'mu bonito'), '1', 2));
-    this.productos.push(new Producto('ordenador', 'bobo', 40, 'no-image', new TipoProducto('pc', 'mu bonito'), '1', 2));
+  public pedido: Pedido;
+  public idPedido: string;
+  public lineaPedidos: LineaPedido[] = [];
 
+  async ngOnInit(): Promise<void> {
+    const uid = this.usuarioService.uid;
+
+    this.cargando = true;
+    //CargarPedidoTemp
+    await this.pedidoService.cargarPedidoTemp(uid)
+      .toPromise()
+      .then(pedidoTemp => {
+        this.idPedido = pedidoTemp._id;
+        console.log(this.idPedido);
+      })
+
+    this.cargarLineaPedidos();
+  }
+  cargarPedidoTemp() {
+    const uid = this.usuarioService.uid;
+    console.log(uid);
+    this.pedidoService.cargarPedidoTemp(uid)
+      .subscribe(pedidoTemp => {
+        console.log(pedidoTemp);
+        this.idPedido = pedidoTemp._id;
+        console.log(this.idPedido);
+      })
+  }
+  cargarLineaPedidos() {
+    this.lineaPedidoService.cargarLineaPedidos(this.idPedido)
+      .subscribe((lineaPedidos: LineaPedido[]) => {
+        this.cargando = false;
+        this.lineaPedidos = lineaPedidos;
+      })
   }
   carritoVacio() {
-    return this.productos.length == 0 ? true : false;
+    return this.lineaPedidos.length == 0 ? true : false;
   }
 
   getPrecioTotal(): number {
     let precioTotal: number = 0;
-    //Esto hay que cambiarlo !!!!!!!!!!!!!!!!!!!!!!!!
-    const cantidad = 1;
 
-    this.productos.forEach(producto => {
-      precioTotal += producto.precio * cantidad;
+    this.lineaPedidos.forEach(linea => {
+      precioTotal += linea.producto.precio * linea.cantidad;
     });
     return precioTotal;
   }
   eliminarProducto(id: string) {
-    for (let i = 0; this.productos.length > i; i++) {
-      if (this.productos[i]._id === id) {
-        this.productos.splice(i, 1);
+    this.lineaPedidoService.eliminarLineaPedido(id)
+      .subscribe(resp => {
+        console.log(resp);
+      })
+
+    for (let i = 0; this.lineaPedidos.length > i; i++) {
+      if (this.lineaPedidos[i]._id === id) {
+        this.lineaPedidos.splice(i, 1);
       }
     }
   }

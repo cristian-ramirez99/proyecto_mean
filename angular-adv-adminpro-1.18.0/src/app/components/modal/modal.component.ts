@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LineaPedido } from 'src/app/models/lineaPedido.model';
 import { Pedido } from 'src/app/models/pedido.mode';
 import { ModalService } from '../../services/modal.service';
 import { PedidoService } from '../../services/pedido.service';
@@ -13,7 +14,8 @@ export class ModalComponent implements OnInit {
   constructor(public modalService: ModalService,
     public pedidoService: PedidoService) { }
 
-  public pedido: Pedido = new Pedido('enviado', [], new Date(1, 1, 1, 1, 1), '1fa1ras');
+  public pedido: Pedido;
+  public lineaPedidos: LineaPedido[] = [];
   public primeraVez: boolean = true;
 
   ngOnInit(): void {
