@@ -26,14 +26,13 @@
                             <tbody>
                                 <tr *ngFor="let lineaPedido of lineaPedidos">
                                     <td>
-                                        <img [src]="lineaPedido.producto | imagen:'productos'" [alt]="lineaPedido.producto.nombre"
-                                            class="avatar">
+                                        <img [src]="lineaPedido.producto | imagen:'productos'"
+                                            [alt]="lineaPedido.producto.nombre" class="avatar">
                                         {{lineaPedido.producto.nombre}}
                                     </td>
 
-
                                     <td>{{lineaPedido.producto.precio}}</td>
-                                    <td>{{lineaPedido.producto.cantidad}}</td>
+                                    <td>{{lineaPedido.cantidad}}</td>
                                     <td>{{lineaPedido.producto.precio * lineaPedido.cantidad}}</td>
                                 </tr>
                             </tbody>

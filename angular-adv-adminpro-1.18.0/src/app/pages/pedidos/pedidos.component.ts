@@ -4,6 +4,7 @@ import { Pedido } from '../../models/pedido.mode'
 import Swal from 'sweetalert2'
 import { PedidoService } from 'src/app/services/pedido.service';
 import { Producto, TipoProducto } from 'src/app/models/producto.model';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-pedidos',
@@ -17,10 +18,12 @@ export class PedidosComponent implements OnInit {
   public pedidos: Pedido[] = [];
 
 
-  constructor(private modalService: ModalService,
-    private pedidoService: PedidoService) { }
+  constructor(public modalService: ModalService,
+    public pedidoService: PedidoService,
+    public usuarioService: UsuarioService) { }
+
   ngOnInit(): void {
-    // this.cargarPedidos();
+    this.cargarPedidos();
   }
   abrirModal(pedido: Pedido) {
     console.log("Abriendo modal");
@@ -32,20 +35,23 @@ export class PedidosComponent implements OnInit {
       console.log(valor);
       //this.PedidosService.cargarPedidos();
     }
-    cargarPedidos() {
-      this.calcularPrecio();
-    }
-  
-    //Calcula el precio total de cada pedido
-    calcularPrecio() {
-      let auxPrecio: number;
-      this.pedidos.forEach(pedido => {
-        auxPrecio = 0;
-        pedido.productos.forEach(producto => {
-          auxPrecio += producto.precio;
+
+     */
+  cargarPedidos() {
+    this.cargando = true;
+    const uid = this.usuarioService.uid;
+
+    this.pedidoService.cargarPedidos(uid)
+      .subscribe((pedidos: Pedido[]) => {
+        this.cargando = false;
+        this.pedidos = pedidos;
+
+        //Se tiene que crear un new Date, si no funciona
+        pedidos.forEach(pedido => {
+          pedido.fecha = new Date(pedido.fecha);
+          console.log(pedido.fecha.getDate());
         });
-        //Asigno precioTotal al pedido
-        pedido.precio = auxPrecio;
+
       });
-    } */
+  }
 }

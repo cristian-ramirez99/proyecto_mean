@@ -30,7 +30,6 @@ export class HeaderComponent implements OnInit {
   async ngOnInit() {
     if (this.primeraVez) {
       this.primeraVez = false;
-      console.log("dsa");
       await this.pedidoService.cargarPedidoTemp(this.usuarioService.uid)
         .toPromise()
         .then((pedido: Pedido) => {
@@ -71,7 +70,6 @@ export class HeaderComponent implements OnInit {
   eliminarProducto(id: string) {
     this.lineaPedidoService.eliminarLineaPedido(id)
       .subscribe(resp => {
-        console.log(resp);
       })
 
     for (let i = 0; this.lineaPedidos.length > i; i++) {

@@ -50,11 +50,11 @@ const getPedidos = async (req, res) => {
     const uid = req.params.id;
 
     try {
-        const pedido = await Pedido.find({ usuario: uid, estado: { $ne: 'temporal' } })
+        const pedidos = await Pedido.find({ usuario: uid, estado: { $ne: 'temporal' } })
 
         res.json({
             ok: true,
-            pedido,
+            pedidos,
         })
 
     } catch (error) {

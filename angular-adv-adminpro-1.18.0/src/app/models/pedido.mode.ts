@@ -1,4 +1,3 @@
-import { Producto } from "./producto.model";
 
 export class Pedido {
     constructor(
