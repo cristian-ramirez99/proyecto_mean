@@ -23,9 +23,9 @@
             <table class=" table table-bordered">
                 <thead>
                     <th>Productos</th>
-                    <th class="text-nowrap text-center">Precio</th>
+                    <th class="text-nowrap text-center">Precio (&euro;)</th>
                     <th class="text-nowrap text-center">Cantidad</th>
-                    <th class="text-nowrap text-center">Subtotal</th>
+                    <th class="text-nowrap text-center">Subtotal (&euro;)</th>
                     <th class="text-nowrap text-center">Acciones</th>
                 </thead>
                 <tbody>
@@ -46,7 +46,7 @@
                 </tbody>
             </table>
             <div class="margin-precioTotal">
-                <p class="negrita">Precio total: &euro;{{getPrecioTotal()}}</p>
+                <p class="negrita">Precio total: {{getPrecioTotal()}} &euro;</p>
             </div>
             <div>
                 <button routerLink="../../" class="btn btn-info btn-volver">

@@ -27,6 +27,7 @@ export class ModalComponent {
       this.primeraVez = false;
       //Obtenemos el pedido clickado
       this.pedido = this.modalService.pedido;
+      this.cargarLineaPedido();
     }
   }
   cargarLineaPedido() {

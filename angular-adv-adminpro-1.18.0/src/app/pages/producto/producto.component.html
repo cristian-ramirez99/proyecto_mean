@@ -23,7 +23,7 @@
                             <option [value]="cantidad" *ngFor="let cantidad of cantidadPorUsuario">{{cantidad}}</option>
                         </select>
                         <div class="padding-precio">
-                            <p>Precio total: {{producto.precio * cantidadSeleccionada}}</p>
+                            <p>Precio total: {{producto.precio * cantidadSeleccionada}} &euro;</p>
                         </div>
                         <button (click)="addAlCarrito()" class="btn btn-info">Añadir al carrito</button>
                     </div>
@@ -42,7 +42,7 @@
                     <p>Sin stock</p>
                 </div>
                 <div>
-                    <p>Precio por unidad: {{producto.precio}}</p>
+                    <p>Precio por unidad: {{producto.precio}} &euro;</p>
                 </div>
             </div>
         </div>

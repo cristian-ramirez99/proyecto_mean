@@ -19,14 +19,14 @@
                         <table class="table table-striped">
                             <thead>
                                 <th>Productos</th>
-                                <th>Precio</th>
+                                <th>Precio (&euro;)</th>
                                 <th>Cantidad</th>
-                                <th>Subtotal</th>
+                                <th>Subtotal (&euro;)</th>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let lineaPedido of lineaPedidos">
                                     <td>
-                                        <img [src]="lineaPedido.producto | imagen:'productos'"
+                                        <img [src]="lineaPedido.producto.img | imagen:'productos'"
                                             [alt]="lineaPedido.producto.nombre" class="avatar">
                                         {{lineaPedido.producto.nombre}}
                                     </td>
@@ -39,6 +39,9 @@
                         </table>
                     </div>
                     <div class="modal-footer">
+                        <div class="left">
+                            <p class="negrita">Precio total: {{pedido.precio}} &euro;</p>
+                        </div>
                         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cerrarModal()">
                             Cerrar
                         </button>
