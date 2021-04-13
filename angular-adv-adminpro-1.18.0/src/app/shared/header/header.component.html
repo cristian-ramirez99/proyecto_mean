@@ -50,8 +50,7 @@
                         class="nav-link hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i
                             class="ti-search"></i></a>
                     <form class="app-search" (submit)="buscar( txtTermino.value )">
-                        <input type="text" class="form-control" placeholder="Buscar producto"
-                            #txtTermino>
+                        <input type="text" class="form-control" placeholder="Buscar producto" #txtTermino>
                         <a class="srh-btn"><i class="ti-close"></i></a>
                     </form>
                 </li>
@@ -197,20 +196,21 @@
                 <!-- ============================================================== -->
                 <!-- Carrito -->
                 <!-- ============================================================== -->
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" (mouseenter)="ngOnInit()" (mouseout)="salir()">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false"> <i class="fa fa-shopping-cart"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right animated fadeIn fast">
+                    <div class="w500 dropdown-menu dropdown-menu-right animated fadeIn fast">
                         <div *ngIf="!carritoVacio()" class="px-4 py-3">
                             <table class="table table-borderless">
                                 <tbody>
-                                    <tr *ngFor="let producto of productos">
-                                        <td><img class="avatar cursor" [routerLink]="['producto',producto.nombre]"
-                                                [src]="producto.img | imagen:'productos'"></td>
-                                        <td>{{producto.nombre}}</td>
-                                        <td>&euro;{{producto.precio}}</td>
-                                        <td>1</td>
-                                        <td (click)="eliminarProducto(producto._id)"><i
+                                    <tr *ngFor="let lineaPedido of lineaPedidos">
+                                        <td><img class="avatar cursor"
+                                                [routerLink]="['producto',lineaPedido.producto._id]"
+                                                [src]="lineaPedido.producto.img | imagen:'productos'"></td>
+                                        <td>{{lineaPedido.producto.nombre}}</td>
+                                        <td>&euro;{{lineaPedido.producto.precio}}</td>
+                                        <td>{{lineaPedido.cantidad}}</td>
+                                        <td (click)="eliminarProducto(lineaPedido._id)"><i
                                                 class="fa fa-trash cursor avatar" aria-hidden="true"></i></td>
                                     </tr>
                                 </tbody>

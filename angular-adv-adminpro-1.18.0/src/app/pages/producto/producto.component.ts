@@ -55,8 +55,10 @@ export class ProductoComponent implements OnInit {
       await this.pedidoService.cargarPedidoTemp(uid)
         .toPromise().
         then((data: any) => {
-          const { _id } = data
-          this.idPedido = _id;
+          if (data !== null) {
+            const { _id } = data;
+            this.idPedido = _id;
+          }
         })
 
       //Si no exitste pedidoTemp
@@ -92,7 +94,7 @@ export class ProductoComponent implements OnInit {
       console.log(this.producto);
 
       const { nombre, descripcion, precio, stock, _id } = this.producto;
-      
+
       const producto = {
         nombre,
         descripcion,

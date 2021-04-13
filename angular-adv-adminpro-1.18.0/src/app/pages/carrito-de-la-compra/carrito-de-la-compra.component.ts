@@ -40,16 +40,6 @@ export class CarritoDeLaCompraComponent implements OnInit {
 
     this.cargarLineaPedidos();
   }
-  cargarPedidoTemp() {
-    const uid = this.usuarioService.uid;
-    console.log(uid);
-    this.pedidoService.cargarPedidoTemp(uid)
-      .subscribe(pedidoTemp => {
-        console.log(pedidoTemp);
-        this.idPedido = pedidoTemp._id;
-        console.log(this.idPedido);
-      })
-  }
   cargarLineaPedidos() {
     this.lineaPedidoService.cargarLineaPedidos(this.idPedido)
       .subscribe((lineaPedidos: LineaPedido[]) => {

@@ -48,6 +48,9 @@
 .w200 {
     width: 200px;
 }
+.w500{
+    width: 500px;
+}
 
 .avatar {
     border-radius: 100%;

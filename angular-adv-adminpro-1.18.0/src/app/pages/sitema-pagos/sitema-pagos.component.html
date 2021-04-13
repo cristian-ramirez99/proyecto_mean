@@ -7,8 +7,8 @@
                         <h1 class="heading">Tarjeta de crédito</h1>
                         <h3 class="location">Sin comisión </h3>
                         <p class="temp">
-                            <span *ngIf="hayCosteDeEnvio()" class="temp-value">{{precioEnvio() + pedido.precio}}</span>
-                            <span *ngIf="!hayCosteDeEnvio()" class="temp-value">{{pedido.precio}}</span>
+                            <span *ngIf="hayCosteDeEnvio()" class="temp-value">{{precioEnvio() + precio}}</span>
+                            <span *ngIf="!hayCosteDeEnvio()" class="temp-value">{{precio}}</span>
                             <a><span class="temp-type">&euro;</span></a>
                         </p>
                     </div>
@@ -34,10 +34,10 @@
                         <h3 class="location">Comisión de 3%</h3>
                         <p class="temp">
                             <span *ngIf="hayCosteDeEnvio()" class="temp-value">
-                                {{precioEnvio()+precioContrarrembolso()+pedido.precio}}
+                                {{precioEnvio()+precioContrarrembolso()+precio}}
                             </span>
                             <span *ngIf="!hayCosteDeEnvio()" class="temp-value">
-                                {{precioContrarrembolso()+pedido.precio}}
+                                {{precioContrarrembolso()+precio}}
                             </span>
                             <a><span class="temp-type">&euro;</span></a>
                         </p>

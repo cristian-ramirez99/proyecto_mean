@@ -12,7 +12,6 @@ const base_url = environment.base_url;
 })
 export class LineaPedidoService {
 
-
   constructor(private http: HttpClient) { }
 
   get token(): string {

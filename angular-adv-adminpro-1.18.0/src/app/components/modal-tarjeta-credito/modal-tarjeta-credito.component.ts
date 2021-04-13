@@ -27,12 +27,12 @@ export class ModalTarjetaCreditoComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.primeraVez) {
-      this.primeraVez = false;
       this.pedido = this.modalTarjetaCreditoService.pedido;
-      this.cargarTarjetaCredito();
 
-      //Borra esto !!!!!!!!
-      this.pedido._id = "dasjidjaso";
+      if(this.pedido){
+        this.primeraVez = false;
+        this.cargarTarjetaCredito();
+      }
     }
   }
 
@@ -51,6 +51,10 @@ export class ModalTarjetaCreditoComponent implements OnInit {
       Swal.fire('Error', 'Vaya, parece que la fecha de caducidad de la tarjeta expiró', 'error');
       return;
     }
+    this.pedido.estado = 'proceso';
+    this.pedido.fecha = new Date();
+
+    console.log(this.pedido);
 
     this.pedidoService.actualizarPedido(this.pedido)
       .subscribe(resp => {
@@ -60,14 +64,6 @@ export class ModalTarjetaCreditoComponent implements OnInit {
               this.router.navigateByUrl("/dashboard");
             }
           });
-      });
-
-    //Borrar !!!
-    Swal.fire('Pedido realizado', 'Su pedido le llegara en 7 días hábiles', 'success').
-      then((result) => {
-        if (result.isConfirmed) {
-          this.router.navigateByUrl("/dashboard");
-        }
       });
   }
   isFechaCaducidadValida() {

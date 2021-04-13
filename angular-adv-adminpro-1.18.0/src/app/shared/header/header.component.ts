@@ -3,7 +3,10 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario.model';
 import { Router } from '@angular/router';
 import { Producto, TipoProducto } from 'src/app/models/producto.model';
-import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/template';
+import { LineaPedido } from 'src/app/models/lineaPedido.model';
+import { LineaPedidoService } from 'src/app/services/linea-pedido.service';
+import { PedidoService } from 'src/app/services/pedido.service';
+import { Pedido } from 'src/app/models/pedido.mode';
 
 @Component({
   selector: 'app-header',
@@ -14,15 +17,31 @@ import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/templa
 export class HeaderComponent implements OnInit {
 
   public usuario: Usuario;
-  public productos: Producto[] = [];
+  public lineaPedidos: LineaPedido[] = [];
+  private idPedido: string;
+  public primeraVez: boolean = true;
 
   constructor(private usuarioService: UsuarioService,
-    private router: Router) {
+    private router: Router,
+    private lineaPedidoService: LineaPedidoService,
+    private pedidoService: PedidoService) {
     this.usuario = usuarioService.usuario;
   }
-  ngOnInit() {
-    this.productos.push(new Producto('portatil', 'grauBobo', 50, 'no-image', new TipoProducto('pc', 'mu bonito'), '3', 1));
-    this.productos.push(new Producto('mouse', 'mouseDeLocos', 80, 'no-image', new TipoProducto('mouse', 'bobo'), '4', 7));
+  async ngOnInit() {
+    if (this.primeraVez) {
+      this.primeraVez = false;
+      console.log("dsa");
+      await this.pedidoService.cargarPedidoTemp(this.usuarioService.uid)
+        .toPromise()
+        .then((pedido: Pedido) => {
+          this.idPedido = pedido._id;
+        })
+
+      this.lineaPedidoService.cargarLineaPedidos(this.idPedido)
+        .subscribe((lineaPedidos: LineaPedido[]) => {
+          this.lineaPedidos = lineaPedidos;
+        })
+    }
   }
 
   logout() {
@@ -39,23 +58,29 @@ export class HeaderComponent implements OnInit {
   }
 
   carritoVacio() {
-    return this.productos.length == 0 ? true : false;
+    return this.lineaPedidos.length == 0 ? true : false;
   }
   getPrecioTotal() {
-    //Esto hay que cambiarlo !!!!!!!!!!!!!!!!!!!!!
-    const cantidad = 1;
     let precioTotal: number = 0;
 
-    this.productos.forEach(producto => {
-      precioTotal += producto.precio * cantidad;
+    this.lineaPedidos.forEach(lineaPedido => {
+      precioTotal += lineaPedido.producto.precio * lineaPedido.cantidad;
     });
     return precioTotal;
   }
   eliminarProducto(id: string) {
-    for (let i = 0; this.productos.length > i; i++) {
-      if (this.productos[i]._id === id) {
-        this.productos.splice(i, 1);
+    this.lineaPedidoService.eliminarLineaPedido(id)
+      .subscribe(resp => {
+        console.log(resp);
+      })
+
+    for (let i = 0; this.lineaPedidos.length > i; i++) {
+      if (this.lineaPedidos[i]._id === id) {
+        this.lineaPedidos.splice(i, 1);
       }
     }
+  }
+  salir() {
+    this.primeraVez = true;
   }
 }
