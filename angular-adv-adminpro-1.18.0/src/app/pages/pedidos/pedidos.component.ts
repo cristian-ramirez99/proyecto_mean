@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 import { PedidoService } from 'src/app/services/pedido.service';
 import { Producto, TipoProducto } from 'src/app/models/producto.model';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { BusquedasService } from 'src/app/services/busquedas.service';
 
 @Component({
   selector: 'app-pedidos',
@@ -20,7 +21,8 @@ export class PedidosComponent implements OnInit {
 
   constructor(public modalService: ModalService,
     public pedidoService: PedidoService,
-    public usuarioService: UsuarioService) { }
+    public usuarioService: UsuarioService,
+    private busquedasService:BusquedasService) { }
 
   ngOnInit(): void {
     this.cargarPedidos();

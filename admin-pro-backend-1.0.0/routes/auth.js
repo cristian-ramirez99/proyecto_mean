@@ -2,7 +2,7 @@
     Path: '/api/login'
 */
 const { Router } = require('express');
-const { login, googleSignIn, renewToken } = require('../controllers/auth');
+const { login, googleSignIn, renewToken, recuperarPassword } = require('../controllers/auth');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -10,7 +10,7 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 const router = Router();
 
 
-router.post( '/',
+router.post('/',
     [
         check('email', 'El email es obligatorio').isEmail(),
         check('password', 'El password es obligatorio').not().isEmpty(),
@@ -19,7 +19,7 @@ router.post( '/',
     login
 );
 
-router.post( '/google',
+router.post('/google',
     [
         check('token', 'El token de Google es obligatorio').not().isEmpty(),
         validarCampos
@@ -27,14 +27,17 @@ router.post( '/google',
     googleSignIn
 )
 
-router.get( '/renew',
+router.get('/renew',
     validarJWT,
-    renewToken
+    renewToken,
 )
 
-
-
-
-
+router.put('/recuperarPassword',
+    [
+        check('email', 'El email es obligatorio').isEmail(),
+        validarCampos
+    ],
+    recuperarPassword
+)
 
 module.exports = router;

@@ -45,20 +45,20 @@ export class ModalActualizarPasswordComponent implements OnInit {
     if (!this.formSubmitted) {
       this.formSubmitted = true;
     }
+
     if (this.changePasswordForm.invalid) {
       return;
     }
-    //Comprobar password !!!!!!!!!!!!!
 
-    //Esto iria al final si resp.ok=true
-    this.cerrarModal();
-    //Esto es para pruebas
-    Swal.fire('Accion realizada', "Su contraseña ha sido cambiada correctamente", 'success');
     console.log(this.changePasswordForm.value);
     //Actualizar password
     this.usuarioService.actualizarPassword(this.changePasswordForm.value)
       .subscribe(resp => {
-        Swal.fire('Accion realizada', 'Su contraseña ha sido cambiada correctamente', 'success');
+        Swal.fire('Accion realizada', 'Su contraseña ha sido cambiada correctamente', 'success').then(result => {
+          if (result.isConfirmed) {
+            this.cerrarModal();
+          }
+        });
 
       }, (err) => {
         // Si sucede un error

@@ -47,6 +47,7 @@ export class BusquedasService {
   private transformarProductos(resultados: any[]): Producto[] {
     return resultados;
   }
+
   busquedaGlobal(termino: string) {
 
     const url = `${base_url}/todo/${termino}`;

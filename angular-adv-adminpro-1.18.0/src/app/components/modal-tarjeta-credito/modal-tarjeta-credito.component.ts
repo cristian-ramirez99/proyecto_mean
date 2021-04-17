@@ -53,7 +53,7 @@ export class ModalTarjetaCreditoComponent implements OnInit {
     }
     this.pedido.estado = 'proceso';
     this.pedido.fecha = new Date();
-
+    this.pedido.formaPago = 'tarjeta';
     console.log(this.pedido);
 
     this.pedidoService.actualizarPedido(this.pedido)

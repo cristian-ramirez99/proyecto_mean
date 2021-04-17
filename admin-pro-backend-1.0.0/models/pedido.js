@@ -17,6 +17,10 @@ const PedidoSchema = Schema({
     precio: {
         type: Number,
     },
+    //'Contrarrembolso' | 'tarjeta' 
+    formaPago:{
+        type: String,
+    }
 });
 
 

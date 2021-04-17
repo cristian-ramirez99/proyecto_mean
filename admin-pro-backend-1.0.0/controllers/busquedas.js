@@ -23,7 +23,7 @@ const getTodo = async (req, res = response) => {
         usuarios,
         medicos,
         hospitales,
-        productos
+        productos,
     })
 
 }
@@ -57,7 +57,6 @@ const getDocumentosColeccion = async (req, res = response) => {
             data = await Producto.find({ nombre: regex })
                 .populate('tipoProducto', 'nombre caracteristicas')
             break;
-
 
         default:
             return res.status(400).json({

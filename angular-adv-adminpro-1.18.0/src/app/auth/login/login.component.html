@@ -28,7 +28,7 @@
                                 formControlName="remember">
                             <label for="checkbox-signup"> Recordarme </label>
                         </div>
-                        <a href="javascript:void(0)" id="to-recover" class="text-dark pull-right"><i
+                        <a href="javascript:void(0)" (click)="abrirModal()" id="to-recover" class="text-dark pull-right"><i
                                 class="fa fa-lock m-r-5"></i>Has olvidado la contraseña?</a>
                     </div>
                 </div>
@@ -84,3 +84,5 @@
 <!-- ============================================================== -->
 <!-- End Wrapper -->
 <!-- ============================================================== -->
+
+<app-modal-recuperar-password></app-modal-recuperar-password>

@@ -124,8 +124,7 @@ export class UsuarioService {
 
   }
   actualizarPassword(formData) {
-    //formData{nuevaPassword: xxx,antiguaPassword:xxx}
-    return this.http.put(`${base_url}/whatever/${this.uid}`, formData, this.headers)
+    return this.http.put(`${base_url}/usuarios/password/${this.uid}`, formData, this.headers);
   }
 
   login(formData: LoginForm) {
@@ -169,8 +168,6 @@ export class UsuarioService {
 
 
   eliminarUsuario(usuario: Usuario) {
-
-    // /usuarios/5eff3c5054f5efec174e9c84
     const url = `${base_url}/usuarios/${usuario.uid}`;
     return this.http.delete(url, this.headers);
   }
@@ -179,6 +176,10 @@ export class UsuarioService {
 
     return this.http.put(`${base_url}/usuarios/${usuario.uid}`, usuario, this.headers);
 
+  }
+  recuperarPassword(email) {
+    const url = `${base_url}/login/recuperarPassword`;
+    return this.http.put(url, email);
   }
 
 }

@@ -56,7 +56,8 @@ export class SitemaPagosComponent implements OnInit {
   hacerPedido() {
     this.pedido.fecha = new Date();
     this.pedido.estado = 'proceso';
-
+    this.pedido.formaPago = 'Contrarrembolso';
+    
     this.pedido.precio = this.precioContrarrembolso() + this.precio;
 
     if (this.hayCosteDeEnvio()) {

@@ -44,7 +44,7 @@ export class HospitalesComponent implements OnInit, OnDestroy {
     }
 
     this.busquedasService.buscar( 'hospitales', termino )
-        .subscribe( resp => {
+        .subscribe( (resp:any) => {
 
           this.hospitales = resp;
 

@@ -6,6 +6,7 @@ export class Pedido {
         public fecha?: Date,
         public _id?: string,
         public precio?: number,
+        public formaPago?: 'Contrarrembolso' | 'tarjeta' ,
     ) { }
     get auxDia() {
         return this.fecha.getDate() < 10 ? '0' : '';

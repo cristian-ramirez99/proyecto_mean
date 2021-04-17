@@ -12,6 +12,7 @@ import { ModalActualizarPasswordComponent } from './modal-actualizar-password/mo
 import { ModalTarjetaCreditoComponent } from './modal-tarjeta-credito/modal-tarjeta-credito.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { RouterModule } from '@angular/router';
+import { ModalRecuperarPasswordComponent } from './modal-recuperar-password/modal-recuperar-password.component';
 
 
 
@@ -23,6 +24,7 @@ import { RouterModule } from '@angular/router';
     ModalComponent,
     ModalActualizarPasswordComponent,
     ModalTarjetaCreditoComponent,
+    ModalRecuperarPasswordComponent,
   ],
   exports: [
     IncrementadorComponent,
@@ -31,6 +33,7 @@ import { RouterModule } from '@angular/router';
     ModalComponent,
     ModalActualizarPasswordComponent,
     ModalTarjetaCreditoComponent,
+    ModalRecuperarPasswordComponent
 
   ],
   imports: [
