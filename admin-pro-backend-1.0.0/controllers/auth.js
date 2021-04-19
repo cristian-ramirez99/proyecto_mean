@@ -144,10 +144,17 @@ const recuperarPassword = async (req, res) => {
             text: mensaje
         };
 
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email enviado: ' + info.response);
+            }
+        });
+
         res.json({
             ok: true,
         });
-
 
     } catch (error) {
         console.log(error);

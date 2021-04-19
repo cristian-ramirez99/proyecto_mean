@@ -33,16 +33,7 @@ router.post('/',
     ]
     , crearProducto);
 
-router.put('/:id',
-    [
-        validarJWT,
-        check('nombre', "El nombre del producto es necesario").not().isEmpty(),
-        check('descripcion', "La descripcion del producto es necesaria").not().isEmpty(),
-        check('precio', "El precio del producto es necesario").not().isEmpty(),
-        check('tipoProducto', 'El tipoProducto id debe de ser válido').isMongoId(),
-        validarCampos,
-    ]
-    , actualizarProducto);
+router.put('/:id',validarJWT,actualizarProducto);
 
 router.delete('/:id', validarJWT, eliminarProducto);
 

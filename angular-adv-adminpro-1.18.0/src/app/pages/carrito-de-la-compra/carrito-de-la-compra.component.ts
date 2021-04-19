@@ -5,6 +5,7 @@ import { Pedido } from 'src/app/models/pedido.mode';
 import { Producto, TipoProducto } from 'src/app/models/producto.model';
 import { LineaPedidoService } from 'src/app/services/linea-pedido.service';
 import { PedidoService } from 'src/app/services/pedido.service';
+import { ProductoService } from 'src/app/services/producto.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class CarritoDeLaCompraComponent implements OnInit {
   constructor(public router: Router,
     public pedidoService: PedidoService,
     public lineaPedidoService: LineaPedidoService,
-    public usuarioService: UsuarioService
+    public usuarioService: UsuarioService,
+    public productoService: ProductoService
   ) { }
 
   public cargando: boolean = true;
@@ -59,17 +61,31 @@ export class CarritoDeLaCompraComponent implements OnInit {
     });
     return precioTotal;
   }
-  eliminarProducto(id: string) {
-    this.lineaPedidoService.eliminarLineaPedido(id)
+  eliminarProducto(lineaPedido: LineaPedido) {
+    this.actualizarStockDelProducto(lineaPedido);
+
+    this.lineaPedidoService.eliminarLineaPedido(lineaPedido._id)
       .subscribe(resp => {
         console.log(resp);
       })
 
     for (let i = 0; this.lineaPedidos.length > i; i++) {
-      if (this.lineaPedidos[i]._id === id) {
+      if (this.lineaPedidos[i]._id === lineaPedido._id) {
         this.lineaPedidos.splice(i, 1);
       }
     }
+  }
+  actualizarStockDelProducto(lineaPedido: LineaPedido) {
+    const stock = lineaPedido.cantidad + lineaPedido.producto.stock;
+
+    const data = {
+      stock: stock,
+      _id: lineaPedido.producto._id,
+    }
+    this.productoService.actualizarStockDelProducto(data)
+      .subscribe(resp => {
+        console.log(resp);
+      });
   }
 
 }

@@ -7,6 +7,7 @@ import { LineaPedido } from 'src/app/models/lineaPedido.model';
 import { LineaPedidoService } from 'src/app/services/linea-pedido.service';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { Pedido } from 'src/app/models/pedido.mode';
+import { ProductoService } from 'src/app/services/producto.service';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +25,8 @@ export class HeaderComponent implements OnInit {
   constructor(private usuarioService: UsuarioService,
     private router: Router,
     private lineaPedidoService: LineaPedidoService,
-    private pedidoService: PedidoService) {
+    private pedidoService: PedidoService,
+    private productoService: ProductoService) {
     this.usuario = usuarioService.usuario;
   }
   async ngOnInit() {
@@ -67,16 +69,30 @@ export class HeaderComponent implements OnInit {
     });
     return precioTotal;
   }
-  eliminarProducto(id: string) {
-    this.lineaPedidoService.eliminarLineaPedido(id)
+  eliminarProducto(lineaPedido: LineaPedido) {
+    this.actualizarStockDelProducto(lineaPedido);
+
+    this.lineaPedidoService.eliminarLineaPedido(lineaPedido._id)
       .subscribe(resp => {
       })
 
     for (let i = 0; this.lineaPedidos.length > i; i++) {
-      if (this.lineaPedidos[i]._id === id) {
+      if (this.lineaPedidos[i]._id === lineaPedido._id) {
         this.lineaPedidos.splice(i, 1);
       }
     }
+  }
+  actualizarStockDelProducto(lineaPedido: LineaPedido) {
+    const stock = lineaPedido.cantidad + lineaPedido.producto.stock;
+
+    const data = {
+      stock: stock,
+      _id: lineaPedido.producto._id,
+    }
+    this.productoService.actualizarStockDelProducto(data)
+      .subscribe(resp => {
+        console.log(resp);
+      });
   }
   salir() {
     this.primeraVez = true;

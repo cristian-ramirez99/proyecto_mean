@@ -53,7 +53,11 @@ export class ProductoService {
     const url = `${base_url}/productos/${_id}`
     return this.http.delete(url, this.headers);
   }
-  actualizarProducto(producto: ProductoForm) {
+  actualizarProducto(producto: ProductoForm){
+    const url = `${base_url}/productos/${producto._id}`
+    return this.http.put(url, producto, this.headers);
+  }
+  actualizarStockDelProducto(producto: any){
     const url = `${base_url}/productos/${producto._id}`
     return this.http.put(url, producto, this.headers);
   }

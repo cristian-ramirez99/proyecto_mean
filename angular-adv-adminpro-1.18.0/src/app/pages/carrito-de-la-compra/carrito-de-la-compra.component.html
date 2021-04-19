@@ -39,7 +39,7 @@
                         <td class="text-nowrap text-center">{{lineaPedido.cantidad}}</td>
                         <td class="text-nowrap text-center">{{lineaPedido.producto.precio * lineaPedido.cantidad}}
                         </td>
-                        <td class="text-nowrap text-center" (click)="eliminarProducto(lineaPedido._id)"><i
+                        <td class="text-nowrap text-center" (click)="eliminarProducto(lineaPedido)"><i
                                 class="fa fa-trash cursor avatar" aria-hidden="true"></i>
                         </td>
                     </tr>
