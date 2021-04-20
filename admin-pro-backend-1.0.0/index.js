@@ -32,6 +32,8 @@ app.use('/api/tipoProducto', require('./routes/tipoProducto'));
 app.use('/api/productos', require('./routes/productos'));
 app.use('/api/pedidos', require('./routes/pedidos'));
 app.use('/api/lineaPedidos', require('./routes/lineaPedidos'));
+app.use('/api/envio', require('./routes/envio'));
+app.use('/api/tarjetaCredito', require('./routes/tarjetaCredito'));
 
 
 
