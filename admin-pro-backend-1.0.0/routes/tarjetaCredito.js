@@ -10,15 +10,12 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 
 const {
     getTarjetaCreditoById,
-    getTarjetaCredito,
     crearTarjetaCredito,
     eliminarTarjetaCredito,
     actualizarTarjetaCredito
 } = require('../controllers/tarjetaCredito');
 
 const router = Router();
-
-router.get('/', validarJWT, getTarjetaCredito);
 
 router.get('/:id', validarJWT, getTarjetaCreditoById);
 

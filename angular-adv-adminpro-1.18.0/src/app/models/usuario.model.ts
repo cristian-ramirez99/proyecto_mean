@@ -1,4 +1,6 @@
 import { environment } from '../../environments/environment';
+import { Direccion } from './direccion.model';
+import { TarjetaCredito } from './tarjetaCredito.model';
 
 const base_url = environment.base_url;
 
@@ -12,6 +14,8 @@ export class Usuario {
         public google?: boolean,
         public role?: 'ADMIN_ROLE' | 'USER_ROLE',
         public uid?: string,
+        public tarjetaCredito?: TarjetaCredito,
+        public direccion?:Direccion,
     ) {}
 
     get imagenUrl() {

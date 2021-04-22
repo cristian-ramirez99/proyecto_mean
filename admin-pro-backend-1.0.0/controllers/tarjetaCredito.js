@@ -23,7 +23,7 @@ const getTarjetaCreditoById = async (req, res) => {
     }
 }
 
-const getTarjetaCredito = async (req, res) => {
+/*const getTarjetaCredito = async (req, res) => {
 
     const tarjetaCredito = await TarjetaCredito.find({})
 
@@ -31,9 +31,9 @@ const getTarjetaCredito = async (req, res) => {
         ok: true,
         tarjetaCredito,
     });
-}
+} */
 const crearTarjetaCredito = async (req, res = response) => {
-
+    
     const tarjetaCredito = new TarjetaCredito({
         ...req.body
     });
@@ -42,7 +42,7 @@ const crearTarjetaCredito = async (req, res = response) => {
     try {
 
         const tarjetaCreditoDB = await tarjetaCredito.save();
-
+        
 
         res.json({
             ok: true,
@@ -128,7 +128,6 @@ const actualizarTarjetaCredito = async (req, res = response) => {
 
 module.exports = {
     getTarjetaCreditoById,
-    getTarjetaCredito,
     crearTarjetaCredito,
     eliminarTarjetaCredito,
     actualizarTarjetaCredito

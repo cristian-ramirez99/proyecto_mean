@@ -44,6 +44,14 @@ export class UsuarioService {
     return this.usuario.uid || '';
   }
 
+  get idTarjetaCredito():string{
+    return this.usuario.tarjetaCredito._id || '';
+  }
+  
+  get idDireccion():string{
+    return this.usuario.direccion._id || '';
+  }
+
   get headers() {
     return {
       headers: {

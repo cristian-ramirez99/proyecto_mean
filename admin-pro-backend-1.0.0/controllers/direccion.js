@@ -1,17 +1,17 @@
 const { response, json } = require('express');
 
-const Envio = require('../models/envio');
+const Direccion = require('../models/direccion');
 
-const getEnvioById = async (req, res) => {
+const getDireccionById = async (req, res) => {
 
     const id = req.params.id;
 
     try {
-        const envio = await Envio.findById(id);
+        const direccion = await Direccion.findById(id);
 
         res.json({
             ok: true,
-            envio
+            direccion
         })
 
     } catch (error) {
@@ -23,7 +23,7 @@ const getEnvioById = async (req, res) => {
     }
 }
 
-const getEnvio = async (req, res) => {
+/*const getEnvio = async (req, res) => {
 
     const envio = await Envio.find({})
 
@@ -31,22 +31,22 @@ const getEnvio = async (req, res) => {
         ok: true,
         envio,
     });
-}
-const crearEnvio = async (req, res = response) => {
+} */
+const crearDireccion = async (req, res = response) => {
 
-    const envio = new Envio({
+    const direccion = new Direccion({
         ...req.body
     });
 
 
     try {
 
-        const envioDB = await envio.save();
+        const direccionDB = await direccion.save();
 
 
         res.json({
             ok: true,
-            envio: envioDB
+            direccion: direccionDB
         })
 
     } catch (error) {
@@ -57,13 +57,13 @@ const crearEnvio = async (req, res = response) => {
         })
     }
 }
-const eliminarEnvio = async (req, res) => {
+const eliminarDireccion = async (req, res) => {
     const id = req.params.id;
 
     try {
-        const envio = await Envio.findById(id);
+        const direccion = await Direccion.findById(id);
 
-        if (!envio) {
+        if (!direccion) {
             return res.status(404).json({
                 ok: true,
                 msg: 'Direccion de envio no encontrada por id',
@@ -71,7 +71,7 @@ const eliminarEnvio = async (req, res) => {
         }
 
 
-        await Envio.findByIdAndDelete(id);
+        await Direccion.findByIdAndDelete(id);
 
         res.json({
             ok: true,
@@ -88,30 +88,30 @@ const eliminarEnvio = async (req, res) => {
         })
     }
 }
-const actualizarEnvio = async (req, res = response) => {
+const actualizarDireccion = async (req, res = response) => {
     const id = req.params.id;
 
     try {
 
-        const envio = await Envio.findById(id);
+        const direccion = await Direccion.findById(id);
 
-        if (!envio) {
+        if (!direccion) {
             return res.status(404).json({
                 ok: true,
                 msg: 'Direccion de envio no encontrada por id',
             });
         }
 
-        const cambiosEnvio = {
+        const cambiosDireccion = {
             ...req.body,
         }
 
-        const envioActualizado = await Envio.findByIdAndUpdate(id, cambiosEnvio, { new: true });
+        const direccionActualizada = await Direccion.findByIdAndUpdate(id, cambiosDireccion, { new: true });
 
 
         res.json({
             ok: true,
-            envio: envioActualizado
+            direccion: direccionActualizada
         })
 
     } catch (error) {
@@ -127,9 +127,8 @@ const actualizarEnvio = async (req, res = response) => {
 }
 
 module.exports = {
-    getEnvioById,
-    getEnvio,
-    crearEnvio,
-    eliminarEnvio,
-    actualizarEnvio
+    getDireccionById,
+    crearDireccion,
+    eliminarDireccion,
+    actualizarDireccion
 }

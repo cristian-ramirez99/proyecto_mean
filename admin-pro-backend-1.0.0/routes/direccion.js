@@ -1,6 +1,6 @@
 /*
-    TarjetaCredito
-    ruta: '/api/tarjetaCredito'
+    Direccion
+    ruta: '/api/direccion'
 */
 const { Router } = require('express');
 const { check } = require('express-validator');
@@ -9,18 +9,15 @@ const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
 const {
-    getEnvioById,
-    getEnvio,
-    crearEnvio,
-    eliminarEnvio,
-    actualizarEnvio
-} = require('../controllers/envio');
+    getDireccionById,
+    crearDireccion,
+    eliminarDireccion,
+    actualizarDireccion
+} = require('../controllers/direccion');
 
 const router = Router();
 
-router.get('/', validarJWT, getEnvio);
-
-router.get('/:id', validarJWT, getEnvioById);
+router.get('/:id', validarJWT, getDireccionById);
 
 router.post('/',
     [
@@ -33,7 +30,7 @@ router.post('/',
         check('telefono', 'El telefono es necesario').not().isEmpty(),
         validarCampos,
     ],
-    crearEnvio);
+    crearDireccion);
 
 router.put('/:id',
     [
@@ -46,8 +43,8 @@ router.put('/:id',
         check('telefono', 'El telefono es necesario').not().isEmpty(),
         validarCampos,
     ],
-    actualizarEnvio);
+    actualizarDireccion);
 
-router.delete('/:id', validarJWT, eliminarEnvio);
+router.delete('/:id', validarJWT, eliminarDireccion);
 
 module.exports = router;

@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TarjetaCredito } from 'src/app/models/tarjetaCredito.model';
 import { TarjetaCreditoService } from 'src/app/services/tarjeta-credito.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -38,14 +39,21 @@ export class TarjetaCreditoComponent implements OnInit {
   private isTarjetaCreditoCreada: boolean = false;
 
   constructor(public fb: FormBuilder,
-    private tarjetaCreditoService: TarjetaCreditoService) { }
+    private tarjetaCreditoService: TarjetaCreditoService,
+    private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
     this.cargarCincoYearsDesdeElActual()
-    this.cargarTarjetaCredito();
+
+    if (this.usuarioService.idTarjetaCredito.length != 0) {
+      console.log("IDTarjetacredito length!=0");
+      this.cargarTarjetaCredito();
+    }
   }
   cargarTarjetaCredito() {
-    this.tarjetaCreditoService.cargarTarjetaCredito()
+    const id = this.usuarioService.idTarjetaCredito;
+
+    this.tarjetaCreditoService.cargarTarjetaCredito(id)
       .subscribe((tarjeta: TarjetaCredito) => {
         this.tarjetaCredito = tarjeta;
         this.isTarjetaCreditoCreada = true;
@@ -60,19 +68,6 @@ export class TarjetaCreditoComponent implements OnInit {
         })
 
       });
-    //Borrar !!!
-    this.isTarjetaCreditoCreada = true;
-    const tarjeta = new TarjetaCredito('MASTERCARD', 'Manolo', '1234567891234567', new Date(), '123', 'djhsa123');
-    this.tarjetaCredito = tarjeta;
-
-    this.tarjetaCreditoForm.setValue({
-      tipo: tarjeta.tipo,
-      titular: tarjeta.titular,
-      numero: tarjeta.numero,
-      mes: tarjeta.fechaCaducidad.getDate() - 1,
-      year: tarjeta.fechaCaducidad.getFullYear(),
-      cvv: tarjeta.cvv,
-    })
   }
   guardarTarjetaCredito() {
     this.formSumbitted = true;
@@ -94,10 +89,8 @@ export class TarjetaCreditoComponent implements OnInit {
       this.tarjetaCreditoService.modificarTarjetaCredito(this.tarjetaCreditoForm.value)
         .subscribe(resp => {
           Swal.fire('Actualizado', 'Tarjeta atualizada correctamente', 'success');
-
         });
-      //Borrar !!!
-      Swal.fire('Actualizado', 'Tarjeta atualizada correctamente', 'success');
+
 
       //Crear tarjeta
     } else {
@@ -106,11 +99,6 @@ export class TarjetaCreditoComponent implements OnInit {
           Swal.fire('Creado', 'Tarjeta creada correctamente', 'success');
           this.isTarjetaCreditoCreada = true;
         });
-      //Borrar !!!
-      Swal.fire('Creado', 'Tarjeta creada correctamente', 'success');
-      this.isTarjetaCreditoCreada = true;
-
-
     }
   }
 

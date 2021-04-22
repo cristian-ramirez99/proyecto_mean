@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose');
+const usuario = require('./usuario');
 
-const EnvioSchema = Schema({
+const DireccionSchema = Schema({
     nombreDestinatario:{
         type: String,
         Required: true
@@ -31,11 +32,11 @@ const EnvioSchema = Schema({
 });
 
 
-EnvioSchema.method('toJSON', function () {
+DireccionSchema.method('toJSON', function () {
     const { __v, ...object } = this.toObject();
     return object;
 })
 
 
 
-module.exports = model('Envio', EnvioSchema);
+module.exports = model('Direccion', DireccionSchema);

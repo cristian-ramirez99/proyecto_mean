@@ -33,9 +33,9 @@ export class TarjetaCreditoService {
     return this.http.put(url, tarjetaCredito, this.headers);
 
   }
-  cargarTarjetaCredito() {
+  cargarTarjetaCredito(id:String) {
     //Tambien deberia de saber el usuario 
-    const url = `${base_url}/tarjetaCredito`
+    const url = `${base_url}/tarjetaCredito/${id}`
     return this.http.get(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, tarjetaCredito: TarjetaCredito }) => resp.tarjetaCredito)

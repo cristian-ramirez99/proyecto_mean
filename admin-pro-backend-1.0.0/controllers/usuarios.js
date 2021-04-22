@@ -121,7 +121,7 @@ const actualizarPassword = async (req, res) => {
         })
     }
 }
-const actualizarUsuario = async (req, res = response) => {
+const actualizarEmail = async (req, res = response) => {
 
     // TODO: Validar token y comprobar si es el usuario correcto
 
@@ -180,7 +180,41 @@ const actualizarUsuario = async (req, res = response) => {
 
 }
 
+const actualizarUsuario = async (req, res) => {
+    const uid = req.params.id;
 
+    try {
+
+        const usuarioDB = await Usuario.findById(uid);
+
+        if (!usuarioDB) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'No existe un usuario por ese id'
+            });
+        }
+
+        const campos = {
+            ...req.body,
+        }
+            
+
+        const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, { new: true });
+
+        res.json({
+            ok: true,
+            usuario: usuarioActualizado
+        });
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado'
+        })
+    }
+}
 const borrarUsuario = async (req, res = response) => {
 
     const uid = req.params.id;
@@ -222,7 +256,8 @@ const borrarUsuario = async (req, res = response) => {
 module.exports = {
     getUsuarios,
     crearUsuario,
-    actualizarUsuario,
+    actualizarEmail,
     actualizarPassword,
     borrarUsuario,
+    actualizarUsuario 
 }

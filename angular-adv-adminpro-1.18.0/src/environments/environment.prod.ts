@@ -2,5 +2,5 @@
 
 export const environment = {
   production: true,
-  base_url: 'https://adminpro-backendgrau.herokuapp.com'
+  base_url: 'https://yavadevs.herokuapp.com/api'
 };

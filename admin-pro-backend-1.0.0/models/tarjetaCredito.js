@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const TarjetaCreditoSchema = Schema({
     //public tipo: 'VISA' | 'MASTERCARD',
-    tipo:{
+    tipo: {
         type: String,
         Required: true
     },
@@ -21,7 +21,7 @@ const TarjetaCreditoSchema = Schema({
     cvv: {
         type: String,
         required: true
-    }
+    },
 });
 
 
