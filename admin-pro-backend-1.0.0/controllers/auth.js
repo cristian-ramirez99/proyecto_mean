@@ -125,20 +125,24 @@ const recuperarPassword = async (req, res) => {
             numbers: true
         });
 
-        await Usuario.findOneAndUpdate({ "email": email }, { "password": password });
+        // Encriptar contraseña
+        const salt = bcrypt.genSaltSync();
+        const passwordEncriptada = bcrypt.hashSync(password, salt);
+
+        await Usuario.findOneAndUpdate({ "email": email }, { "password": passwordEncriptada });
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'Correo yavadevs !!!!!!',
-                pass: 'Contraseña yavadevs !!!!!!!!'
+                user: 'yavadevs.dam2@gmail.com',
+                pass: 'crisgramope'
             }
         });
 
         const mensaje = `Desde Yavadevs le proporcionamos una nueva contraseña que es esta cotraseña: ${password}`;
 
         const mailOptions = {
-            from: 'Correo yavadevs !!!!!!',
+            from: 'yavadevs.dam2@gmail.com',
             to: email,
             subject: 'Recuperación de contraseña',
             text: mensaje

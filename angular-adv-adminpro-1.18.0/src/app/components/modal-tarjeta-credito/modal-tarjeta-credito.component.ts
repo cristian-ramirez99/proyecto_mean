@@ -6,6 +6,7 @@ import { PedidoService } from 'src/app/services/pedido.service';
 import { Pedido } from 'src/app/models/pedido.mode';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-modal-tarjeta-credito',
@@ -23,13 +24,14 @@ export class ModalTarjetaCreditoComponent implements OnInit {
   constructor(public modalTarjetaCreditoService: ModalTarjetaCreditoService,
     private tarjetaCreditoService: TarjetaCreditoService,
     private pedidoService: PedidoService,
+    private usuarioService: UsuarioService,
     private router: Router) { }
 
   ngOnInit(): void {
     if (this.primeraVez) {
       this.pedido = this.modalTarjetaCreditoService.pedido;
 
-      if(this.pedido){
+      if (this.pedido) {
         this.primeraVez = false;
         this.cargarTarjetaCredito();
       }
@@ -37,7 +39,9 @@ export class ModalTarjetaCreditoComponent implements OnInit {
   }
 
   cargarTarjetaCredito() {
-    this.tarjetaCreditoService.cargarTarjetaCredito()
+    const id = this.usuarioService.idTarjetaCredito;
+
+    this.tarjetaCreditoService.cargarTarjetaCredito(id)
       .subscribe(tarjeta => {
         this.tarjetaCredito = tarjeta;
       });
