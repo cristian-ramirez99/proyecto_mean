@@ -195,9 +195,8 @@ const actualizarUsuario = async (req, res) => {
         }
 
         const campos = {
-            ...req.body,
-        }
-            
+            ...req.body
+        };
 
         const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, { new: true });
 
@@ -211,7 +210,7 @@ const actualizarUsuario = async (req, res) => {
         console.log(error);
         res.status(500).json({
             ok: false,
-            msg: 'Error inesperado'
+            msg: error
         })
     }
 }
@@ -259,5 +258,5 @@ module.exports = {
     actualizarEmail,
     actualizarPassword,
     borrarUsuario,
-    actualizarUsuario 
+    actualizarUsuario
 }
