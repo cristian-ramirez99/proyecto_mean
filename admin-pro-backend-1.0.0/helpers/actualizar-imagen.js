@@ -3,6 +3,7 @@ const fs = require('fs');
 
 const Medico = require('../models/medico');
 const Hospital = require('../models/hospital');
+const Producto = require('../models/productos');
 
 const borrarImagen = (path) => {
     if (fs.existsSync(path)) {
