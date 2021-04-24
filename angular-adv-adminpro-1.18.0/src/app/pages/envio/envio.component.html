@@ -3,17 +3,18 @@
     <div class="col-md-10">
         <h2>Configure su direccion de envío preferida</h2>
         <h6 class="bold">Esta será la dirección que se eligirá por defecto</h6>
-    <br>
+        <br>
         <div class="card">
             <div class="card-body">
                 <form class="form" autocomplete="off" [formGroup]="direccionForm" id="direccionForm"
                     (submit)="guardarDireccion()">
                     <div class="form-row">
                         <div class="form-group col-md-12">
-                            <label class="negrita" for="nombre">Nombre del destinatario<b class="text-danger"> *</b>
+                            <label class="negrita" for="nombreDestinatario">Nombre del destinatario<b
+                                    class="text-danger"> *</b>
                             </label>
-                            <input class="form-control" type="text" id="nombre" formControlName="nombre"
-                                placeholder="Introduce el nombre">
+                            <input class="form-control" type="text" id="nombreDestinatario"
+                                formControlName="nombreDestinatario" placeholder="Introduce el nombre">
                         </div>
                         <div class="form-group col-md-12">
                             <label class="negrita" for="calle">Calle<b class="text-danger"> *</b>
@@ -22,16 +23,16 @@
                                 placeholder="Introduce la calle">
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="negrita" for="numeroCalle">Nº Calle/Portal<b class="text-danger"> *</b>
+                            <label class="negrita" for="numeroPortal">Nº Calle/Portal<b class="text-danger"> *</b>
                             </label>
-                            <input class="form-control" type="text" id="numeroCalle" formControlName="numeroCalle"
+                            <input class="form-control" type="text" id="numeroPortal" formControlName="numeroPortal"
                                 placeholder="Introduce el numero de la calle y el portal">
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="negrita" for="cp">Código postal<b class="text-danger"> *</b>
+                            <label class="negrita" for="codigoPostal">Código postal<b class="text-danger"> *</b>
                             </label>
-                            <input class="form-control" type="text" id="cp" formControlName="cp" minlength="5"
-                                maxlength="5" placeholder="Introduce el codigo postal">
+                            <input class="form-control" type="text" id="codigoPostal" formControlName="codigoPostal"
+                                minlength="5" maxlength="5" placeholder="Introduce el codigo postal">
                         </div>
                         <div class="form-group col-md-6">
                             <label class="negrita" for="localidad">Localidad<b class="text-danger"> *</b>
@@ -42,8 +43,8 @@
                         <div class="form-group col-md-6">
                             <label class="negrita" for="telefono">Teléfono<b class="text-danger"> *</b>
                             </label>
-                            <input class="form-control" type="tel" id="telefono" formControlName="telefono"
-                                minlength="9" maxlength="9" placeholder="Introduce el telefono">
+                            <input class="form-control" type="text" id="telefono" maxlength="9" minlength="9"
+                                formControlName="telefono" placeholder="Introduce el telefono">
                         </div>
                         <div class="form-group col-md-12">
                             <label class="negrita" for="datosAdicionales">Datos adicionales</label>

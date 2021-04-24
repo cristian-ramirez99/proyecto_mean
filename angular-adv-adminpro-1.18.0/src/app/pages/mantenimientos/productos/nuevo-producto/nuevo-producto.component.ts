@@ -112,6 +112,7 @@ export class NuevoProductoComponent implements OnInit {
         _id: this.productoSeleccionado._id
       }
 
+      console.log("Data: "+data);
       this.productoService.actualizarProducto(data)
         .subscribe(resp => {
           Swal.fire('Actualizado', `${nombre} actualizado correctamente`, 'success');

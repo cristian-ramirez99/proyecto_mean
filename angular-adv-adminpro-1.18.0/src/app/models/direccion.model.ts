@@ -1,9 +1,9 @@
 export class Direccion {
     constructor(
-        public nombre: string,
+        public nombreDestinatario: string,
         public calle: string,
-        public numeroCalle: string,
-        public cp: string,
+        public numeroPortal: string,
+        public codigoPostal: string,
         public localidad: string,
         public telefono: string,
         public datosAdicionales: string,

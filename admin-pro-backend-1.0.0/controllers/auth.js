@@ -177,7 +177,9 @@ const renewToken = async (req, res = response) => {
     const token = await generarJWT(uid);
 
     // Obtener el usuario por UID
-    const usuario = await Usuario.findById(uid);
+    const usuario = await Usuario.findById(uid)
+        .populate('tarjetaCredito', 'tipo titular numero fechaCaducidad cvv')
+        .populate('direccion', 'nombreDestinatario calle numeroPortal codigoPostal localidad telefono datosAdicionales');
 
 
     res.json({

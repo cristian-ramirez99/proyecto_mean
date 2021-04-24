@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TarjetaCredito } from 'src/app/models/tarjetaCredito.model';
+import { Usuario } from 'src/app/models/usuario.model';
 import { TarjetaCreditoService } from 'src/app/services/tarjeta-credito.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import Swal from 'sweetalert2';
@@ -45,31 +46,27 @@ export class TarjetaCreditoComponent implements OnInit {
   ngOnInit(): void {
     this.cargarCincoYearsDesdeElActual()
 
-    if (this.usuarioService.idTarjetaCredito.length != 0) {
-      console.log("IDTarjetacredito length!=0");
-      this.cargarTarjetaCredito();
+    //Comprobamos si existe tarjetaCredito ya creada
+    if (this.usuarioService.tarjetaCredito != null) {
+      this.tarjetaCredito = this.usuarioService.tarjetaCredito;
+      this.isTarjetaCreditoCreada = true;
+
+      //Es necesario para que sea tipo Date
+      this.tarjetaCredito.fechaCaducidad = new Date(this.tarjetaCredito.fechaCaducidad);
+
+      //Actualizamos el value de los inputs
+      this.tarjetaCreditoForm.setValue({
+        tipo: this.tarjetaCredito.tipo,
+        titular: this.tarjetaCredito.titular,
+        numero: this.tarjetaCredito.numero,
+        mes: this.tarjetaCredito.fechaCaducidad.getMonth() + 1,
+        year: this.tarjetaCredito.fechaCaducidad.getFullYear(),
+        cvv: this.tarjetaCredito.cvv,
+      });
     }
   }
-  cargarTarjetaCredito() {
-    const id = this.usuarioService.idTarjetaCredito;
 
-    this.tarjetaCreditoService.cargarTarjetaCredito(id)
-      .subscribe((tarjeta: TarjetaCredito) => {
-        this.tarjetaCredito = tarjeta;
-        this.isTarjetaCreditoCreada = true;
-
-        this.tarjetaCreditoForm.setValue({
-          tipo: tarjeta.tipo,
-          titular: tarjeta.titular,
-          numero: tarjeta.numero,
-          mes: tarjeta.fechaCaducidad.getDate(),
-          year: tarjeta.fechaCaducidad.getFullYear(),
-          cvv: tarjeta.cvv,
-        })
-
-      });
-  }
-  guardarTarjetaCredito() {
+  async guardarTarjetaCredito() {
     this.formSumbitted = true;
     console.log(this.tarjetaCreditoForm.value);
 
@@ -84,24 +81,58 @@ export class TarjetaCreditoComponent implements OnInit {
       return false;
     }
 
+    const { tipo, titular, numero, cvv } = this.tarjetaCreditoForm.value;
+
+
     //Modificar tarjeta
     if (this.isTarjetaCreditoCreada) {
-      this.tarjetaCreditoService.modificarTarjetaCredito(this.tarjetaCreditoForm.value)
+      this.tarjetaCredito = new TarjetaCredito(tipo, titular, numero, this.getFechaCaducidad(), cvv, this.tarjetaCredito._id)
+
+      this.tarjetaCreditoService.modificarTarjetaCredito(this.tarjetaCredito)
         .subscribe(resp => {
           Swal.fire('Actualizado', 'Tarjeta atualizada correctamente', 'success');
         });
 
-
       //Crear tarjeta
     } else {
-      this.tarjetaCreditoService.crearTarjetaCredito(this.tarjetaCreditoForm.value)
-        .subscribe(resp => {
+      this.tarjetaCredito = new TarjetaCredito(tipo, titular, numero, this.getFechaCaducidad(), cvv)
+
+      await this.tarjetaCreditoService.crearTarjetaCredito(this.tarjetaCredito)
+        .toPromise()
+        .then((resp: { ok: boolean, tarjetaCredito: TarjetaCredito }) => {
           Swal.fire('Creado', 'Tarjeta creada correctamente', 'success');
+          this.tarjetaCredito._id = resp.tarjetaCredito._id;
           this.isTarjetaCreditoCreada = true;
-        });
+        })
+      //Hacemos peticion para añadir al usuario la tarjetaCredito
+      this.actualizarUsuario();
     }
+
   }
 
+  //Peticion que añade al usuario la tarjeta
+  actualizarUsuario() {
+    const data = {
+      tarjetaCredito: this.tarjetaCredito._id,
+    }
+
+    const uid = this.usuarioService.uid;
+
+    this.usuarioService.actualizarUsuario(data, uid)
+      .subscribe((resp: { ok: Boolean, usuario: Usuario }) => {
+        console.log(resp);
+        this.usuarioService.setTarjetaCredito(resp.usuario.tarjetaCredito);
+      })
+  }
+
+  getFechaCaducidad(): Date {
+    const { mes, year } = this.tarjetaCreditoForm.value;
+
+    //Ultimo dia del mes es day = 0
+    const fechaCaducidad = new Date(year, mes, 0);
+
+    return fechaCaducidad;
+  }
   cargarCincoYearsDesdeElActual() {
     const añoActual = new Date().getFullYear();
 

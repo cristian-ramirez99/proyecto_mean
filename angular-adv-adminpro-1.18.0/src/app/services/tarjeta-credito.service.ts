@@ -24,8 +24,9 @@ export class TarjetaCreditoService {
     }
   }
   crearTarjetaCredito(tarjetaCredito: TarjetaCredito) {
+    console.log(tarjetaCredito);
     const url = `${base_url}/tarjetaCredito`;
-    return this.http.put(url, tarjetaCredito, this.headers);
+    return this.http.post(url, tarjetaCredito, this.headers);
   }
 
   modificarTarjetaCredito(tarjetaCredito: TarjetaCredito) {

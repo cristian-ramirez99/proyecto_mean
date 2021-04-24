@@ -198,7 +198,8 @@ const actualizarUsuario = async (req, res) => {
             ...req.body
         };
 
-        const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, { new: true });
+        const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, { new: true })
+            .populate('tarjetaCredito','tipo titular numero fechaCaducidad cvv');
 
         res.json({
             ok: true,

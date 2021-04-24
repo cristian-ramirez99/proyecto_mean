@@ -12,6 +12,8 @@ import { LoginForm } from '../interfaces/login-form.interface';
 import { CargarUsuario } from '../interfaces/cargar-usuarios.interface';
 
 import { Usuario } from '../models/usuario.model';
+import { TarjetaCredito } from '../models/tarjetaCredito.model';
+import { Direccion } from '../models/direccion.model';
 
 const base_url = environment.base_url;
 
@@ -44,12 +46,18 @@ export class UsuarioService {
     return this.usuario.uid || '';
   }
 
-  get idTarjetaCredito():string{
-    return this.usuario.tarjetaCredito._id || '';
+  get tarjetaCredito(): TarjetaCredito {
+    return this.usuario.tarjetaCredito;
   }
-  
-  get idDireccion():string{
-    return this.usuario.direccion._id || '';
+  setTarjetaCredito(tarjetaCredito: TarjetaCredito) {
+    this.usuario.tarjetaCredito = tarjetaCredito;
+  }
+
+  get direccion(): Direccion {
+    return this.usuario.direccion;
+  }
+  setDireccion(direccion: Direccion) {
+    this.usuario.direccion = direccion;
   }
 
   get headers() {
@@ -97,8 +105,8 @@ export class UsuarioService {
       }
     }).pipe(
       map((resp: any) => {
-        const { email, google, nombre, role, img = '', uid } = resp.usuario;
-        this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
+        const { email, google, nombre, role, tarjetaCredito, direccion, img = '', uid } = resp.usuario;
+        this.usuario = new Usuario(nombre, email, '', img, google, role, uid, tarjetaCredito, direccion);
 
         this.guardarLocalStorage(resp.token, resp.menu);
 
@@ -190,4 +198,8 @@ export class UsuarioService {
     return this.http.put(url, email);
   }
 
+  actualizarUsuario(data, uid: string) {
+    const url = `${base_url}/usuarios/agregarCampo/${uid}`;
+    return this.http.put(url, data, this.headers);
+  }
 }

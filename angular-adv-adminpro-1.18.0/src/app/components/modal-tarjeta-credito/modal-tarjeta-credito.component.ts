@@ -15,7 +15,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class ModalTarjetaCreditoComponent implements OnInit {
 
-  public tarjetaCredito: TarjetaCredito;
+  public tarjetaCredito: TarjetaCredito = new TarjetaCredito('VISA', 'manolo', '1234567891234567', new Date(), '123', '');
 
   public primeraVez: boolean = true;
   public mostrarTarjeta: boolean = false;
@@ -39,14 +39,11 @@ export class ModalTarjetaCreditoComponent implements OnInit {
   }
 
   cargarTarjetaCredito() {
-    const id = this.usuarioService.idTarjetaCredito;
+    this.tarjetaCredito = this.usuarioService.tarjetaCredito;
 
-    this.tarjetaCreditoService.cargarTarjetaCredito(id)
-      .subscribe(tarjeta => {
-        this.tarjetaCredito = tarjeta;
-      });
-    //Borrar !!!
-    this.tarjetaCredito = new TarjetaCredito('VISA', "El pana manuel", "1234567891234567", new Date(2022, 8, 12), "123", "e1g2h12fgvd");
+    //Es necesario para que sea tipo Date
+    this.tarjetaCredito.fechaCaducidad = new Date(this.tarjetaCredito.fechaCaducidad);
+
   }
 
   hacerPedido() {

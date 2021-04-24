@@ -4,6 +4,8 @@ import { PedidoService } from 'src/app/services/pedido.service';
 import { DireccionService } from 'src/app/services/direccion.service';
 import { Direccion } from 'src/app/models/direccion.model';
 import Swal from 'sweetalert2';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { Usuario } from 'src/app/models/usuario.model';
 
 @Component({
   selector: 'app-envio',
@@ -12,53 +14,51 @@ import Swal from 'sweetalert2';
 })
 export class EnvioComponent implements OnInit {
 
-  public direccion: Direccion;
+  public direccion: Direccion = new Direccion('', '', '', '', '', '123456789', '', '');
 
   private isDireccionCreada: boolean = false;
   private formSubmitted = false;
 
   public direccionForm = this.fb.group(
     {
-      nombre: ['', Validators.required],
+      nombreDestinatario: ['', Validators.required],
       calle: ['', Validators.required],
-      numeroCalle: ['', Validators.required],
-      cp: ['', Validators.required],
+      numeroPortal: ['', Validators.required],
+      codigoPostal: ['', Validators.required],
       localidad: ['', Validators.required],
       telefono: ['', Validators.required],
       datosAdicionales: [''],
     }
+
   );
 
   constructor(public fb: FormBuilder,
     public pedidoService: PedidoService,
-    public dirrecionService: DireccionService) { }
+    public dirrecionService: DireccionService,
+    private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
-    this.cargarDireccion();
+    //Comprobamos si existe direccion ya creada
+    if (this.usuarioService.direccion != null) {
+      this.direccion = this.usuarioService.direccion;
+      console.log(this.usuarioService.direccion);
+      this.isDireccionCreada = true;
+
+      //Actualizamos el value de los inputs
+      this.direccionForm.setValue({
+        nombreDestinatario: this.direccion.nombreDestinatario,
+        calle: this.direccion.calle,
+        numeroPortal: this.direccion.numeroPortal,
+        codigoPostal: this.direccion.codigoPostal,
+        localidad: this.direccion.localidad,
+        telefono: this.direccion.telefono,
+        datosAdicionales: this.direccion.datosAdicionales,
+      });
+    }
+
   }
 
-  cargarDireccion() {
-    this.dirrecionService.cargarDireccion()
-      .subscribe(direccion => {
-        this.direccion = direccion;
-        this.isDireccionCreada = true;
-      });
-    //Borrar !!!
-    this.isDireccionCreada = true;
-    const direccion = new Direccion("NoTiene", "Calle MDLR", "12 23 1o 1a", "08921", "Barcelona", "123456789", "Buen dato", "12213fag");
-    this.direccion = direccion;
-    
-    this.direccionForm.setValue({
-      nombre: this.direccion.nombre,
-      calle: this.direccion.calle,
-      numeroCalle: this.direccion.numeroCalle,
-      cp: this.direccion.cp,
-      localidad: this.direccion.localidad,
-      telefono: this.direccion.telefono,
-      datosAdicionales: this.direccion.datosAdicionales,
-    })
-  }
-  guardarDireccion() {
+  async guardarDireccion() {
     this.formSubmitted = true;
 
     //Control de errores 
@@ -68,33 +68,49 @@ export class EnvioComponent implements OnInit {
 
     if (this.isDireccionCreada) {
       //Modificar direccion
-      console.log("Modificando dirrecion");
-
+      console.log("Modificando direccion");
+      
       const data = {
         ...this.direccionForm.value,
         _id: this.direccion._id
       }
-
+      
       //Put modificarDireccion
       this.dirrecionService.modificarDireccion(data)
         .subscribe(resp => {
           Swal.fire('Actualizado', "Dirrección actualizada correctamente", 'success');
         });
-      //Borrar !!!
-      Swal.fire('Actualizado', "Dirrección actualizada correctamente", 'success');
+
 
     } else {
       //Crear direccion
       console.log("Creando dirrecion");
 
       //Post crearDireccion
-      this.dirrecionService.crearDireccion(this.direccionForm.value)
-        .subscribe(resp => {
+      await this.dirrecionService.crearDireccion(this.direccionForm.value)
+        .toPromise()
+        .then((resp: { ok: boolean, direccion: Direccion }) => {
           Swal.fire('Creado', "Dirección creada correctamente", 'success');
-        });
-      //Borrar !!!
-      Swal.fire('Creado', "Dirección creada correctamente", 'success');
+          this.direccion._id = resp.direccion._id;
+          this.isDireccionCreada = true;
+        })
+      this.actualizarUsuario();
     }
+  }
+
+  //Peticion que añade al usuario la direccion
+  actualizarUsuario() {
+    const data = {
+      direccion: this.direccion._id,
+    }
+
+    const uid = this.usuarioService.uid;
+
+    this.usuarioService.actualizarUsuario(data, uid)
+      .subscribe((resp: { ok: Boolean, usuario: Usuario }) => {
+        console.log("REsp: " + resp.usuario.direccion);
+        this.usuarioService.setDireccion(resp.usuario.direccion);
+      })
   }
   public codigoPostalNoValido(): boolean {
     const { cp } = this.direccionForm.value;
