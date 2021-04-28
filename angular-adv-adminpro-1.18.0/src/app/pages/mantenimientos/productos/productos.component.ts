@@ -17,9 +17,12 @@ import { ModalImagenService } from '../../../services/modal-imagen.service';
 export class ProductosComponent implements OnInit {
 
   public cargando: boolean = true;
+  public toggle: boolean[] = [false, true, false, false];
+
   public productosTotales: Producto[] = [];
   public productosMostrados: Producto[] = [];
   public tipoProductos: TipoProducto[] = [];
+
   public imgSubs: Subscription;
 
   private nombreTipoProductoSeleccionado: String = "Cualquier producto";
@@ -48,9 +51,50 @@ export class ProductosComponent implements OnInit {
         this.cargando = false;
         this.productosTotales = productos;
         this.productosMostrados = productos;
+        this.toggleFiltroNombre();
+
       });
   }
+  cargarProductosFiltroPrecio() {
+    this.cargando = true;
+    this.productoService.cargarProductosFiltroPrecio()
+      .subscribe(productos => {
+        this.cargando = false;
+        this.productosTotales = productos;
+        this.productosMostrados = productos;
+        this.toogleFiltroPrecio();
 
+      });
+  }
+  toggleFiltroNombre() {
+    if (this.toggle[1] || this.toggle[2] || this.toggle[3]) {
+      //Vaciamos el array
+      this.toggle = [];
+
+      this.toggle[0] = true;
+    } else if (this.toggle[0]) {
+      //Vaciamos el array
+      this.toggle = [];
+
+      this.toggle[1] = true;
+      this.productosMostrados.reverse()
+    }
+  }
+  toogleFiltroPrecio() {
+    if (this.toggle[0] || this.toggle[1] || this.toggle[3]) {
+      //Vaciamos el array
+      this.toggle = [];
+
+      this.toggle[2] = true;
+    } else if (this.toggle[2]) {
+      //Vaciamos el array
+      this.toggle = [];
+
+      this.toggle[3] = true;
+      this.productosMostrados.reverse()
+
+    }
+  }
   //Hace peticion GET y obtiene todos los TipoProductos 
   cargarTipoProductos() {
 

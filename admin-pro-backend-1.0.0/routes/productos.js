@@ -13,14 +13,18 @@ const {
     crearProducto,
     getProductoById,
     eliminarProducto,
-    actualizarProducto
+    actualizarProducto,
+    getProductosFiltrarPrecio
 } = require('../controllers/productos');
 
 const router = Router();
 
 router.get('/', validarJWT, getProductos);
 
+router.get('/filtroPrecio',validarJWT,getProductosFiltrarPrecio);
+
 router.get('/:id', validarJWT, getProductoById);
+
 
 router.post('/',
     [

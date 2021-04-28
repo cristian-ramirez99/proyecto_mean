@@ -20,9 +20,21 @@
                         <thead>
                             <tr>
                                 <th>ID-Pedido</th>
-                                <th>Fecha</th>
+                                <th (click)="cargarPedidos()" class="cursor">
+                                    Fecha
+                                    <i [ngClass]="toggle[0]? 'filtroSeleccionado' : ''"
+                                        class="fa fa-caret-up fa-lg"></i>
+                                    <i [ngClass]="toggle[1]? 'filtroSeleccionado' : ''"
+                                        class="fa fa-caret-down fa-lg"></i>
+                                </th>
                                 <th>Estado</th>
-                                <th>Precio total (&euro;)</th>
+                                <th (click)="cargarPedidosFiltroPrecio()" class="cursor">
+                                    Precio total (&euro;)
+                                    <i [ngClass]="toggle[2]? 'filtroSeleccionado' : ''"
+                                        class="fa fa-caret-up fa-lg"></i>
+                                    <i [ngClass]="toggle[3]? 'filtroSeleccionado' : ''"
+                                        class="fa fa-caret-down fa-lg"></i>
+                                </th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>

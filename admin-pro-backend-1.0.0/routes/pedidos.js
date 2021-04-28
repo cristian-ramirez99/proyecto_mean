@@ -13,7 +13,8 @@ const {
     getPedidoTemp,
     getPedidos,
     eliminarPedido,
-    actualizarPedido
+    actualizarPedido,
+    getPedidosFiltroPrecio
 } = require('../controllers/pedidos');
 
 const router = Router();
@@ -29,6 +30,9 @@ router.post('/',
 router.get('/temp/:id', validarJWT, getPedidoTemp);
 
 router.get('/:id', validarJWT, getPedidos);
+
+router.get('/filtroPrecio/:id', validarJWT, getPedidosFiltroPrecio);
+
 
 router.delete('/:id', validarJWT, eliminarPedido);
 

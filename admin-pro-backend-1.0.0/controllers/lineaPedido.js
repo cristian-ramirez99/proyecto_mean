@@ -84,5 +84,5 @@ const eliminarLineaPedido = async (req, res) => {
 module.exports = {
     getLineaPedidosByIdPedido,
     crearLineaPedido,
-    eliminarLineaPedido
+    eliminarLineaPedido,
 }

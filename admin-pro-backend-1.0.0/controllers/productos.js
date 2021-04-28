@@ -24,7 +24,7 @@ const getProductoById = async (req, res) => {
 }
 const getProductos = async (req, res = response) => {
 
-    const productos = await Producto.find()
+    const productos = await Producto.find().sort({ nombre: 1 })
         .populate('tipoProducto', 'nombre caracteristicas')
 
 
@@ -33,6 +33,18 @@ const getProductos = async (req, res = response) => {
         productos,
     });
 }
+
+const getProductosFiltrarPrecio = async (req, res) => {
+    const productos = await Producto.find().sort({ precio: 1 })
+        .populate('tipoProducto', 'nombre caracteristicas')
+
+
+    res.json({
+        ok: true,
+        productos,
+    });
+}
+
 const crearProducto = async (req, res) => {
 
     const producto = new Producto({
@@ -130,5 +142,6 @@ module.exports = {
     crearProducto,
     getProductoById,
     eliminarProducto,
-    actualizarProducto
+    actualizarProducto,
+    getProductosFiltrarPrecio
 }

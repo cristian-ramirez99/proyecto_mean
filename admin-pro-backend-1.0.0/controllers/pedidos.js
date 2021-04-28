@@ -65,6 +65,25 @@ const getPedidos = async (req, res) => {
         })
     }
 }
+const getPedidosFiltroPrecio = async (req, res) => {
+    const uid = req.params.id;
+
+    try {
+        const pedidos = await Pedido.find({ usuario: uid, estado: { $ne: 'temporal' } }).sort({precio:1})
+
+        res.json({
+            ok: true,
+            pedidos,
+        })
+
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: true,
+            msg: 'Hable con el administrador'
+        })
+    }
+}
 const actualizarPedido = async (req, res) => {
     const id = req.params.id;
 
@@ -136,6 +155,7 @@ const eliminarPedido = async (req, res) => {
 module.exports = {
     crearPedido,
     getPedidoTemp,
+    getPedidosFiltroPrecio,
     getPedidos,
     eliminarPedido,
     actualizarPedido

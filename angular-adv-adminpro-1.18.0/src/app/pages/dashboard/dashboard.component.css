@@ -7,3 +7,10 @@
 aside{
     float: left;
 }
+
+.filtroSeleccionado{
+    color: #BD79E8;
+}
+.title{
+    font-size: 20px;
+}

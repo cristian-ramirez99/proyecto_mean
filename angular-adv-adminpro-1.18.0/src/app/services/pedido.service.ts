@@ -32,6 +32,14 @@ export class PedidoService {
         map((resp: { ok: boolean, pedidos: Pedido[] }) => resp.pedidos)
       );
   }
+
+  cargarPedidosFiltroPrecio(uid: string) {
+    const url = `${base_url}/pedidos/filtroPrecio/${uid}`;
+    return this.http.get(url, this.headers)
+      .pipe(
+        map((resp: { ok: boolean, pedidos: Pedido[] }) => resp.pedidos)
+      );
+  }
   cargarPedidoTemp(uid: string) {
     //Tambien deberia de saber el usuario 
     const url = `${base_url}/pedidos/temp/${uid}`

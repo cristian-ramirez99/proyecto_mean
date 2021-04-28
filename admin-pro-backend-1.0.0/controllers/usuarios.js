@@ -13,7 +13,8 @@ const getUsuarios = async (req, res) => {
         Usuario
             .find({}, 'nombre email role google img')
             .skip(desde)
-            .limit(5),
+            .limit(5)
+            .sort({nombre:1}),
 
         Usuario.countDocuments()
     ]);

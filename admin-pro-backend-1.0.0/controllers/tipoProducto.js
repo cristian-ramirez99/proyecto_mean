@@ -25,7 +25,7 @@ const getTipoProductoById = async (req, res) => {
 
 const getTipoProductos = async (req, res) => {
 
-    const tipoProductos = await TipoProducto.find({})
+    const tipoProductos = await TipoProducto.find({}).sort({nombre:1})
 
     res.json({
         ok: true,

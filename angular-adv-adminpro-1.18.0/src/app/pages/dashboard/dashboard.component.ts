@@ -22,7 +22,8 @@ export class DashboardComponent implements OnInit {
   private precioMax = 999999;
   private tipoProducto = "todo";
 
-  public toogle: boolean[] = [];
+  public toggleTipoProducto: boolean[] = [];
+  public toggleFiltro: boolean[] = [false, true, false, false];
 
   constructor(private productoService: ProductoService,
     public router: Router) { }
@@ -36,16 +37,38 @@ export class DashboardComponent implements OnInit {
   cargarProductos() {
     this.productoService.cargarProductos()
       .subscribe(productos => {
+        //Vaciamo el array 
+        this.toggleTipoProducto =[];
+
+        //Por default mostramos en negrita 'Cualquier producto'
+        this.toggleTipoProducto[0] = true;
+
         this.productosTotales = productos;
         this.productosMostrados = productos;
+        this.toggleFiltroNombre();
         this.calcularCantidadTipoProducto(this.precioMin, this.precioMax);
 
       });
   }
+  cargarProductosFiltroPrecio() {
+    this.productoService.cargarProductosFiltroPrecio()
+      .subscribe(productos => {
+        //Vaciamos el array
+        this.toggleTipoProducto =[];
+
+        //Por default mostramos en negrita 'Cualquier producto'
+        this.toggleTipoProducto[0] = true;
+
+        this.productosTotales = productos;
+        this.productosMostrados = productos;
+        this.toggleFiltroPrecio();
+        this.filtrarProductos();
+
+        this.calcularCantidadTipoProducto(this.precioMin, this.precioMax);
+      });
+  }
   //Hace peticion GET y obtiene todos los TipoProductos 
   cargarTipoProductos() {
-    console.log("Cargando tipo productos");
-
     this.productoService.cargarTipoProductos()
       .subscribe(tipoProductos => {
         this.tipoProductos = tipoProductos;
@@ -54,10 +77,7 @@ export class DashboardComponent implements OnInit {
         this.tipoProductos.unshift(new TipoProducto('Cualquier producto', ''));
 
         //Inicializamos el array que resalta el tipoProducto seleccionado
-        this.toogle = new Array(this.tipoProducto.length);
-
-        //Por default mostramos en negrita 'Cualquier producto'
-        this.toogle[0] = true;
+        this.toggleTipoProducto = new Array(this.tipoProducto.length);
       })
   }
 
@@ -106,10 +126,10 @@ export class DashboardComponent implements OnInit {
 
     this.tipoProducto = tipo;
     //Vaciamos el array
-    this.toogle = [];
+    this.toggleTipoProducto = [];
 
     //Ponemos en negrita el selected tipoProducto
-    this.toogle[index] = true;
+    this.toggleTipoProducto[index] = true;
 
     //Actualizamos mostrarProductos
     this.filtrarProductos();
@@ -128,5 +148,34 @@ export class DashboardComponent implements OnInit {
   }
   noExisteProductosMostrados() {
     return this.productosMostrados.length == 0;
+  }
+  toggleFiltroNombre() {
+    if (this.toggleFiltro[1] || this.toggleFiltro[2] || this.toggleFiltro[3]) {
+      //Vaciamos el array
+      this.toggleFiltro = [];
+
+      this.toggleFiltro[0] = true;
+    } else if (this.toggleFiltro[0]) {
+      //Vaciamos el array
+      this.toggleFiltro = [];
+
+      this.toggleFiltro[1] = true;
+      this.productosMostrados.reverse()
+    }
+  }
+  toggleFiltroPrecio() {
+    if (this.toggleFiltro[0] || this.toggleFiltro[1] || this.toggleFiltro[3]) {
+      //Vaciamos el array
+      this.toggleFiltro = [];
+
+      this.toggleFiltro[2] = true;
+    } else if (this.toggleFiltro[2]) {
+      //Vaciamos el array
+      this.toggleFiltro = [];
+
+      this.toggleFiltro[3] = true;
+      this.productosMostrados.reverse()
+
+    }
   }
 }

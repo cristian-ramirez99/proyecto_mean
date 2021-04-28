@@ -63,19 +63,26 @@
                             </btn>
                         </div>
                     </div>
-
                 </div>
-
-
 
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th class="w100">Foto</th>
-                                <th>Nombre</th>
+                                <th class="cursor" (click)="cargarProductos()">Nombre
+                                    <i [ngClass]="toggle[0]? 'filtroSeleccionado' : ''" class="fa fa-caret-up fa-lg"
+                                        aria-hidden="true"></i>
+                                    <i [ngClass]="toggle[1]? 'filtroSeleccionado' : ''" class=" fa fa-caret-down fa-lg"
+                                        aria-hidden=" true"></i>
+                                </th>
                                 <th>Categoria</th>
-                                <th>Precio (&euro;)</th>
+                                <th class="cursor" (click)="cargarProductosFiltroPrecio()">Precio (&euro;)
+                                    <i [ngClass]="toggle[2]? 'filtroSeleccionado' : ''" class="fa fa-caret-up fa-lg"
+                                        aria-hidden="true"></i>
+                                    <i [ngClass]="toggle[3]? 'filtroSeleccionado' : ''" class="fa fa-caret-down fa-lg"
+                                        aria-hidden="true"></i>
+                                </th>
                                 <th>Stock</th>
                                 <th class="w100 text-nowrap">Acciones</th>
                             </tr>

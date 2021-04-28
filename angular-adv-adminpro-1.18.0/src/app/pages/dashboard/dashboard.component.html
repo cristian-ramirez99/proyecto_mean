@@ -3,12 +3,11 @@
     <!-------------------------------------------------------------------------------->
     <div class="card">
         <header class="card-header bg-dark">
-            <h5 class="title white">Por productos <i class="fa fa-tablet" aria-hidden="true"></i>
-            </h5>
+            <h5 class="title white text-center">Categorias</h5>
         </header>
         <div class="card-body tipoProductos animated fadeIn fast">
             <p (click)=onTipoProductoChange(tipo.nombre,i) *ngFor="let tipo of tipoProductos;let i=index"
-                [ngClass]="toogle[i]? 'negrita':''" class="cursor">
+                [ngClass]="toggleTipoProducto[i]? 'negrita':''" class="cursor">
                 {{tipo.nombre}} ({{cantidadTipoProductos[i]}})
             </p>
         </div>
@@ -20,7 +19,11 @@
     <!----------------------------FiltroPrecio--------------------------------------->
     <div class="card">
         <header class="card-header bg-dark">
-            <h5 class="title white">Por precio <i class="fa fa-eur" aria-hidden="true"></i>
+            <h5 (click)=" cargarProductosFiltroPrecio()" class="cursor title white text-center">Precio
+                <i [ngClass]="toggleFiltro[2]? 'filtroSeleccionado' : ''" class="fa fa-caret-up fa-lg"
+                    aria-hidden="true"></i>
+                <i [ngClass]="toggleFiltro[3]? 'filtroSeleccionado' : ''" class="fa fa-caret-down fa-lg"
+                    aria-hidden="true"></i>
             </h5>
         </header>
         <div class="card-body tipoProductos animated fadeIn fast">

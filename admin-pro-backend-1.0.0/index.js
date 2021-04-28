@@ -34,7 +34,7 @@ app.use('/api/pedidos', require('./routes/pedidos'));
 app.use('/api/lineaPedidos', require('./routes/lineaPedidos'));
 app.use('/api/direccion', require('./routes/direccion'));
 app.use('/api/tarjetaCredito', require('./routes/tarjetaCredito'));
-
+app.use('/api/estadisticas', require('./routes/estadisticas'));
 
 
 app.listen(process.env.PORT, () => {

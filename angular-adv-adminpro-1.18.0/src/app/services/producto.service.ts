@@ -41,7 +41,13 @@ export class ProductoService {
         map((resp: { ok: boolean, productos: Producto[] }) => resp.productos)
       );
   }
-
+  cargarProductosFiltroPrecio() {
+    const url = `${base_url}/productos/filtroPrecio`;
+    return this.http.get(url, this.headers)
+      .pipe(
+        map((resp: { ok: boolean, productos: Producto[] }) => resp.productos)
+      );
+  }
   cargarProducto(_id: string) {
     const url = `${base_url}/productos/${_id}`
     return this.http.get(url, this.headers)
@@ -49,15 +55,16 @@ export class ProductoService {
         map((resp: { ok: boolean, producto: Producto }) => resp.producto)
       );
   }
+
   eliminarProducto(_id: string) {
     const url = `${base_url}/productos/${_id}`
     return this.http.delete(url, this.headers);
   }
-  actualizarProducto(producto: ProductoForm){
+  actualizarProducto(producto: ProductoForm) {
     const url = `${base_url}/productos/${producto._id}`
     return this.http.put(url, producto, this.headers);
   }
-  actualizarStockDelProducto(producto: any){
+  actualizarStockDelProducto(producto: any) {
     const url = `${base_url}/productos/${producto._id}`
     return this.http.put(url, producto, this.headers);
   }
