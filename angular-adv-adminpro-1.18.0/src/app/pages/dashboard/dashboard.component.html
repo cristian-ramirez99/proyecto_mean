@@ -19,7 +19,7 @@
     <!----------------------------FiltroPrecio--------------------------------------->
     <div class="card">
         <header class="card-header bg-dark">
-            <h5 (click)=" cargarProductosFiltroPrecio()" class="cursor title white text-center">Precio
+            <h5 (click)=" cargarProductos(true,filtro.filtroPrecio)" class="cursor title white text-center">Precio
                 <i [ngClass]="toggleFiltro[2]? 'filtroSeleccionado' : ''" class="fa fa-caret-up fa-lg"
                     aria-hidden="true"></i>
                 <i [ngClass]="toggleFiltro[3]? 'filtroSeleccionado' : ''" class="fa fa-caret-down fa-lg"

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { delay } from 'rxjs/operators';
 import { Producto, TipoProducto } from 'src/app/models/producto.model';
 import { ProductoService } from '../../services/producto.service';
+
+import { filtro } from '../../global/filtroProducto';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +12,8 @@ import { ProductoService } from '../../services/producto.service';
 
 })
 export class DashboardComponent implements OnInit {
+
+  readonly filtro = filtro;
 
   public tipoProductos: TipoProducto[] = [];
   public cantidadTipoProductos: number[] = [];
@@ -23,50 +26,36 @@ export class DashboardComponent implements OnInit {
   private tipoProducto = "todo";
 
   public toggleTipoProducto: boolean[] = [];
-  public toggleFiltro: boolean[] = [false, true, false, false];
+  public toggleFiltroProducto: boolean[] = [false, true, false, false];
 
   constructor(private productoService: ProductoService,
     public router: Router) { }
 
   ngOnInit(): void {
     this.cargarTipoProductos();
-    this.cargarProductos();
+    this.cargarProductos(false, filtro.filtroNombre);
 
   }
   //Hace peticion GET y obtiene todos los productos
-  cargarProductos() {
-    this.productoService.cargarProductos()
+  cargarProductos(hacerToggle: boolean, filtro: number) {
+    this.productoService.cargarProductos(filtro)
       .subscribe(productos => {
         //Vaciamo el array 
-        this.toggleTipoProducto =[];
+        this.toggleTipoProducto = [];
 
         //Por default mostramos en negrita 'Cualquier producto'
         this.toggleTipoProducto[0] = true;
 
         this.productosTotales = productos;
         this.productosMostrados = productos;
-        this.toggleFiltroNombre();
+        if (hacerToggle) {
+          this.toggleFiltro(filtro);
+        }
         this.calcularCantidadTipoProducto(this.precioMin, this.precioMax);
 
       });
   }
-  cargarProductosFiltroPrecio() {
-    this.productoService.cargarProductosFiltroPrecio()
-      .subscribe(productos => {
-        //Vaciamos el array
-        this.toggleTipoProducto =[];
 
-        //Por default mostramos en negrita 'Cualquier producto'
-        this.toggleTipoProducto[0] = true;
-
-        this.productosTotales = productos;
-        this.productosMostrados = productos;
-        this.toggleFiltroPrecio();
-        this.filtrarProductos();
-
-        this.calcularCantidadTipoProducto(this.precioMin, this.precioMax);
-      });
-  }
   //Hace peticion GET y obtiene todos los TipoProductos 
   cargarTipoProductos() {
     this.productoService.cargarTipoProductos()
@@ -149,33 +138,19 @@ export class DashboardComponent implements OnInit {
   noExisteProductosMostrados() {
     return this.productosMostrados.length == 0;
   }
-  toggleFiltroNombre() {
-    if (this.toggleFiltro[1] || this.toggleFiltro[2] || this.toggleFiltro[3]) {
+  toggleFiltro(pos: number) {
+    if (this.toggleFiltroProducto[pos]) {
       //Vaciamos el array
-      this.toggleFiltro = [];
+      this.toggleFiltroProducto = [];
 
-      this.toggleFiltro[0] = true;
-    } else if (this.toggleFiltro[0]) {
-      //Vaciamos el array
-      this.toggleFiltro = [];
-
-      this.toggleFiltro[1] = true;
-      this.productosMostrados.reverse()
-    }
-  }
-  toggleFiltroPrecio() {
-    if (this.toggleFiltro[0] || this.toggleFiltro[1] || this.toggleFiltro[3]) {
-      //Vaciamos el array
-      this.toggleFiltro = [];
-
-      this.toggleFiltro[2] = true;
-    } else if (this.toggleFiltro[2]) {
-      //Vaciamos el array
-      this.toggleFiltro = [];
-
-      this.toggleFiltro[3] = true;
+      this.toggleFiltroProducto[pos + 1] = true;
       this.productosMostrados.reverse()
 
+    } else {
+      //Vaciamos el array
+      this.toggleFiltroProducto = [];
+
+      this.toggleFiltroProducto[pos] = true;
     }
   }
 }

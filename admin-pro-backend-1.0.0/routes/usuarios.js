@@ -5,7 +5,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 
-const { getUsuarios, crearUsuario, actualizarUsuario, borrarUsuario, actualizarPassword, actualizarEmail } = require('../controllers/usuarios');
+const { getUsuarios, crearUsuario, actualizarUsuario, borrarUsuario, actualizarPassword, actualizarEmail, getUsuariosFiltroNombre } = require('../controllers/usuarios');
 const {
     validarJWT,
     varlidarADMIN_ROLE,
@@ -15,6 +15,8 @@ const {
 
 const router = Router();
 
+
+router.get('/filtroNombre', validarJWT, getUsuariosFiltroNombre);
 
 router.get('/', validarJWT, getUsuarios);
 

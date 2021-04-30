@@ -5,6 +5,7 @@ import { Producto, TipoProducto } from '../models/producto.model';
 import { map } from 'rxjs/operators';
 
 import { ProductoForm } from '../interfaces/producto-form.interface';
+import { filtro } from '../global/filtroProducto';
 
 const base_url = environment.base_url;
 
@@ -34,20 +35,25 @@ export class ProductoService {
       }
     }
   }
-  cargarProductos() {
-    const url = `${base_url}/productos`;
+  cargarProductos(filtroValue: number) {
+    let url;
+
+    if (filtroValue == filtro.filtroNombre) {
+      url = `${base_url}/productos`;
+
+    } else if (filtroValue === filtro.filtroPrecio) {
+      url = `${base_url}/productos/filtroPrecio`;
+
+    } else {
+      url = `${base_url}/productos/filtroStock`;
+    }
+
     return this.http.get(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, productos: Producto[] }) => resp.productos)
       );
   }
-  cargarProductosFiltroPrecio() {
-    const url = `${base_url}/productos/filtroPrecio`;
-    return this.http.get(url, this.headers)
-      .pipe(
-        map((resp: { ok: boolean, productos: Producto[] }) => resp.productos)
-      );
-  }
+
   cargarProducto(_id: string) {
     const url = `${base_url}/productos/${_id}`
     return this.http.get(url, this.headers)

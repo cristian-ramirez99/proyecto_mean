@@ -5,6 +5,29 @@ const Usuario = require('../models/usuario');
 const { generarJWT } = require('../helpers/jwt');
 
 
+const getUsuariosFiltroNombre = async (req, res) => {
+
+    const desde = Number(req.query.desde) || 0;
+
+    const [usuarios, total] = await Promise.all([
+        Usuario
+            .find({}, 'nombre email role google img')
+            .skip(desde)
+            .limit(5)
+            .sort({ nombre: 1 }),
+
+        Usuario.countDocuments()
+    ]);
+
+
+    res.json({
+        ok: true,
+        usuarios,
+        total
+    });
+
+}
+
 const getUsuarios = async (req, res) => {
 
     const desde = Number(req.query.desde) || 0;
@@ -14,7 +37,7 @@ const getUsuarios = async (req, res) => {
             .find({}, 'nombre email role google img')
             .skip(desde)
             .limit(5)
-            .sort({nombre:1}),
+            .sort({ email: 1 }),
 
         Usuario.countDocuments()
     ]);
@@ -200,7 +223,7 @@ const actualizarUsuario = async (req, res) => {
         };
 
         const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, { new: true })
-            .populate('tarjetaCredito','tipo titular numero fechaCaducidad cvv');
+            .populate('tarjetaCredito', 'tipo titular numero fechaCaducidad cvv');
 
         res.json({
             ok: true,
@@ -255,6 +278,7 @@ const borrarUsuario = async (req, res = response) => {
 
 
 module.exports = {
+    getUsuariosFiltroNombre,
     getUsuarios,
     crearUsuario,
     actualizarEmail,

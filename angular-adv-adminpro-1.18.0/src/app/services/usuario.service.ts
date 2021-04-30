@@ -181,6 +181,24 @@ export class UsuarioService {
         })
       )
   }
+  
+  cargarUsuariosFiltroNombre(desde: number = 0) {
+
+    const url = `${base_url}/usuarios/filtroNombre?desde=${desde}`;
+    return this.http.get<CargarUsuario>(url, this.headers)
+      .pipe(
+        map(resp => {
+          const usuarios = resp.usuarios.map(
+            user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
+          );
+          return {
+            total: resp.total,
+            usuarios
+          };
+        })
+      )
+  }
+
 
 
   eliminarUsuario(usuario: Usuario) {

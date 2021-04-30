@@ -8,7 +8,7 @@ const { validarCampos } = require('../middlewares/validar-campos');
 
 const { validarJWT, varlidarADMIN_ROLE } = require('../middlewares/validar-jwt');
 
-const { getEstadisticasTipoProducto, getEstadisticasProductos } = require('../controllers/estadisticas')
+const {  getEstadisticasProductos } = require('../controllers/estadisticas')
 
 const router = Router();
 

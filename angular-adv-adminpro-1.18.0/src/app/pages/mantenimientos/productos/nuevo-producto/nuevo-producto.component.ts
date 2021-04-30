@@ -8,6 +8,7 @@ import { Producto, TipoProducto } from '../../../../models/producto.model';
 
 import { ProductoService } from '../../../../services/producto.service';
 import { delay } from 'rxjs/operators';
+import { filtro } from '../../../../global/filtroProducto';
 
 @Component({
   selector: 'app-nuevo-producto',
@@ -112,7 +113,7 @@ export class NuevoProductoComponent implements OnInit {
         _id: this.productoSeleccionado._id
       }
 
-      console.log("Data: "+data);
+      console.log("Data: " + data);
       this.productoService.actualizarProducto(data)
         .subscribe(resp => {
           Swal.fire('Actualizado', `${nombre} actualizado correctamente`, 'success');
@@ -196,7 +197,7 @@ export class NuevoProductoComponent implements OnInit {
     return istipoProductoBorrable;
   }
   cargarProductos() {
-    this.productoService.cargarProductos()
+    this.productoService.cargarProductos(filtro.filtroNombre)
       .subscribe((productos: Producto[]) => {
         this.productos = productos;
       })

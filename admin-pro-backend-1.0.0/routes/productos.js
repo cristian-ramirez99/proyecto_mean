@@ -14,14 +14,17 @@ const {
     getProductoById,
     eliminarProducto,
     actualizarProducto,
-    getProductosFiltrarPrecio
+    getProductosFiltrarPrecio,
+    getProductosFiltrarStock
 } = require('../controllers/productos');
 
 const router = Router();
 
 router.get('/', validarJWT, getProductos);
 
-router.get('/filtroPrecio',validarJWT,getProductosFiltrarPrecio);
+router.get('/filtroPrecio', validarJWT, getProductosFiltrarPrecio);
+
+router.get('/filtroStock', validarJWT, getProductosFiltrarStock);
 
 router.get('/:id', validarJWT, getProductoById);
 
@@ -37,7 +40,7 @@ router.post('/',
     ]
     , crearProducto);
 
-router.put('/:id',validarJWT,actualizarProducto);
+router.put('/:id', validarJWT, actualizarProducto);
 
 router.delete('/:id', validarJWT, eliminarProducto);
 
