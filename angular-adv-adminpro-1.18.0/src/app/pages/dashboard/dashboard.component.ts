@@ -5,6 +5,7 @@ import { ProductoService } from '../../services/producto.service';
 
 import { filtro } from '../../global/filtroProducto';
 
+const EURO = "\u20AC";
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -16,6 +17,14 @@ export class DashboardComponent implements OnInit {
   readonly filtro = filtro;
 
   public tipoProductos: TipoProducto[] = [];
+  public filtrosPrecio = [
+    { name: "Cualquier precio", value: "0,999999", checked: true },
+    { name: "5" + EURO + " - 50 " + EURO, value: "5,50", checked: false },
+    { name: "50" + EURO + " - 200 " + EURO, value: "50,200", checked: false },
+    { name: "200" + EURO + " - 500 " + EURO, value: "200,500", checked: false },
+    { name: "500" + EURO + " - 1000 " + EURO, value: "500,1000", checked: false },
+    { name: " 1000" + EURO + " > ", value: "1000,999999", checked: false }
+  ];
   public cantidadTipoProductos: number[] = [];
 
   public productosTotales: Producto[] = [];
@@ -23,22 +32,22 @@ export class DashboardComponent implements OnInit {
 
   private precioMin = 0;
   private precioMax = 999999;
-  private tipoProducto = "todo";
+  private tipoProducto = "Cualquier producto";
 
   public toggleTipoProducto: boolean[] = [];
-  public toggleFiltroProducto: boolean[] = [false, true, false, false];
+  public toggleFiltroProducto: boolean = true;
 
   constructor(private productoService: ProductoService,
     public router: Router) { }
 
   ngOnInit(): void {
     this.cargarTipoProductos();
-    this.cargarProductos(false, filtro.filtroNombre);
+    this.cargarProductos(false);
 
   }
   //Hace peticion GET y obtiene todos los productos
-  cargarProductos(hacerToggle: boolean, filtro: number) {
-    this.productoService.cargarProductos(filtro)
+  cargarProductos(hacerToggle: boolean) {
+    this.productoService.cargarProductos(filtro.filtroPrecio)
       .subscribe(productos => {
         //Vaciamo el array 
         this.toggleTipoProducto = [];
@@ -48,8 +57,9 @@ export class DashboardComponent implements OnInit {
 
         this.productosTotales = productos;
         this.productosMostrados = productos;
+
         if (hacerToggle) {
-          this.toggleFiltro(filtro);
+          this.toggleFiltro();
         }
         this.calcularCantidadTipoProducto(this.precioMin, this.precioMax);
 
@@ -112,8 +122,8 @@ export class DashboardComponent implements OnInit {
   }
 
   onTipoProductoChange(tipo: string, index: number) {
-
     this.tipoProducto = tipo;
+
     //Vaciamos el array
     this.toggleTipoProducto = [];
 
@@ -123,13 +133,31 @@ export class DashboardComponent implements OnInit {
     //Actualizamos mostrarProductos
     this.filtrarProductos();
   }
+  checkFiltroPrecio(value) {
+    this.filtrosPrecio.forEach(fp => {
+      if (fp.value === value) {
+        fp.checked = true;
+      } else {
+        fp.checked = false;
+
+      }
+    });
+  }
+
+  setPrecioMinYMax(value) {
+    //value = precioMin,precioMax
+    const precios = value.split(',');
+
+    this.precioMin = precios[0];
+    this.precioMax = precios[1];
+  }
   //Obenemos dos values separados por ',' el primer parametro es precioMin y el segundo precioMax
   onPrecioChange(value) {
-    let auxPos = value.indexOf(',');
-    this.precioMin = value.slice(0, auxPos);
+    console.log(value);
 
-    value = value.substring(auxPos + 1, value.length);
-    this.precioMax = value;
+    this.checkFiltroPrecio(value);
+
+    this.setPrecioMinYMax(value);
 
     //Actualizamos mostrarProductos
     this.filtrarProductos();
@@ -138,19 +166,19 @@ export class DashboardComponent implements OnInit {
   noExisteProductosMostrados() {
     return this.productosMostrados.length == 0;
   }
-  toggleFiltro(pos: number) {
-    if (this.toggleFiltroProducto[pos]) {
-      //Vaciamos el array
-      this.toggleFiltroProducto = [];
+  toggleFiltro() {
+    this.toggleFiltroProducto = !this.toggleFiltroProducto;
 
-      this.toggleFiltroProducto[pos + 1] = true;
-      this.productosMostrados.reverse()
-
-    } else {
-      //Vaciamos el array
-      this.toggleFiltroProducto = [];
-
-      this.toggleFiltroProducto[pos] = true;
+    //Check Cualquier precio
+    if (!this.filtrosPrecio[0].checked) {
+      this.setPrecioMinYMax(this.filtrosPrecio[0].value);
+      this.checkFiltroPrecio(this.filtrosPrecio[0].value);
     }
+
+    if (!this.toggleFiltroProducto) {
+      //Invertimos el array
+      this.productosMostrados.reverse();
+    }
+
   }
 }

@@ -19,41 +19,22 @@
     <!----------------------------FiltroPrecio--------------------------------------->
     <div class="card">
         <header class="card-header bg-dark">
-            <h5 (click)=" cargarProductos(true,filtro.filtroPrecio)" class="cursor title white text-center">Precio
-                <i [ngClass]="toggleFiltro[2]? 'filtroSeleccionado' : ''" class="fa fa-caret-up fa-lg"
+            <h5 (click)="cargarProductos(true)" class="cursor title white text-center">Precio
+                <i [ngClass]="toggleFiltroProducto? 'filtroSeleccionado' : ''" class="fa fa-caret-up fa-lg"
                     aria-hidden="true"></i>
-                <i [ngClass]="toggleFiltro[3]? 'filtroSeleccionado' : ''" class="fa fa-caret-down fa-lg"
+                <i [ngClass]="toggleFiltroProducto? '' : 'filtroSeleccionado'" class="fa fa-caret-down fa-lg"
                     aria-hidden="true"></i>
             </h5>
         </header>
         <div class="card-body tipoProductos animated fadeIn fast">
             <div class="checkbox checkbox-primary pull-left p-t-0">
-                <form (change)="onPrecioChange($event.target.value)">
-                    <input id="todo" type="radio" name="precio" value="0,999999" class="filled-in chk-col-light-blue"
-                        checked>
-                    <label for="todo">Cualquier precio </label>
-                    <br>
-                    <input id="5-50" type="radio" name="precio" value="5,50" class="filled-in chk-col-light-blue">
-                    <label for="5-50">5 &euro; - 50 &euro;</label>
-                    <br>
-
-                    <input id="50-200" type="radio" name="precio" value="50,200" class="filled-in chk-col-light-blue">
-                    <label for="50-200">50 &euro; - 200 &euro;</label>
-                    <br>
-
-                    <input id="200-500" type="radio" name="precio" value="200,500" class="filled-in chk-col-light-blue">
-                    <label for="200-500">200 &euro; - 500 &euro;</label>
-                    <br>
-
-                    <input id="500-1000" type="radio" name="precio" value="500,1000"
-                        class="filled-in chk-col-light-blue">
-                    <label for="500-1000">500 &euro; - 1000 &euro;</label>
-                    <br>
-
-                    <input id="1000>" type="radio" name="precio" value="1000,999999"
-                        class="filled-in chk-col-light-blue">
-                    <label for="1000>"> 1000 &euro; > </label>
-                </form>
+                <div *ngFor="let filtroPrecio of filtrosPrecio">
+                    <div (click)="onPrecioChange(filtroPrecio.value)">
+                        <input type="radio" value="{{filtroPrecio.value}}" class="filled-in chk-col-light-blue"
+                            [checked]="filtroPrecio.checked">
+                        <label>{{filtroPrecio.name}}</label>
+                    </div>
+                </div>
             </div>
         </div>
         <!----------------------------EndFiltroPrecio--------------------------------------->

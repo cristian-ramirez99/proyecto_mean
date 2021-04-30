@@ -139,7 +139,9 @@ const recuperarPassword = async (req, res) => {
             }
         });
 
-        const mensaje = `Desde Yavadevs le proporcionamos una nueva contraseña que es esta cotraseña: ${password}`;
+        const mensaje = `Desde Yavadevs le proporcionamos una nueva contraseña: ${password}.
+        Recuerde que esta contraseña es temporal, una vez tenga acceso a su cuenta, diríjase a “Mi perfil” y cambie la contraseña.
+        Saludos cordiales`;
 
         const mailOptions = {
             from: 'yavadevs.dam2@gmail.com',
