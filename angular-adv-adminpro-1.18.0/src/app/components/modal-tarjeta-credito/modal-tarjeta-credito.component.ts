@@ -16,13 +16,12 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 export class ModalTarjetaCreditoComponent implements OnInit {
 
   public tarjetaCredito: TarjetaCredito = new TarjetaCredito('VISA', 'manolo', '1234567891234567', new Date(), '123', '');
-
+  public existeTarjetaCredito: boolean = false;
   public primeraVez: boolean = true;
   public mostrarTarjeta: boolean = false;
   public pedido: Pedido;
 
   constructor(public modalTarjetaCreditoService: ModalTarjetaCreditoService,
-    private tarjetaCreditoService: TarjetaCreditoService,
     private pedidoService: PedidoService,
     private usuarioService: UsuarioService,
     private router: Router) { }
@@ -41,6 +40,9 @@ export class ModalTarjetaCreditoComponent implements OnInit {
   cargarTarjetaCredito() {
     this.tarjetaCredito = this.usuarioService.tarjetaCredito;
 
+    if (this.tarjetaCredito != null) {
+      this.existeTarjetaCredito = true;
+    }
     //Es necesario para que sea tipo Date
     this.tarjetaCredito.fechaCaducidad = new Date(this.tarjetaCredito.fechaCaducidad);
 

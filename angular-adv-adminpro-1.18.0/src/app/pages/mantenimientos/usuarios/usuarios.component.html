@@ -77,6 +77,10 @@
                                 </td>
 
                                 <td class="text-nowrap text-center">
+                                    <a data-toggle="tooltip" data-original-title="Pedidos" class="cursor"
+                                        routerLink="../pedidos/{{usuario.uid}}">
+                                        <i class="fa fa-archive pedidos" aria-hidden="true"></i>
+                                    </a>
                                     <a data-toggle="tooltip" data-original-title="Borrar" class="cursor"
                                         (click)="eliminarUsuario(usuario)">
                                         <i class="fa fa-close text-danger"></i>

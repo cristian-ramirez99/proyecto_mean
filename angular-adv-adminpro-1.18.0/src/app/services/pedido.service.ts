@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
 import { Producto } from '../models/producto.model';
 import { Pedido } from '../models/pedido.mode';
+import { filtro } from '../global/filtroPedido';
 
 const base_url = environment.base_url;
 
@@ -25,21 +26,21 @@ export class PedidoService {
     }
   }
 
-  cargarPedidos(uid: string) {
-    const url = `${base_url}/pedidos/${uid}`;
+  cargarPedidos(uid: string, filtroValue: number) {
+    let url;
+
+    if (filtroValue == filtro.filtroFecha) {
+      url = `${base_url}/pedidos/${uid}`;
+    } else {
+      url = `${base_url}/pedidos/filtroPrecio/${uid}`;
+    }
+
     return this.http.get(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, pedidos: Pedido[] }) => resp.pedidos)
       );
   }
 
-  cargarPedidosFiltroPrecio(uid: string) {
-    const url = `${base_url}/pedidos/filtroPrecio/${uid}`;
-    return this.http.get(url, this.headers)
-      .pipe(
-        map((resp: { ok: boolean, pedidos: Pedido[] }) => resp.pedidos)
-      );
-  }
   cargarPedidoTemp(uid: string) {
     //Tambien deberia de saber el usuario 
     const url = `${base_url}/pedidos/temp/${uid}`

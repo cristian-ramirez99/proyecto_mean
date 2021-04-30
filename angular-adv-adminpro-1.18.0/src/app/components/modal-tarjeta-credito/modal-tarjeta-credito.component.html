@@ -5,7 +5,7 @@
         style="display: block;">
 
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
+            <div *ngIf="existeTarjetaCredito" class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title negritaPotente" id="exampleModalLabel1">Tarjeta de crédito</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarModal()">
@@ -35,7 +35,7 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cerrarModal()">
                             Cancelar
                         </button>
-                        <button class="btn btn-primary" data-dismiss="modal" routerLink="../perfil/envio">
+                        <button class="btn btn-primary" data-dismiss="modal" routerLink="../perfil/tarjetaCredito">
                             Cambiar tarjeta de crédito
                         </button>
 
@@ -43,6 +43,26 @@
                             Pagar
                         </button>
                     </div>
+                </div>
+            </div>
+            <div class="modal-content" *ngIf="!existeTarjetaCredito">
+                <div class="modal-header">
+                    <h4 class="modal-title negritaPotente" id="exampleModalLabel1">No hay tarjeta de credito </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarModal()">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Vaya parece que aun no has añadido la tarjeta de credito. Si desea seguir comprando mediante
+                        tajeta, haga click en "Añadir tarjeta"</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cerrarModal()">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-primary" data-dismiss="modal" routerLink="../perfil/tarjetaCredito">
+                        Añadir tarjeta
+                    </button>
                 </div>
             </div>
         </div>

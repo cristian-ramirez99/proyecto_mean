@@ -31,6 +31,7 @@ import { ConfirmarEnvioComponent } from './confirmar-envio/confirmar-envio.compo
 import { SitemaPagosComponent } from './sitema-pagos/sitema-pagos.component';
 import { TarjetaCreditoComponent } from './tarjeta-credito/tarjeta-credito.component';
 import { ShopPageComponent } from './beforeauth/shop-page/shop-page.component';
+import { PedidosPorIdComponent } from './mantenimientos/pedidos-por-id/pedidos-por-id.component';
 
 const routes: Routes = [
     {
@@ -42,9 +43,6 @@ const routes: Routes = [
             { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Ajustes de cuenta' } },
             { path: 'buscar/:termino', component: BusquedaComponent, data: { titulo: 'Busquedas' } },
             { path: 'grafica1', component: Grafica1Component, data: { titulo: 'Gráfica #1' } },
-            { path: 'progress', component: ProgressComponent, data: { titulo: 'ProgressBar' } },
-            { path: 'promesas', component: PromesasComponent, data: { titulo: 'Promesas' } },
-            { path: 'rxjs', component: RxjsComponent, data: { titulo: 'RxJs' } },
             { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de usuario' } },
             { path: 'producto/:id', component: ProductoComponent, data: { titulo: 'Producto' } },
             { path: 'confirmarEnvio', component: ConfirmarEnvioComponent, data: { titulo: 'Direccion de la entrega' } },
@@ -57,16 +55,12 @@ const routes: Routes = [
             { path: 'perfil/tarjetaCredito', component: TarjetaCreditoComponent, data: { titulo: 'Tarjeta de crédito' } },
 
 
-            // Mantenimientos
-            { path: 'hospitales', component: HospitalesComponent, data: { titulo: 'Matenimiento de Hospitales' } },
-            { path: 'medicos', component: MedicosComponent, data: { titulo: 'Matenimiento de Medicos' } },
-            { path: 'medico/:id', component: MedicoComponent, data: { titulo: 'Matenimiento de Medicos' } },
-            { path: 'productos', component: ProductosComponent, data: { titulo: 'Mantenimiento de Productos' } },
-            { path: 'nuevoProducto/:id', component: NuevoProductoComponent, data: { titulo: 'Mantenimiento de Productos' } },
-
-
-            // Rutas de Admin
+            // Mantenimientos (ADMIN_ROLE)
+            { path: 'productos', canActivate: [AdminGuard], component: ProductosComponent, data: { titulo: 'Mantenimiento de Productos' } },
+            { path: 'nuevoProducto/:id', canActivate: [AdminGuard], component: NuevoProductoComponent, data: { titulo: 'Mantenimiento de Productos' } },
             { path: 'usuarios', canActivate: [AdminGuard], component: UsuariosComponent, data: { titulo: 'Matenimiento de Usuarios' } },
+            { path: 'pedidos/:id', canActivate: [AdminGuard], component: PedidosPorIdComponent, data: { titulo: 'Mantenimiento de Pedidos' } },
+
         ]
     },
     {

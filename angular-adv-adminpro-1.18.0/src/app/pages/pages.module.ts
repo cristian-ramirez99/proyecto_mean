@@ -34,6 +34,7 @@ import { ConfirmarEnvioComponent } from './confirmar-envio/confirmar-envio.compo
 import { SitemaPagosComponent } from './sitema-pagos/sitema-pagos.component';
 import { TarjetaCreditoComponent } from './tarjeta-credito/tarjeta-credito.component';
 import { ShopPageComponent } from './beforeauth/shop-page/shop-page.component';
+import { PedidosPorIdComponent } from './mantenimientos/pedidos-por-id/pedidos-por-id.component';
 
 
 
@@ -65,6 +66,7 @@ import { ShopPageComponent } from './beforeauth/shop-page/shop-page.component';
     SitemaPagosComponent,
     TarjetaCreditoComponent,
     ShopPageComponent,
+    PedidosPorIdComponent,
   ],
   exports: [
     DashboardComponent,

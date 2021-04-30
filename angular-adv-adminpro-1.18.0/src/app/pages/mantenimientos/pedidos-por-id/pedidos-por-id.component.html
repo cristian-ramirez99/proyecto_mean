@@ -44,7 +44,12 @@
                                 <td>
                                     {{pedido.auxDia}}{{pedido.fecha.getDate()}}/{{pedido.auxMes}}{{pedido.fecha.getMonth()}}/{{pedido.fecha.getFullYear()}}
                                 </td>
-                                <td>{{pedido.estado}}</td>
+                                <td>
+                                    <select class="form-control" [(ngModel)]="pedido.estado"
+                                        (change)="cambiarEstado(pedido)">
+                                        <option *ngFor="let estado of estados" value="{{estado}}">{{estado}}</option>
+                                    </select>
+                                </td>
                                 <td>{{pedido.precio}}</td>
                                 <td class="cursor text-nowrap text-center">
                                     <a data-toggle="tooltip" data-original-title="Ver pedido"
@@ -64,8 +69,9 @@
 <div class="padre" *ngIf="!existenPedidos">
     <div class="hijo text-center">
         <i class="fa fa-archive icon" aria-hidden="true"></i>
-        <h2>Todavía no has hecho ningun pedido</h2>
-        <button routerLink="/dashboard" class="btn btn-rounded btn-danger">Ver productos</button>
+        <h2>El usuario no realizó ningun pedido</h2>
+        <button routerLink="/dashboard/usuarios" class="btn btn-rounded btn-danger">Volver a mantenimiento de
+            usuarios</button>
     </div>
 </div>
 

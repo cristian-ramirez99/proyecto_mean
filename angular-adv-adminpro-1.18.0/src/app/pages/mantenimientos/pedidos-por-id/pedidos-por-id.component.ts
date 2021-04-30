@@ -1,19 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Pedido } from 'src/app/models/pedido.mode';
 import { ModalService } from 'src/app/services/modal.service';
-import { Pedido } from '../../models/pedido.mode'
-import Swal from 'sweetalert2'
 import { PedidoService } from 'src/app/services/pedido.service';
-import { Producto, TipoProducto } from 'src/app/models/producto.model';
-import { UsuarioService } from 'src/app/services/usuario.service';
-import { BusquedasService } from 'src/app/services/busquedas.service';
-import { filtro } from '../../global/filtroPedido';
+import { filtro } from '../../../global/filtroPedido';
+import { estado } from '../../../global/estado';
 
 @Component({
-  selector: 'app-pedidos',
-  templateUrl: './pedidos.component.html',
-  styleUrls: ['./pedidos.component.css']
+  selector: 'app-pedidos-por-id',
+  templateUrl: './pedidos-por-id.component.html',
+  styleUrls: ['./pedidos-por-id.component.css']
 })
-export class PedidosComponent implements OnInit {
+export class PedidosPorIdComponent implements OnInit {
 
   readonly filtro = filtro;
   public cargando: boolean = true;
@@ -21,24 +19,30 @@ export class PedidosComponent implements OnInit {
   public pedidos: Pedido[] = [];
   public existenPedidos = true;
   public toggle: boolean[] = [true, false, false, false];
+  public estados: string[] = [estado.proceso, estado.enviado, estado.entregado, estado.cancelado];
+  public uid: string;
 
   constructor(public modalService: ModalService,
     public pedidoService: PedidoService,
-    public usuarioService: UsuarioService) { }
+    public activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.activatedRoute.params
+      .subscribe(({ id }) => this.uid = id);
     this.cargarPedidos(filtro.filtroFecha);
   }
   abrirModal(pedido: Pedido) {
-    console.log("Abriendo modal");
     this.modalService.abrirModal(pedido);
   }
 
+  cambiarEstado(pedido: Pedido) {
+    this.pedidoService.actualizarPedido(pedido)
+      .subscribe()
+  }
   cargarPedidos(filtro: number) {
     this.cargando = true;
-    const uid = this.usuarioService.uid;
 
-    this.pedidoService.cargarPedidos(uid, filtro)
+    this.pedidoService.cargarPedidos(this.uid, filtro)
       .subscribe((pedidos: Pedido[]) => {
         this.cargando = false;
         this.pedidos = pedidos;
