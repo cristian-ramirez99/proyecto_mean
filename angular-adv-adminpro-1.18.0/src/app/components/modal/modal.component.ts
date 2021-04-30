@@ -19,6 +19,7 @@ export class ModalComponent {
   public pedido: Pedido = new Pedido('cancelado', '', new Date(), '');
   public lineaPedidos: LineaPedido[] = [];
   public primeraVez: boolean = true;
+  public toggle: boolean[] = [true, false, false, false];
 
   onInitModal() {
     if (this.primeraVez) {

@@ -6,28 +6,24 @@ const getMenuFrontEnd = (role = 'USER_ROLE') => {
       titulo: 'Dashboard',
       icono: 'mdi mdi-gauge',
       submenu: [
-        { titulo: 'Main', url: '/' },
-        { titulo: 'Gráficas', url: 'grafica1' },
-        { titulo: 'rxjs', url: 'rxjs' },
-        { titulo: 'Promesas', url: 'promesas' },
-        { titulo: 'ProgressBar', url: 'progress' },
-      ]
-    },
-
-    {
-      titulo: 'Mantenimientos',
-      icono: 'mdi mdi-folder-lock-open',
-      submenu: [
-        // { titulo: 'Usuarios', url: 'usuarios' },
-        { titulo: 'Hospitales', url: 'hospitales' },
-        { titulo: 'Médicos', url: 'medicos' },
+        { titulo: 'Productos', url: '../dashboard' },
+        { titulo: 'Mi perfil', url: 'perfil' },
+        { titulo: 'Carrito de la compra', url: 'perfil/carrito' },
       ]
     },
   ];
 
   if (role === 'ADMIN_ROLE') {
-    menu[1].submenu.unshift({ titulo: 'Productos', url: 'productos' });
-    menu[1].submenu.unshift({ titulo: 'Usuarios', url: 'usuarios' });
+    menu[0].submenu.push({ titulo: 'Gráficas', url: 'grafica1' });
+
+    menu.push({
+      titulo: 'Mantenimientos',
+      icono: 'mdi mdi-folder-lock-open',
+      submenu: [
+        { titulo: 'Usuarios', url: 'usuarios' },
+        { titulo: 'Productos', url: 'productos' },
+      ]
+    });
   }
 
   return menu;
