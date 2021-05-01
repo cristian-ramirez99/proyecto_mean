@@ -1,10 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MultiDataSet, Label, Color } from 'ng2-charts';
 import { LineaPedido } from 'src/app/models/lineaPedido.model';
-import { Producto, TipoProducto } from 'src/app/models/producto.model';
-import { EstadisticasService } from 'src/app/services/estadisticas.service';
-import { ProductoService } from 'src/app/services/producto.service';
-import { filtro } from 'src/app/global/filtroProducto';
+
 
 @Component({
   selector: 'app-dona',

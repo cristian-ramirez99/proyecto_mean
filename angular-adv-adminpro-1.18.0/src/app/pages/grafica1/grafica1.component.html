@@ -1,10 +1,10 @@
 <div class="row">
-    <div class="col-6">
+    <div class="col-6 fadeIn fast">
         <app-dona [labels]="productos" [data]="dataProductoCantidad " title="Ventas de producto por cantidad  ">
         </app-dona>
     </div>
 
-    <div class="col-6">
+    <div class="col-6 fadeIn fast">
         <app-dona [labels]="productos" [data]="dataProductoPrecio " title="Ventas de producto por precio &euro;">
         </app-dona>
     </div>
@@ -12,10 +12,12 @@
 
 <div class="row">
     <div class="col-6">
-        <app-dona title="Cambios"></app-dona>
+        <app-dona [labels]="tipoProductos" [data]="dataTipoProductoCantidad " title="Ventas categorias por cantidad">
+        </app-dona>
     </div>
 
     <div class="col-6">
-        <app-dona title="Compras 2"></app-dona>
+        <app-dona [labels]="tipoProductos" [data]="dataTipoProductoPrecio " title="Ventas categorias por precio &euro;">
+        </app-dona>
     </div>
 </div>
