@@ -1,5 +1,5 @@
 /*
-    Medicos
+    Estadisticas
     ruta: '/api/estadisticas'
 */
 const { Router } = require('express');

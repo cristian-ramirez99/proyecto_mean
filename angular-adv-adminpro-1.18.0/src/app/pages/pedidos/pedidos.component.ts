@@ -1,12 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ModalService } from 'src/app/services/modal.service';
 import { Pedido } from '../../models/pedido.mode'
-import Swal from 'sweetalert2'
 import { PedidoService } from 'src/app/services/pedido.service';
-import { Producto, TipoProducto } from 'src/app/models/producto.model';
 import { UsuarioService } from 'src/app/services/usuario.service';
-import { BusquedasService } from 'src/app/services/busquedas.service';
 import { filtro } from '../../global/filtroPedido';
+import { estado } from 'src/app/global/estado';
 
 @Component({
   selector: 'app-pedidos',
@@ -14,11 +12,13 @@ import { filtro } from '../../global/filtroPedido';
   styleUrls: ['./pedidos.component.css']
 })
 export class PedidosComponent implements OnInit {
-
   readonly filtro = filtro;
   public cargando: boolean = true;
   public desde: number = 0;
   public pedidos: Pedido[] = [];
+  public pedidosMostrados: Pedido[] = [];
+  public estados: string[] = ["Cualquier estado", estado.proceso, estado.enviado, estado.entregado, estado.cancelado];
+  public estadoSeleccionado = this.estados[0];
   public existenPedidos = true;
   public toggle: boolean[] = [true, false, false, false];
 
@@ -42,15 +42,20 @@ export class PedidosComponent implements OnInit {
       .subscribe((pedidos: Pedido[]) => {
         this.cargando = false;
         this.pedidos = pedidos;
+        this.pedidosMostrados = pedidos;
+
+        //Ponemos el value del select a Cualquier estado
+        this.estadoSeleccionado = this.estados[0];
 
         if (this.pedidos.length == 0) {
           this.existenPedidos = false;
         }
 
+
         //Destacar el triangulo que indica como estan ordenados los pedidos
         this.toggleFiltro(filtro);
 
-        //Se tiene que crear un new Date, si no funciona
+        //Se tiene que crear un new Date, si no no funciona
         pedidos.forEach(pedido => {
           pedido.fecha = new Date(pedido.fecha);
         });
@@ -71,6 +76,16 @@ export class PedidosComponent implements OnInit {
       this.toggle = [];
 
       this.toggle[pos] = true;
+    }
+  }
+
+  //Filtra los pedidos por estado seleccionado
+  cambiarEstado(estado: string) {
+    //Si tiene cualquier pedido
+    if (estado === this.estados[0]) {
+      this.pedidosMostrados = this.pedidos;
+    } else {
+      this.pedidosMostrados = this.pedidos.filter(pedido => pedido.estado === estado);
     }
   }
 }

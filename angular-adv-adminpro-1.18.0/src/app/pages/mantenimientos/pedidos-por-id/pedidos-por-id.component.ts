@@ -17,9 +17,11 @@ export class PedidosPorIdComponent implements OnInit {
   public cargando: boolean = true;
   public desde: number = 0;
   public pedidos: Pedido[] = [];
+  public pedidosMostrados: Pedido[] = [];
   public existenPedidos = true;
   public toggle: boolean[] = [true, false, false, false];
   public estados: string[] = [estado.proceso, estado.enviado, estado.entregado, estado.cancelado];
+  public estadoSeleccionado = "Cualquier estado";
   public uid: string;
 
   constructor(public modalService: ModalService,
@@ -35,7 +37,7 @@ export class PedidosPorIdComponent implements OnInit {
     this.modalService.abrirModal(pedido);
   }
 
-  cambiarEstado(pedido: Pedido) {
+  actualizarEstado(pedido: Pedido) {
     this.pedidoService.actualizarPedido(pedido)
       .subscribe()
   }
@@ -46,6 +48,11 @@ export class PedidosPorIdComponent implements OnInit {
       .subscribe((pedidos: Pedido[]) => {
         this.cargando = false;
         this.pedidos = pedidos;
+        this.pedidosMostrados = pedidos;
+
+
+        //Ponemos el value del select a Cualquier estado
+        this.estadoSeleccionado = "Cualquier estado";
 
         if (this.pedidos.length == 0) {
           this.existenPedidos = false;
@@ -75,6 +82,15 @@ export class PedidosPorIdComponent implements OnInit {
       this.toggle = [];
 
       this.toggle[pos] = true;
+    }
+  }
+  //Filtra los pedidos por estado seleccionado
+  cambiarEstado(estado: string) {
+    //Si tiene cualquier pedido
+    if (estado === "Cualquier estado") {
+      this.pedidosMostrados = this.pedidos;
+    } else {
+      this.pedidosMostrados = this.pedidos.filter(pedido => pedido.estado === estado);
     }
   }
 }

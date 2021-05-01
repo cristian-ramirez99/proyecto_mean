@@ -48,7 +48,8 @@
                                         </div>
                                         <select (change)="cambiarCategoria(c.value)" class="form-control" #c>
                                             <option [value]="categoria.nombre" *ngFor="let categoria of tipoProductos">
-                                                {{categoria.nombre}}</option>
+                                                {{categoria.nombre}}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>

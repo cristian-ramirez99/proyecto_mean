@@ -167,6 +167,7 @@ export class DashboardComponent implements OnInit {
     return this.productosMostrados.length == 0;
   }
   toggleFiltro() {
+    //Invertimos el valor de toggleFiltroProducto
     this.toggleFiltroProducto = !this.toggleFiltroProducto;
 
     //Check Cualquier precio

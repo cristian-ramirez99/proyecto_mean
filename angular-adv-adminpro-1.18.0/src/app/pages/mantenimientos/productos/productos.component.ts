@@ -19,7 +19,7 @@ import { filtro } from '../../../global/filtroProducto';
 export class ProductosComponent implements OnInit {
 
   readonly filtro = filtro;
-  
+
   public cargando: boolean = true;
   public toggle: boolean[] = [true, false, false, false, false, false];
 
@@ -90,7 +90,7 @@ export class ProductosComponent implements OnInit {
       .subscribe(tipoProductos => {
         this.tipoProductos = tipoProductos;
 
-        //Añadimo al princip del array el tipoProducto = cualquier producto
+        //Añadimo al princio del array tipoProducto = cualquier producto
         this.tipoProductos.unshift(new TipoProducto('Cualquier producto', ''));
       })
   }
