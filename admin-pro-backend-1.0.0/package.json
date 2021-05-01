@@ -21,6 +21,7 @@
     "google-auth-library": "^6.0.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.21",
+    "mongoose-deep-populate": "^3.2.0",
     "nodemailer": "^6.5.0",
     "nodemon": "^2.0.7",
     "pm2": "^4.5.6",

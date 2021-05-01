@@ -1,12 +1,11 @@
 <div class="row">
     <div class="col-6">
-        <app-dona title="Ventas"></app-dona>
+        <app-dona [labels]="productos" [data]="dataProductoCantidad " title="Ventas de producto por cantidad  ">
+        </app-dona>
     </div>
 
     <div class="col-6">
-        <app-dona [labels]="labels1"
-                  [data]="data1"
-                  title="Compras">
+        <app-dona [labels]="productos" [data]="dataProductoPrecio " title="Ventas de producto por precio &euro;">
         </app-dona>
     </div>
 </div>

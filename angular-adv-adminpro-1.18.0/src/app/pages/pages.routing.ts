@@ -37,7 +37,7 @@ const routes: Routes = [
             { path: '', component: DashboardComponent, data: { titulo: 'Dashboard' } },
             { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Ajustes de cuenta' } },
             { path: 'buscar/:termino', component: BusquedaComponent, data: { titulo: 'Busquedas' } },
-            { path: 'grafica1', component: Grafica1Component, data: { titulo: 'Gráfica #1' } },
+            { path: 'grafica1', component: Grafica1Component, data: { titulo: 'Gráficas' } },
             { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de usuario' } },
             { path: 'producto/:id', component: ProductoComponent, data: { titulo: 'Producto' } },
             { path: 'confirmarEnvio', component: ConfirmarEnvioComponent, data: { titulo: 'Direccion de la entrega' } },
