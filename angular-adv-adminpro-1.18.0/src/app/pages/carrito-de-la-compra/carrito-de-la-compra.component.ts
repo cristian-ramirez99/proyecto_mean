@@ -36,11 +36,17 @@ export class CarritoDeLaCompraComponent implements OnInit {
     await this.pedidoService.cargarPedidoTemp(uid)
       .toPromise()
       .then(pedidoTemp => {
-        this.idPedido = pedidoTemp._id;
-        console.log(this.idPedido);
+        if (pedidoTemp != null) {
+          this.idPedido = pedidoTemp._id;
+          console.log(this.idPedido);
+        } else {
+          this.cargando = false;
+        }
       })
 
-    this.cargarLineaPedidos();
+    if (this.idPedido != null) {
+      this.cargarLineaPedidos();
+    }
   }
   cargarLineaPedidos() {
     this.lineaPedidoService.cargarLineaPedidos(this.idPedido)
@@ -50,7 +56,7 @@ export class CarritoDeLaCompraComponent implements OnInit {
       })
   }
   carritoVacio() {
-    return this.lineaPedidos.length == 0 ? true : false;
+    return this.lineaPedidos.length == 0;
   }
 
   getPrecioTotal(): number {

@@ -36,6 +36,7 @@ export class DashboardComponent implements OnInit {
 
   public toggleTipoProducto: boolean[] = [];
   public toggleFiltroProducto: boolean = true;
+  public cargando: boolean = true;
 
   constructor(private productoService: ProductoService,
     public router: Router) { }
@@ -47,8 +48,12 @@ export class DashboardComponent implements OnInit {
   }
   //Hace peticion GET y obtiene todos los productos
   cargarProductos(hacerToggle: boolean) {
+    this.cargando = true;
+
     this.productoService.cargarProductos(filtro.filtroPrecio)
       .subscribe(productos => {
+        this.cargando = false;
+
         //Vaciamo el array 
         this.toggleTipoProducto = [];
 
@@ -164,6 +169,9 @@ export class DashboardComponent implements OnInit {
     this.calcularCantidadTipoProducto(this.precioMin, this.precioMax);
   }
   noExisteProductosMostrados() {
+    if (this.cargando) {
+      return false;
+    }
     return this.productosMostrados.length == 0;
   }
   toggleFiltro() {

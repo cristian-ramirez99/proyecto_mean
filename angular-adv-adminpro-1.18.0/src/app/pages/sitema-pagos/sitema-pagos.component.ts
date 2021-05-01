@@ -41,12 +41,20 @@ export class SitemaPagosComponent implements OnInit {
     await this.pedidoService.cargarPedidoTemp(uid)
       .toPromise()
       .then(pedidoTemp => {
+
+        if (pedidoTemp == null) {
+          this.router.navigateByUrl("dashboard");
+        }
         this.pedido = pedidoTemp;
       })
 
     await this.lineaPedidoService.cargarLineaPedidos(this.pedido._id)
       .toPromise()
       .then((lineaPedidos: LineaPedido[]) => {
+
+        if (lineaPedidos.length == 0) {
+          this.router.navigateByUrl("dashboard");
+        }
         this.lineaPedidos = lineaPedidos;
       })
 
@@ -57,7 +65,7 @@ export class SitemaPagosComponent implements OnInit {
     this.pedido.fecha = new Date();
     this.pedido.estado = 'proceso';
     this.pedido.formaPago = 'Contrarrembolso';
-    
+
     this.pedido.precio = this.precioContrarrembolso() + this.precio;
 
     if (this.hayCosteDeEnvio()) {

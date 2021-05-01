@@ -6,6 +6,7 @@ import { Hospital } from 'src/app/models/hospital.model';
 import { Medico } from '../../models/medico.model';
 import { Usuario } from '../../models/usuario.model';
 import { Producto } from 'src/app/models/producto.model';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-busqueda',
@@ -21,7 +22,8 @@ export class BusquedaComponent implements OnInit {
   public productos: Producto[] = [];
 
   constructor(private activatedRoute: ActivatedRoute,
-    private busquedasService: BusquedasService) { }
+    private busquedasService: BusquedasService,
+    private usuarioService: UsuarioService) { }
 
   ngOnInit(): void {
 
@@ -36,16 +38,12 @@ export class BusquedaComponent implements OnInit {
       .subscribe((resp: any) => {
         console.log(resp)
         this.usuarios = resp.usuarios;
-        this.medicos = resp.medicos;
-        this.hospitales = resp.hospitales;
         this.productos = resp.productos;
       });
-
   }
 
-
-  abrirMedico(medico: Medico) {
-
+  isAdmin() {
+    return this.usuarioService.role === "ADMIN_ROLE";
   }
 
 }

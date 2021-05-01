@@ -1,3 +1,15 @@
+<div class="row animated fadeIn fast" *ngIf="cargando">
+    <div class="col-12">
+
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+
+    </div>
+</div>
+
 <aside>
     <!----------------------------FiltroTipoProducto---------------------------------->
     <!-------------------------------------------------------------------------------->
@@ -41,6 +53,10 @@
         <!-------------------------------------------------------------------------------->
     </div>
 </aside>
+<div class="text-center" *ngIf="noExisteProductosMostrados()">
+    <i class="fa fa-cubes cajas" aria-hidden="true"></i>
+    <h3 class="margin">No hay productos con las caraterísticas seleccionadas </h3>
+</div>
 <!----------------------------Productos--------------------------------------->
 <!-------------------------------------------------------------------------------->
 <section>
@@ -55,9 +71,6 @@
                     <h3 class="precio-producto "> {{producto.precio}} &euro;</h3>
                 </div>
             </div>
-        </div>
-        <div *ngIf="noExisteProductosMostrados()">
-            <h3>No hay productos con las carateristicas selecionadas </h3>
         </div>
     </div>
 </section>
