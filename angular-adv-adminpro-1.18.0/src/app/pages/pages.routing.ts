@@ -37,7 +37,6 @@ const routes: Routes = [
             { path: '', component: DashboardComponent, data: { titulo: 'Dashboard' } },
             { path: 'account-settings', component: AccountSettingsComponent, data: { titulo: 'Ajustes de cuenta' } },
             { path: 'buscar/:termino', component: BusquedaComponent, data: { titulo: 'Busquedas' } },
-            { path: 'grafica1', component: Grafica1Component, data: { titulo: 'Gráficas' } },
             { path: 'perfil', component: PerfilComponent, data: { titulo: 'Perfil de usuario' } },
             { path: 'producto/:id', component: ProductoComponent, data: { titulo: 'Producto' } },
             { path: 'confirmarEnvio', component: ConfirmarEnvioComponent, data: { titulo: 'Direccion de la entrega' } },
@@ -55,6 +54,10 @@ const routes: Routes = [
             { path: 'nuevoProducto/:id', canActivate: [AdminGuard], component: NuevoProductoComponent, data: { titulo: 'Mantenimiento de Productos' } },
             { path: 'usuarios', canActivate: [AdminGuard], component: UsuariosComponent, data: { titulo: 'Matenimiento de Usuarios' } },
             { path: 'pedidos/:id', canActivate: [AdminGuard], component: PedidosPorIdComponent, data: { titulo: 'Mantenimiento de Pedidos' } },
+
+            //Estadisticas (ADMIN_ROLE)
+            { path: 'grafica1', canActivate: [AdminGuard], component: Grafica1Component, data: { titulo: 'Gráficas' } },
+
 
         ]
     },

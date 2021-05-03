@@ -7,8 +7,7 @@ const getEstadisticasProductos = async (req, res) => {
 
         const lineaPedidos = await LineaPedido.find()
             .populate('producto', 'nombre precio tipoProducto')
-            .populate({ path: 'pedido', estado: { $ne: 'temporal' } })
-            .exec()
+            .populate('pedido','estado')
 
         res.json({
             ok: true,

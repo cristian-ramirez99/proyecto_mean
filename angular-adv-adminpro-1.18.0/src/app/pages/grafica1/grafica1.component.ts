@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { estado } from 'src/app/global/estado';
 import { filtro } from 'src/app/global/filtroProducto';
 import { LineaPedido } from 'src/app/models/lineaPedido.model';
 import { Producto, TipoProducto } from 'src/app/models/producto.model';
@@ -15,7 +16,7 @@ import { ProductoService } from 'src/app/services/producto.service';
 })
 export class Grafica1Component implements OnInit {
 
-  lineaPedidos= [];
+  lineaPedidos = [];
 
   cantidadProducto: number[] = [];
   precioProducto: number[] = [];
@@ -36,22 +37,22 @@ export class Grafica1Component implements OnInit {
     private productoService: ProductoService) { }
 
   ngOnInit() {
-    this.getEstadisticas();
+    this.getLineaPedidos();
     this.getTipoProductos()
     this.getProductos();
   }
 
-  getEstadisticas() {
+  //Peticion http que te da todas las lineaPedidos
+  getLineaPedidos() {
     this.estadisticasService.getEstadisticas()
       .subscribe((lineaPedidos: LineaPedido[]) => {
         this.lineaPedidos = lineaPedidos;
         this.calcularEstadisticasProductos();
         this.calcularEstadisticasTipoProductos();
 
-        console.log(lineaPedidos[52].producto.tipoProducto);
-
       });
   }
+  //Peticion http para obtener el id de los tipoProductos
   getTipoProductos() {
     this.productoService.cargarTipoProductos()
       .subscribe((tipoProductos: TipoProducto[]) => {
@@ -70,6 +71,7 @@ export class Grafica1Component implements OnInit {
       })
   }
 
+  //Peticion http para obtener el nombre de todos los productos
   getProductos() {
     this.productoService.cargarProductos(filtro.filtroNombre)
       .subscribe((productos: Producto[]) => {
@@ -87,16 +89,25 @@ export class Grafica1Component implements OnInit {
       })
   }
 
+  //Calcula la cantidad y la facturación de todos los productos
   calcularEstadisticasProductos() {
     for (let i = 0; this.lineaPedidos.length > i; i++) {
       for (let j = 0; this.dataProductoPrecio.length > j; j++) {
-        if (this.lineaPedidos[i].producto != null && this.productos[j] === this.lineaPedidos[i].producto.nombre) {
+
+        //Si coincide el nombre de lineaPedido con un producto
+        if (this.lineaPedidos[i].producto != null && this.lineaPedidos[i].pedido != null && this.lineaPedidos[i].pedido.estado !== estado.temporal &&
+          this.productos[j] === this.lineaPedidos[i].producto.nombre) {
+
+          //Añdimos la cantidad correspondiente al producto 
           this.cantidadProducto[j] += this.lineaPedidos[i].cantidad;
+
+          //Añdimos precio correspondiente al producto 
           this.precioProducto[j] += this.lineaPedidos[i].producto.precio * this.lineaPedidos[i].cantidad;
           break;
         }
       }
     }
+    //Actualizamos los datos de la gráfica 
     this.dataProductoPrecio = [this.precioProducto];
     this.dataProductoCantidad = [this.cantidadProducto];
   }
@@ -105,14 +116,20 @@ export class Grafica1Component implements OnInit {
     for (let i = 0; this.lineaPedidos.length > i; i++) {
       for (let j = 0; this.dataTipoProductoPrecio.length > j; j++) {
 
-        if (this.lineaPedidos[i].producto != null &&
+        //Si coincide el id de lineaPedido con un tipoProducto
+        if (this.lineaPedidos[i].producto != null && this.lineaPedidos[i].pedido != null && this.lineaPedidos[i].pedido.estado !== estado.temporal &&
           this.tipoProductosId[j] === this.lineaPedidos[i].producto.tipoProducto) {
+
+          //Añdimos la cantidad correspondiente al tipoProducto 
           this.cantidadTipoProducto[j] += this.lineaPedidos[i].cantidad;
+
+          //Añdimos el precio correspondiente al tipoProducto 
           this.precioTipoProducto[j] += this.lineaPedidos[i].producto.precio * this.lineaPedidos[i].cantidad;
           break;
         }
       }
     }
+    //Actualizamos los datos de la gráfica 
     this.dataTipoProductoPrecio = [this.precioTipoProducto];
     this.dataTipoProductoCantidad = [this.cantidadTipoProducto];
   }
