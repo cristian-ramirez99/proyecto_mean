@@ -28,10 +28,11 @@ export class RegisterComponent {
                private usuarioService: UsuarioService,
                private router: Router ) { }
 
+  /*Si todos los campos son validos se hace peticion http para crear usuario*/
   crearUsuario() {
     this.formSubmitted = true;
-    console.log( this.registerForm.value );
 
+    //Si algun campo invalido se acaba la ejecución del método
     if ( this.registerForm.invalid ) {
       return;
     }
@@ -51,6 +52,7 @@ export class RegisterComponent {
 
   }
 
+  //Comprueba si los campos son valido
   campoNoValido( campo: string ): boolean {
     
     if ( this.registerForm.get(campo).invalid && this.formSubmitted ) {
@@ -61,6 +63,7 @@ export class RegisterComponent {
 
   }
 
+  //Comprueba que las dos contraseña coincidan
   contrasenasNoValidas() {
     const pass1 = this.registerForm.get('password').value;
     const pass2 = this.registerForm.get('password2').value;
@@ -71,12 +74,14 @@ export class RegisterComponent {
       return false;
     }
 
-  }
+  } 
 
+  //Comprueba que se hayan aceptado los terminos
   aceptaTerminos() {
     return !this.registerForm.get('terminos').value && this.formSubmitted;
   }
 
+  
   passwordsIguales(pass1Name: string, pass2Name: string ) {
 
     return ( formGroup: FormGroup ) => {

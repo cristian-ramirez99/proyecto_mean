@@ -31,7 +31,8 @@ export class ModalActualizarPasswordComponent implements OnInit {
       })
     }
   }
-
+  
+  //Cerra modal
   cerrarModal() {
     if (this.formSubmitted) {
       this.formSubmitted = false;
@@ -41,21 +42,26 @@ export class ModalActualizarPasswordComponent implements OnInit {
     }
     this.modalActualizarPasswordService.cerrarModal();
   }
+
+  /*Comprueba si los campo son validos y después hace peticion http para guardar nueva contraseña. Al final se mostraria un mensaje tanto si se actualizo como si no lo hace*/
   actualizarPassword() {
     if (!this.formSubmitted) {
       this.formSubmitted = true;
     }
 
+    //Si campo vacio se acaba la ejecución del método
     if (this.changePasswordForm.invalid) {
       return;
     }
 
-    console.log(this.changePasswordForm.value);
     //Actualizar password
     this.usuarioService.actualizarPassword(this.changePasswordForm.value)
       .subscribe(resp => {
+        //Muestra mensaje conforme contraseña nueva establecida
         Swal.fire('Accion realizada', 'Su contraseña ha sido cambiada correctamente', 'success').then(result => {
+
           if (result.isConfirmed) {
+            //Cerrar modal
             this.cerrarModal();
           }
         });
@@ -68,6 +74,7 @@ export class ModalActualizarPasswordComponent implements OnInit {
 
   }
 
+  //Comprueba si lo campos son validos
   campoNoValido(campo: string): boolean {
 
     if (this.changePasswordForm.get(campo).invalid && this.formSubmitted) {

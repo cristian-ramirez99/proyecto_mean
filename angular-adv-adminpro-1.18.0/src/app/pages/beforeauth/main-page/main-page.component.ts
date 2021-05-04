@@ -6,11 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.css']
 })
-export class MainPageComponent implements OnInit {
+export class MainPageComponent{
 
   constructor(public router:Router) { }
-
-  ngOnInit(): void {
-  }
-
 }

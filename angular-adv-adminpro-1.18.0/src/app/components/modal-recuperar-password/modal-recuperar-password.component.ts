@@ -13,17 +13,23 @@ export class ModalRecuperarPasswordComponent {
   constructor(public modalRecuperarPasswordService: ModalRecuperarPasswordService,
     private usuarioService: UsuarioService) { }
 
+  /*Peticion http para recupera la contraseña*/
   recuperarPassword(resp: string) {
     const email = { "email": resp };
-    console.log(email);
+
     this.usuarioService.recuperarPassword(email)
       .subscribe(resp => {
+        //Muestra mensaje de todo ok 
         Swal.fire("Contraseña restablecida", "Revisa tu correo electronico para ver tu nueva contraseña", 'success')
           .then(resp => {
             if (resp.isConfirmed) {
+              //Cerrar modal
               this.cerrarModal();
             }
-          });
+          })
+      }, (err) => {
+        //Muestra mensaje de error
+        Swal.fire('Error', 'El correo introducido no esta registrado en la aplicación ', 'error');
       });
   }
 

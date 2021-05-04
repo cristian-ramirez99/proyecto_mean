@@ -22,14 +22,14 @@ export class ModalComponent {
 
   onInitModal() {
     if (this.primeraVez) {
-      console.log("onInitModal");
-
       this.primeraVez = false;
-      //Obtenemos el pedido clickado
+
+      //Obtenemos el pedido
       this.pedido = this.modalService.pedido;
       this.cargarLineaPedido();
     }
   }
+  /*Hace peticion http que te da todas las lineaPedidos del pedido*/
   cargarLineaPedido() {
     this.lineaPedidoService.cargarLineaPedidos(this.pedido._id)
       .subscribe((lineaPedidos: LineaPedido[]) => {
@@ -37,6 +37,7 @@ export class ModalComponent {
         console.log(this.lineaPedidos);
       })
   }
+  //Cierr modal
   cerrarModal() {
     if (!this.primeraVez) {
       this.primeraVez = true;

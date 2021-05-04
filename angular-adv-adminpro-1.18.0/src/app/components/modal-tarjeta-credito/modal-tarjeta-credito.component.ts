@@ -28,8 +28,9 @@ export class ModalTarjetaCreditoComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.primeraVez) {
+      //Obtiene el pedido temporal
       this.pedido = this.modalTarjetaCreditoService.pedido;
-
+      
       if (this.pedido) {
         this.primeraVez = false;
         this.cargarTarjetaCredito();
@@ -37,6 +38,7 @@ export class ModalTarjetaCreditoComponent implements OnInit {
     }
   }
 
+  /*Obtiene la tarjeta de credito si existe.*/
   cargarTarjetaCredito() {
     this.tarjetaCredito = this.usuarioService.tarjetaCredito;
 
@@ -47,35 +49,40 @@ export class ModalTarjetaCreditoComponent implements OnInit {
     this.tarjetaCredito.fechaCaducidad = new Date(this.tarjetaCredito.fechaCaducidad);
 
   }
-
+  /*Comrpueba que la fecha de caducidad no este caducada y si todo ok hace peticion http para actualizar el pedido*/
   hacerPedido() {
     //Control de errores
     if (this.isFechaCaducidadValida()) {
       Swal.fire('Error', 'Vaya, parece que la fecha de caducidad de la tarjeta expiró', 'error');
       return;
     }
+    //Actualizamos datos antes de enviar los datos al backend
     this.pedido.estado = 'proceso';
     this.pedido.fecha = new Date();
     this.pedido.formaPago = 'tarjeta';
-    console.log(this.pedido);
 
     this.pedidoService.actualizarPedido(this.pedido)
       .subscribe(resp => {
+        //Mostramos mensaje de todo ok
         Swal.fire('Pedido realizado', 'Su pedido le llegara en 7 días hábiles', 'success').
           then((result) => {
             if (result.isConfirmed) {
+              //Navega a Dashboard
               this.router.navigateByUrl("/dashboard");
             }
           });
       });
   }
+  //Comprobamos si la fecha de caducidad es valida
   isFechaCaducidadValida() {
     const fechaActual = new Date();
     return fechaActual > this.tarjetaCredito.fechaCaducidad;
   }
+  //Mostramos o ocultamos información de la tarjeta de crédito
   cambiarVisibilidadTarjeta() {
     this.mostrarTarjeta = !this.mostrarTarjeta;
   }
+  //Cerra modal
   cerrarModal() {
     if (!this.primeraVez) {
       this.primeraVez = true;

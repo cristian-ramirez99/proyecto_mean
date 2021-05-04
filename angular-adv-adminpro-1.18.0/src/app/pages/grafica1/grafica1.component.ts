@@ -106,7 +106,8 @@ export class Grafica1Component implements OnInit {
           break;
         }
       }
-    }
+    } 
+  
     //Actualizamos los datos de la gráfica 
     this.dataProductoPrecio = [this.precioProducto];
     this.dataProductoCantidad = [this.cantidadProducto];

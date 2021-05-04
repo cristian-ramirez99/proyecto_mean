@@ -34,14 +34,16 @@ export class LoginComponent implements OnInit {
     this.renderButton();
   }
 
-
+  /*Hace peticion http login si el usuario y contraseña coincide navega hacia dashoard*/
   login() {
 
     this.usuarioService.login(this.loginForm.value)
       .subscribe(resp => {
 
+        //Recordar email
         if (this.loginForm.get('remember').value) {
           localStorage.setItem('email', this.loginForm.get('email').value);
+          //No recordar email
         } else {
           localStorage.removeItem('email');
         }
@@ -78,12 +80,13 @@ export class LoginComponent implements OnInit {
 
   };
 
+  //google api
   attachSignin(element) {
 
     this.auth2.attachClickHandler(element, {},
       (googleUser) => {
         const id_token = googleUser.getAuthResponse().id_token;
-        // console.log(id_token);
+
         this.usuarioService.loginGoogle(id_token)
           .subscribe(resp => {
             // Navegar al Dashboard
