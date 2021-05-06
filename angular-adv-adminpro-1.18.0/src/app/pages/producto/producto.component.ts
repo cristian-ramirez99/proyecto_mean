@@ -32,6 +32,7 @@ export class ProductoComponent implements OnInit {
 
   ngOnInit(): void {
 
+    //Obtiene el id por url
     this.activatedRoute.params
       .subscribe(({ id }) => this.cargarProducto(id));
   }
@@ -41,10 +42,13 @@ export class ProductoComponent implements OnInit {
         this.producto = producto;
       })
   }
+
+  //Devuelve true si no queda stock del producto
   quedaStock() {
     return this.producto.stock > 0;
   }
 
+  /*Hace peticion http para añadir una nueva lineaPedido al pedidoTemporal*/
   async addAlCarrito() {
     if (this.producto.stock >= this.cantidadSeleccionada) {
       //Si no existe pedidoTemp para ese usuario lo creamos
@@ -91,7 +95,6 @@ export class ProductoComponent implements OnInit {
 
       //Modificamos el stock del producto
       this.producto.stock -= this.cantidadSeleccionada;
-      console.log(this.producto);
 
       const { nombre, descripcion, precio, stock, _id } = this.producto;
 
@@ -107,7 +110,6 @@ export class ProductoComponent implements OnInit {
       //Modificamos el stock en la BBDD
       this.productoService.actualizarProducto(producto)
         .subscribe(resp => {
-          console.log("Stock quitado");
         })
 
       //Si no queda stock o cantidad>stock
@@ -116,6 +118,7 @@ export class ProductoComponent implements OnInit {
     }
   }
 
+  //Cambia la cantidadSelecionada del producto
   setCantidadSeleccionada(newCantidad: number) {
     this.cantidadSeleccionada = newCantidad;
   }

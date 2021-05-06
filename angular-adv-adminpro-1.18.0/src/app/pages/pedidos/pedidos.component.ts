@@ -33,7 +33,7 @@ export class PedidosComponent implements OnInit {
     console.log("Abriendo modal");
     this.modalService.abrirModal(pedido);
   }
-
+  /*Hace peticion http para cargar los pedidos excepto el temporal*/
   cargarPedidos(filtro: number) {
     this.cargando = true;
     const uid = this.usuarioService.uid;
@@ -63,6 +63,7 @@ export class PedidosComponent implements OnInit {
       });
   }
 
+  //Cambia de color el triangulo de ordenacion de los filtros
   toggleFiltro(pos: number) {
     if (this.toggle[pos]) {
       //Vaciamos el array

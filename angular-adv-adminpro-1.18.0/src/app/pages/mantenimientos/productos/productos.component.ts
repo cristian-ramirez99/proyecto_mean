@@ -49,6 +49,7 @@ export class ProductosComponent implements OnInit {
       .subscribe(img => this.cargarProductos(false, filtro.filtroNombre));
   }
 
+  /*Hace peticion http para cargar todos los productos*/
   cargarProductos(hacerToggle: boolean, filtro: number) {
     this.cargando = true;
     this.productoService.cargarProductos(filtro)
@@ -66,7 +67,7 @@ export class ProductosComponent implements OnInit {
   }
 
 
-
+  //Cambia de color el triangulo de ordenacion de los filtros
   toggleFiltro(pos: number) {
     if (this.toggle[pos]) {
       //Vaciamos el array
@@ -90,11 +91,12 @@ export class ProductosComponent implements OnInit {
       .subscribe(tipoProductos => {
         this.tipoProductos = tipoProductos;
 
-        //Añadimo al princio del array tipoProducto = cualquier producto
+        //Añadimos al princio del array tipoProducto = cualquier producto
         this.tipoProductos.unshift(new TipoProducto('Cualquier producto', ''));
       })
   }
 
+  //Hace peticion http que busca productos por el termino que introduce el usuario
   buscar(termino: string) {
 
     if (termino.length === 0) {
@@ -115,6 +117,7 @@ export class ProductosComponent implements OnInit {
     this.modalImagenService.abrirModal('productos', producto._id, producto.img);
   }
 
+  /*Muestra popup para confirma que se quiere eliminar un producto. Si el usuario acepta se hace peticion http para eliminar el producto*/
   borrarProducto(producto: Producto) {
 
     Swal.fire({
@@ -125,11 +128,12 @@ export class ProductosComponent implements OnInit {
       confirmButtonText: 'Si, borrarlo'
     }).then((result) => {
       if (result.value) {
-
+        //DELETE producto
         this.productoService.eliminarProducto(producto._id)
           .subscribe(resp => {
 
             this.cargarProductos(false, this.ultimoFiltro);
+            //Mostramos mensaje de error conforme se borro el producto
             Swal.fire(
               'Producto borrado',
               `${producto.nombre} fue eliminado correctamente`,
@@ -141,6 +145,8 @@ export class ProductosComponent implements OnInit {
       }
     })
   }
+
+  //Se filtram los productos por el tipoProducto seleccionado por el usuario
   cambiarCategoria(nombreCategoria: String) {
     //Si tiene cualquier producto
     if (nombreCategoria === "Cualquier producto") {

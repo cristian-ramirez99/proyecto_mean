@@ -45,6 +45,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       .subscribe(img => this.cargarUsuarios(false));
   }
 
+  //Hace peticion http para obtener todos los usuarios
   cargarUsuarios(hacerToggle: boolean) {
     this.cargando = true;
     this.usuarioService.cargarUsuarios(this.desde)
@@ -59,6 +60,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         }
       })
   }
+
+  //Hace peticion http para obtener todos los usuarios ordenado alfabeticamente por nombre
   cargarUsuariosFiltroNombre(hacerToggle: boolean) {
     this.cargando = true;
     this.usuarioService.cargarUsuariosFiltroNombre(this.desde)
@@ -67,13 +70,14 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         this.usuarios = usuarios;
         this.usuariosTemp = usuarios;
         this.cargando = false;
+
         if (hacerToggle) {
           this.toggleFiltro(FILTRO_NOMBRE);
         }
       })
   }
 
-
+  //Muestra una nueva pagina de usuarios
   cambiarPagina(valor: number) {
     this.desde += valor;
 
@@ -86,6 +90,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.cargarUsuarios(false);
   }
 
+  //Hace peticion http buscar con el termino introducido por el termino
   buscar(termino: string) {
 
     if (termino.length === 0) {
@@ -100,12 +105,14 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       });
   }
 
+  //Muestra popup para confirmar que se desea eliminar un ususario. Si el usuario acepta se hace peticion http y se elimina.
   eliminarUsuario(usuario: Usuario) {
 
     if (usuario.uid === this.usuarioService.uid) {
       return Swal.fire('Error', 'No puede borrarse a si mismo', 'error');
     }
 
+    //popup para confirmar la eliminación de un usuario
     Swal.fire({
       title: '¿Borrar usuario?',
       text: `Esta a punto de borrar a ${usuario.nombre}`,
@@ -114,7 +121,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Si, borrarlo'
     }).then((result) => {
       if (result.value) {
-
+        //DELETE usuario
         this.usuarioService.eliminarUsuario(usuario)
           .subscribe(resp => {
 
@@ -132,20 +139,20 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   }
 
+  //Hace peticion http para cambiar el rol del usuario
   cambiarRole(usuario: Usuario) {
 
     this.usuarioService.guardarUsuario(usuario)
       .subscribe(resp => {
-        console.log(resp);
       })
   }
 
 
   abrirModal(usuario: Usuario) {
-
     this.modalImagenService.abrirModal('usuarios', usuario.uid, usuario.img);
   }
 
+  //Cambia de color el triangulo de ordenacion de los filtros
   toggleFiltro(pos: number) {
     if (this.toggle[pos]) {
       //Vaciamos el array

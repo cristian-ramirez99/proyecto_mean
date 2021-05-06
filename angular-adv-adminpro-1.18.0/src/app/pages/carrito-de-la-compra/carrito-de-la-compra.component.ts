@@ -32,22 +32,24 @@ export class CarritoDeLaCompraComponent implements OnInit {
     const uid = this.usuarioService.uid;
 
     this.cargando = true;
+
     //CargarPedidoTemp
     await this.pedidoService.cargarPedidoTemp(uid)
       .toPromise()
       .then(pedidoTemp => {
         if (pedidoTemp != null) {
           this.idPedido = pedidoTemp._id;
-          console.log(this.idPedido);
         } else {
           this.cargando = false;
         }
       })
 
     if (this.idPedido != null) {
+      //Cargamos el carrito
       this.cargarLineaPedidos();
     }
   }
+  /*Hace peticion http que devuelve las lineaPedidos pasondole el idPedido*/ 
   cargarLineaPedidos() {
     this.lineaPedidoService.cargarLineaPedidos(this.idPedido)
       .subscribe((lineaPedidos: LineaPedido[]) => {
@@ -55,10 +57,12 @@ export class CarritoDeLaCompraComponent implements OnInit {
         this.lineaPedidos = lineaPedidos;
       })
   }
+  //Devuelve true si lineaPedido esta vacio
   carritoVacio() {
     return this.lineaPedidos.length == 0;
   }
 
+  /*Devuelve el precio total del pedido sin contar con las comisiones*/
   getPrecioTotal(): number {
     let precioTotal: number = 0;
 
@@ -67,30 +71,36 @@ export class CarritoDeLaCompraComponent implements OnInit {
     });
     return precioTotal;
   }
+  /*Hace peticion htto para elimiaar una lineaPedido*/
   eliminarProducto(lineaPedido: LineaPedido) {
     this.actualizarStockDelProducto(lineaPedido);
 
     this.lineaPedidoService.eliminarLineaPedido(lineaPedido._id)
       .subscribe(resp => {
-        console.log(resp);
       })
-
+    
+    //Elimina el lineaPedido del array
     for (let i = 0; this.lineaPedidos.length > i; i++) {
       if (this.lineaPedidos[i]._id === lineaPedido._id) {
         this.lineaPedidos.splice(i, 1);
+        break;
       }
     }
   }
+  
+  /*Hace peticion http para añadir stock de un producto*/
   actualizarStockDelProducto(lineaPedido: LineaPedido) {
+
     const stock = lineaPedido.cantidad + lineaPedido.producto.stock;
 
     const data = {
       stock: stock,
       _id: lineaPedido.producto._id,
     }
+
+    //Actualizamos stock 
     this.productoService.actualizarStockDelProducto(data)
       .subscribe(resp => {
-        console.log(resp);
       });
   }
 

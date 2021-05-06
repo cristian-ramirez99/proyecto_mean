@@ -38,6 +38,7 @@ export class PerfilComponent implements OnInit {
 
   }
 
+  /*Hace peticion http para actualizar la contraseña*/
   actualizarPerfil() {
     this.usuarioService.actualizarPerfil(this.perfilForm.value)
       .subscribe(() => {
@@ -45,12 +46,13 @@ export class PerfilComponent implements OnInit {
         this.usuario.nombre = nombre;
         this.usuario.email = email;
 
+        //Muestra mensaje conforme todo salio bien
         Swal.fire('Accion exitosa', 'Su contraseña ha sido actualizada', 'success');
       }, (err) => {
+        //Muestra mensaje conforme hay un error
         Swal.fire('Error', err.error.msg, 'error');
       });
   }
-
 
   cambiarImagen(file: File) {
     this.imagenSubir = file;
@@ -68,15 +70,18 @@ export class PerfilComponent implements OnInit {
 
   }
 
+  /*Hace peticion http para actualizar la imagen de perfil del usuario*/
   subirImagen() {
-
     this.fileUploadService
       .actualizarFoto(this.imagenSubir, 'usuarios', this.usuario.uid)
       .then(img => {
         this.usuario.img = img;
+
+        //Muestra mensaje conforme todo salio bien
         Swal.fire('Guardado', 'Imagen de usuario actualizada', 'success');
       }).catch(err => {
-        console.log(err);
+
+        //Muestra mensaje conforme hay un error
         Swal.fire('Error', 'No se pudo subir la imagen', 'error');
       })
 

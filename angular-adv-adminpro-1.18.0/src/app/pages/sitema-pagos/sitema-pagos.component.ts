@@ -37,22 +37,27 @@ export class SitemaPagosComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     const uid = this.usuarioService.uid;
 
-    //CargarPedidoTemp
+    //Hace peticion http para obtner el pedidoTemporal del usuario
     await this.pedidoService.cargarPedidoTemp(uid)
       .toPromise()
       .then(pedidoTemp => {
 
+        //Si no existe pedidoTemporal
         if (pedidoTemp == null) {
+          //Navega a dashboard
           this.router.navigateByUrl("dashboard");
         }
         this.pedido = pedidoTemp;
       })
 
+    //Hace peticion http para obterner todas las lineaPedidos
     await this.lineaPedidoService.cargarLineaPedidos(this.pedido._id)
       .toPromise()
       .then((lineaPedidos: LineaPedido[]) => {
 
+        //Si no hay lineaPedidos
         if (lineaPedidos.length == 0) {
+          //Navega a dashboard
           this.router.navigateByUrl("dashboard");
         }
         this.lineaPedidos = lineaPedidos;
@@ -61,6 +66,7 @@ export class SitemaPagosComponent implements OnInit {
     this.precio = this.getPrecioSinComisiones();
   }
 
+  /*Hace peticion http para actualizar el pedidoTemp*/
   hacerPedido() {
     this.pedido.fecha = new Date();
     this.pedido.estado = 'proceso';
@@ -74,15 +80,18 @@ export class SitemaPagosComponent implements OnInit {
 
     this.pedidoService.actualizarPedido(this.pedido)
       .subscribe((resp: any) => {
+        //Se muestra mensaje conforme se hizo el pedido correctamente
         Swal.fire('Pedido realizado', 'Su pedido le llegara en 7 días hábiles', 'success').
           then((result) => {
             if (result.isConfirmed) {
+              //Navega a dashboard
               this.router.navigateByUrl("/dashboard");
             }
           })
       });
 
   }
+  //Abre el modal
   abrirModal() {
     this.pedido.precio = this.precio;
 
@@ -92,6 +101,7 @@ export class SitemaPagosComponent implements OnInit {
     this.modalTarjetaCreditoService.abrirModal(this.pedido);
   }
 
+  //Se muestra popup para confirma si se quiere pagar por contrarrembolso. Si se acepta realiza el pedido
   alertConfirmarContrarrembolso() {
     Swal.fire({
       title: 'Estas seguro?',
@@ -104,24 +114,30 @@ export class SitemaPagosComponent implements OnInit {
       confirmButtonText: 'Aceptar forma de pago',
       reverseButtons: true,
     }).then((result) => {
+      //Si confirma el usuario
       if (result.isConfirmed) {
+        //Hace el pedido
         this.hacerPedido();
       }
     })
   }
 
+  //Devuelve true si hay costes de envio
   hayCosteDeEnvio(): boolean {
     return this.precio < precioMinimoSinComisionDeEnvio;
   }
 
+  //Devuelve el precio de envio
   precioEnvio(): number {
     return this.precio * comisionEnvio;
   }
 
+  //Devuelve el precion por pagar contrarrembolso
   precioContrarrembolso(): number {
     return this.precio * comisionContrarrembolso;
   }
 
+  //Devuelve el precio total del pedido sin aplicar comisiones
   getPrecioSinComisiones(): number {
     let precioTotal: number = 0;
 

@@ -29,18 +29,25 @@ export class PedidosPorIdComponent implements OnInit {
     public activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+
+    //Obtiene el id del url 
     this.activatedRoute.params
       .subscribe(({ id }) => this.uid = id);
+
     this.cargarPedidos(filtro.filtroFecha);
   }
+
   abrirModal(pedido: Pedido) {
     this.modalService.abrirModal(pedido);
   }
 
+  //Hace peticion http para actualizar el estado del pedido
   actualizarEstado(pedido: Pedido) {
     this.pedidoService.actualizarPedido(pedido)
       .subscribe()
   }
+
+  //Hace peticion http para cargar todos los pedidos excepto el temporal
   cargarPedidos(filtro: number) {
     this.cargando = true;
 
@@ -69,6 +76,7 @@ export class PedidosPorIdComponent implements OnInit {
       });
   }
 
+  //Cambia de color el triangulo de ordenacion de los filtros
   toggleFiltro(pos: number) {
     if (this.toggle[pos]) {
       //Vaciamos el array

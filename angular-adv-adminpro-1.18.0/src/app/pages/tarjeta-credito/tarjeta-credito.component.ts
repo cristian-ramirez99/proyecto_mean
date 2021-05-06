@@ -66,9 +66,9 @@ export class TarjetaCreditoComponent implements OnInit {
     }
   }
 
+  /*Comprueba si los campos son correctos. Si todo ok hace peticion http para crear o modificar la tarjetaCredito*/
   async guardarTarjetaCredito() {
     this.formSumbitted = true;
-    console.log(this.tarjetaCreditoForm.value);
 
     if (this.campoNoEsNumero('numero')) {
       return false;
@@ -83,24 +83,30 @@ export class TarjetaCreditoComponent implements OnInit {
 
     const { tipo, titular, numero, cvv } = this.tarjetaCreditoForm.value;
 
-
-    //Modificar tarjeta
+    //Si existe tarjeta
     if (this.isTarjetaCreditoCreada) {
+      //Modificar tarjeta
+
       this.tarjetaCredito = new TarjetaCredito(tipo, titular, numero, this.getFechaCaducidad(), cvv, this.tarjetaCredito._id)
 
       this.tarjetaCreditoService.modificarTarjetaCredito(this.tarjetaCredito)
         .subscribe(resp => {
+          //Mostramos mensaje conforme se creo la tarjeta correctamente
           Swal.fire('Actualizado', 'Tarjeta atualizada correctamente', 'success');
         });
 
-      //Crear tarjeta
+      //No existe tarjeta
     } else {
+      //Crear tarjeta
+
       this.tarjetaCredito = new TarjetaCredito(tipo, titular, numero, this.getFechaCaducidad(), cvv)
 
       await this.tarjetaCreditoService.crearTarjetaCredito(this.tarjetaCredito)
         .toPromise()
         .then((resp: { ok: boolean, tarjetaCredito: TarjetaCredito }) => {
+          //Mostramos mensaje conforme se actualizo la tarjeta correctamente
           Swal.fire('Creado', 'Tarjeta creada correctamente', 'success');
+
           this.tarjetaCredito._id = resp.tarjetaCredito._id;
           this.isTarjetaCreditoCreada = true;
         })
@@ -110,7 +116,7 @@ export class TarjetaCreditoComponent implements OnInit {
 
   }
 
-  //Peticion que añade al usuario la tarjeta
+  //Hace peticion  htto que añade al usuario la tarjeta
   actualizarUsuario() {
     const data = {
       tarjetaCredito: this.tarjetaCredito._id,
@@ -125,6 +131,7 @@ export class TarjetaCreditoComponent implements OnInit {
       })
   }
 
+  //Devuelve la fechaDeCaducidad
   getFechaCaducidad(): Date {
     const { mes, year } = this.tarjetaCreditoForm.value;
 
@@ -133,6 +140,8 @@ export class TarjetaCreditoComponent implements OnInit {
 
     return fechaCaducidad;
   }
+
+  //Carga en el array el año actual y los 4 proximos años de manerea sucesiva
   cargarCincoYearsDesdeElActual() {
     const añoActual = new Date().getFullYear();
 
@@ -148,6 +157,7 @@ export class TarjetaCreditoComponent implements OnInit {
 
   }
 
+  //Devuelve true si el campo no es un numero
   campoNoEsNumero(campo: string): boolean {
     const campoValue = this.tarjetaCreditoForm.get(campo).value;
 

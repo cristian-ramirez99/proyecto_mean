@@ -41,7 +41,6 @@ export class EnvioComponent implements OnInit {
     //Comprobamos si existe direccion ya creada
     if (this.usuarioService.direccion != null) {
       this.direccion = this.usuarioService.direccion;
-      console.log(this.usuarioService.direccion);
       this.isDireccionCreada = true;
 
       //Actualizamos el value de los inputs
@@ -58,6 +57,7 @@ export class EnvioComponent implements OnInit {
 
   }
 
+  /*Peticion http que si los campos son valido hace peticion http modificar o crear dirección, dependiendo si ya existe dirección creada del usuario*/
   async guardarDireccion() {
     this.formSubmitted = true;
 
@@ -66,27 +66,23 @@ export class EnvioComponent implements OnInit {
       return;
     }
 
+    //Si existe dirección 
     if (this.isDireccionCreada) {
-      //Modificar direccion
-      console.log("Modificando direccion");
-      
+
       const data = {
         ...this.direccionForm.value,
         _id: this.direccion._id
       }
-      
-      //Put modificarDireccion
+
+      //PUT modificarDireccion
       this.dirrecionService.modificarDireccion(data)
         .subscribe(resp => {
           Swal.fire('Actualizado', "Dirrección actualizada correctamente", 'success');
         });
 
-
+        //No existe dirección
     } else {
-      //Crear direccion
-      console.log("Creando dirrecion");
-
-      //Post crearDireccion
+      //POST crearDireccion
       await this.dirrecionService.crearDireccion(this.direccionForm.value)
         .toPromise()
         .then((resp: { ok: boolean, direccion: Direccion }) => {
@@ -98,7 +94,7 @@ export class EnvioComponent implements OnInit {
     }
   }
 
-  //Peticion que añade al usuario la direccion
+  // Hace peticion http que añade al usuario la direccion o la modifica 
   actualizarUsuario() {
     const data = {
       direccion: this.direccion._id,
@@ -108,19 +104,20 @@ export class EnvioComponent implements OnInit {
 
     this.usuarioService.actualizarUsuario(data, uid)
       .subscribe((resp: { ok: Boolean, usuario: Usuario }) => {
-        console.log("REsp: " + resp.usuario.direccion);
         this.usuarioService.setDireccion(resp.usuario.direccion);
       })
   }
+
+  //Devuelve false si el codigo postal es valido
   public codigoPostalNoValido(): boolean {
     const { cp } = this.direccionForm.value;
 
     if ((parseInt(cp) < 1000 || parseInt(cp) > 52999) && this.formSubmitted) {
-      console.log("CP mal");
       return true;
     }
     return false;
   }
+  //Devuelve true si solo introduce valores numericos
   public telefonoNoValido(): boolean {
     const { telefono } = this.direccionForm.value;
 

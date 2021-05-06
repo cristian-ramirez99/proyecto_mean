@@ -126,6 +126,7 @@ export class DashboardComponent implements OnInit {
     this.productoService.setId(id);
   }
 
+  //onChange el filtro tipoProducto
   onTipoProductoChange(tipo: string, index: number) {
     this.tipoProducto = tipo;
 
@@ -138,6 +139,8 @@ export class DashboardComponent implements OnInit {
     //Actualizamos mostrarProductos
     this.filtrarProductos();
   }
+
+  //Checkea el filtro precio pasado por parámetro 
   checkFiltroPrecio(value) {
     this.filtrosPrecio.forEach(fp => {
       if (fp.value === value) {
@@ -149,17 +152,15 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  //Obtiene el precio minimo y maximo del filtro precio
   setPrecioMinYMax(value) {
-    //value = precioMin,precioMax
     const precios = value.split(',');
 
     this.precioMin = precios[0];
     this.precioMax = precios[1];
   }
-  //Obenemos dos values separados por ',' el primer parametro es precioMin y el segundo precioMax
+  //onChange el filtro precio
   onPrecioChange(value) {
-    console.log(value);
-
     this.checkFiltroPrecio(value);
 
     this.setPrecioMinYMax(value);
@@ -168,17 +169,20 @@ export class DashboardComponent implements OnInit {
     this.filtrarProductos();
     this.calcularCantidadTipoProducto(this.precioMin, this.precioMax);
   }
+
+  //Devuelve true si no existe productos que mostrar con los filtro seleccionados 
   noExisteProductosMostrados() {
     if (this.cargando) {
       return false;
     }
     return this.productosMostrados.length == 0;
   }
+
   toggleFiltro() {
     //Invertimos el valor de toggleFiltroProducto
     this.toggleFiltroProducto = !this.toggleFiltroProducto;
 
-    //Check Cualquier precio
+    //Check 'Cualquier precio'
     if (!this.filtrosPrecio[0].checked) {
       this.setPrecioMinYMax(this.filtrosPrecio[0].value);
       this.checkFiltroPrecio(this.filtrosPrecio[0].value);
