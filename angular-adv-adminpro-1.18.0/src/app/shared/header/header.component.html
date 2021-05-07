@@ -66,7 +66,7 @@
                             <table class="table table-borderless">
                                 <tbody>
                                     <tr *ngFor="let lineaPedido of lineaPedidos">
-                                        <td><img class="avatar cursor"
+                                        <td><img class="cursor"
                                                 [routerLink]="['producto',lineaPedido.producto._id]"
                                                 [src]="lineaPedido.producto.img | imagen:'productos'"></td>
                                         <td>{{lineaPedido.producto.nombre}}</td>

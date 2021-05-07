@@ -32,7 +32,7 @@
                     <tr *ngFor="let lineaPedido of lineaPedidos">
                         <td>
                             <img [src]="lineaPedido.producto.img | imagen:'productos'"
-                                [alt]="lineaPedido.producto.nombre" class="avatar">
+                                [alt]="lineaPedido.producto.nombre" class="img-width">
                             {{lineaPedido.producto.nombre}}
                         </td>
                         <td class="text-nowrap text-center">{{lineaPedido.producto.precio}}</td>

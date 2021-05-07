@@ -9,3 +9,7 @@
 .background-dark{
     background-color: #343A40;
 }
+.right{
+    float:right;
+    margin-left: 600px;
+}
