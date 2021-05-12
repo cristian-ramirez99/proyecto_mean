@@ -75,9 +75,9 @@ export class ProductoService {
     return this.http.put(url, producto, this.headers);
   }
 
-  reabastecimientoAutomaticoStockDelProducto(id: string, minStock:number ) {
+  reabastecimientoAutomaticoStockDelProducto(id: string, data ) {
     const url = `${base_url}/productos/reabastecimiento/${id}`
-    return this.http.put(url,minStock ,this.headers);
+    return this.http.put(url,data ,this.headers);
 
   }
   crearProducto(producto: Producto) {

@@ -162,9 +162,9 @@ const reabastecerStockAutomatico = async (req, res) => {
 
         const minStock = req.body.minStock;
 
-        console.log(minStock);
-        console.log(producto.stockDisponible);
-        console.log(producto.stock);
+        if (producto.stockDisponible == null) {
+            producto.stockDisponible = 0;
+        }
 
         //Hacer pedido para actualizar stock
         if (producto.stockDisponible + producto.stock <= minStock) {
@@ -177,7 +177,12 @@ const reabastecerStockAutomatico = async (req, res) => {
             //await sleep(86400000);
 
             //Stock recibido en la entrega + stockActual
-            const productoActualizado = await Producto.updateOne({ _id: id }, { $inc: { "stock": nuevoStock } }, { $set: { "stockDisponible": 0 } })
+            const productoActualizado = await Producto.updateOne(
+                { _id: id },
+                {
+                    $inc: { "stock": nuevoStock },
+                    $set: { "stockDisponible": 0 }
+                })
 
 
             res.json({
