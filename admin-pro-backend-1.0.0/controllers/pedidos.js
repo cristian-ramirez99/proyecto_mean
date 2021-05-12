@@ -69,13 +69,59 @@ const getPedidosFiltroPrecio = async (req, res) => {
     const uid = req.params.id;
 
     try {
-        const pedidos = await Pedido.find({ usuario: uid, estado: { $ne: 'temporal' } }).sort({precio:1})
+        const pedidos = await Pedido.find({ usuario: uid, estado: { $ne: 'temporal' } }).sort({ precio: 1 })
 
         res.json({
             ok: true,
             pedidos,
         })
 
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: true,
+            msg: 'Hable con el administrador'
+        })
+    }
+}
+const getTodosLosPedidos = async (req, res) => {
+    const desde = Number(req.query.desde) || 0;
+    const estado = 'Cualquier estado';
+    try {
+
+        if (estado === 'Cualquier estado') {
+            //Si no hay filtro por estado
+            const [pedidos, total] = await Promise.all([
+                Pedido
+                    .find({ estado: { $nin: ['entregado', 'temporal'] } })
+                    .skip(desde)
+                    .limit(10),
+
+                Pedido.countDocuments({ estado: { $nin: ['entregado', 'temporal'] } })
+            ]);
+
+            res.json({
+                ok: true,
+                pedidos,
+                total
+            })
+        } else {
+            //Si hay filtro por estado
+            const [pedidos, total] = await Promise.all([
+                Pedido
+                    .find({ estado: estado })
+                    .skip(desde)
+                    .limit(10),
+
+                Pedido.countDocuments({ estado: estado })
+            ]);
+
+            res.json({
+                ok: true,
+                pedidos,
+                total
+            })
+        }
     } catch (error) {
         console.log(error);
         res.json({
@@ -155,6 +201,7 @@ const eliminarPedido = async (req, res) => {
 module.exports = {
     crearPedido,
     getPedidoTemp,
+    getTodosLosPedidos,
     getPedidosFiltroPrecio,
     getPedidos,
     eliminarPedido,

@@ -14,7 +14,8 @@ const {
     getPedidos,
     eliminarPedido,
     actualizarPedido,
-    getPedidosFiltroPrecio
+    getPedidosFiltroPrecio,
+    getTodosLosPedidos
 } = require('../controllers/pedidos');
 
 const router = Router();
@@ -26,6 +27,8 @@ router.post('/',
         check('usuario', 'El usuario id debe de ser válido').isMongoId(),
         validarCampos
     ], crearPedido);
+
+router.get('/', validarJWT, getTodosLosPedidos);
 
 router.get('/temp/:id', validarJWT, getPedidoTemp);
 

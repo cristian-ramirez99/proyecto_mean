@@ -26,6 +26,18 @@ export class PedidoService {
     }
   }
 
+  cargarTodosLosPedidos(filtroValue: number, desde: number = 0) {
+    let url;
+    if (filtroValue == filtro.filtroFecha) {
+      url = `${base_url}/pedidos?desde=${desde}`;
+    } else {
+      url = `${base_url}/pedidos/filtroPrecio?desde=${desde}`;
+    }
+    return this.http.get(url, this.headers)
+      .pipe(
+        map((resp: { ok: boolean, pedidos: Pedido[], total: number }) => resp)
+      );
+  }
   cargarPedidos(uid: string, filtroValue: number) {
     let url;
 

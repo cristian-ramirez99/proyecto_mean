@@ -14,16 +14,18 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./todo-pedidos.component.css']
 })
 export class TodoPedidosComponent implements OnInit {
+
   readonly filtro = filtro;
   public cargando: boolean = true;
   public desde: number = 0;
-  public pedidos: Pedido[][] = [];
-  public pedidosMostrados: Pedido[][] = [];
+  public pedidos: Pedido[] = [];
+  public pedidosMostrados: Pedido[] = [];
   public usuarios: Usuario[] = [];
   public existenPedidos = true;
   public toggle: boolean[] = [true, false, false, false];
   public estados: string[] = [estado.proceso, estado.enviado, estado.entregado, estado.cancelado];
   public estadoSeleccionado = "Cualquier estado";
+  public totalPedidos: number = 0;
 
   constructor(public modalService: ModalService,
     public pedidoService: PedidoService,
@@ -31,13 +33,6 @@ export class TodoPedidosComponent implements OnInit {
     public activatedRoute: ActivatedRoute) { }
 
   async ngOnInit(): Promise<void> {
-    await this.usuarioService.cargarTodosLosUsuarios()
-      .toPromise()
-      .then(resp => {
-        console.log(resp);
-        this.usuarios = resp.usuarios;
-
-      })
     this.cargarPedidos(filtro.filtroFecha);
   }
 
@@ -50,44 +45,47 @@ export class TodoPedidosComponent implements OnInit {
     this.pedidoService.actualizarPedido(pedido)
       .subscribe()
   }
-
-  //Hace peticion http para cargar todos los pedidos excepto el temporal
-  async cargarPedidos(filtro: number) {
+  cargarPedidos(filtro: number) {
     this.cargando = true;
+    this.pedidoService.cargarTodosLosPedidos(filtro)
+      .toPromise()
+      .then(resp => {
+        console.log(resp.pedidos);
+        this.cargando = false;
+        this.pedidos = resp.pedidos;
+        this.pedidosMostrados = resp.pedidos;
+        this.totalPedidos = resp.total;
 
-    for (let i = 0; this.usuarios.length > i; i++) {
-      const uid = this.usuarios[i].uid;
-      console.log(uid);
+        //Ponemos el value del select a Cualquier estado
+        this.estadoSeleccionado = "Cualquier estado";
 
-      await this.pedidoService.cargarPedidos(uid, filtro)
-        .toPromise()
-        .then((pedidos: Pedido[]) => {
-          console.log(pedidos);
-          this.cargando = false;
-          this.pedidos[i] = pedidos;
-          this.pedidosMostrados[i] = pedidos;
+        if (this.pedidos.length == 0) {
+          this.existenPedidos = false;
+        }
 
+        //Destacar el triangulo que indica como estan ordenados los pedidos
+        this.toggleFiltro(filtro);
 
-          //Ponemos el value del select a Cualquier estado
-          this.estadoSeleccionado = "Cualquier estado";
+        //Se tiene que crear un new Date, si no funciona
+        resp.pedidos.forEach(pedido => {
+          pedido.fecha = new Date(pedido.fecha);
+        });
 
-          if (this.pedidos.length == 0) {
-            this.existenPedidos = false;
-          }
-
-          //Destacar el triangulo que indica como estan ordenados los pedidos
-          this.toggleFiltro(filtro);
-
-          //Se tiene que crear un new Date, si no funciona
-          pedidos.forEach(pedido => {
-            pedido.fecha = new Date(pedido.fecha);
-          });
-
-        })
-    }
+      })
   }
+  //Muestra una nueva pagina de pedidos
+  cambiarPagina(valor: number) {
+    this.desde += valor;
+
+    if (this.desde < 0) {
+      this.desde = 0;
+    } else if (this.desde >= this.pedidosMostrados.length) {
+      this.desde -= valor;
+    }
 
 
+    this.cargarPedidos(filtro.filtroFecha);
+  }
   //Cambia de color el triangulo de ordenacion de los filtros
   toggleFiltro(pos: number) {
     if (this.toggle[pos]) {
@@ -110,18 +108,7 @@ export class TodoPedidosComponent implements OnInit {
     if (estado === "Cualquier estado") {
       this.pedidosMostrados = this.pedidos;
     } else {
-      this.pedidosMostrados = this.pedidos.filter(pedido =>
-        this.usuarios.forEach(usuario => {
-          pedido[usuario.uid].estado === estado;
-        }));
+      this.pedidosMostrados = this.pedidos.filter(pedido => pedido.estado === estado);
     }
-  }
-  getPedidosTotales() {
-    let pedidosTotales = 0;
-
-    this.pedidosMostrados.forEach(pedidos => {
-      pedidosTotales += pedidos.length;
-    });
-    return pedidosTotales;
   }
 }
