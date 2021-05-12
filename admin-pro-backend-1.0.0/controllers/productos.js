@@ -144,7 +144,64 @@ const actualizarProducto = async (req, res) => {
             msg: 'Hable con el administrador'
         })
     }
+}
 
+const reabastecerStockAutomatico = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+
+        const producto = await Producto.findById(id);
+
+        if (!producto) {
+            return res.status(404).json({
+                ok: true,
+                msg: 'Producto no encontrado por id',
+            });
+        }
+
+        const minStock = req.body.minStock;
+
+        console.log(minStock);
+        console.log(producto.stockDisponible);
+        console.log(producto.stock);
+
+        //Hacer pedido para actualizar stock
+        if (producto.stockDisponible + producto.stock <= minStock) {
+            const nuevoStock = 50;
+
+            //Actualizar stock disponible
+            const actualizarStockDisponible = await Producto.updateOne({ _id: id }, { $set: { "stockDisponible": nuevoStock } });
+
+            //1 dia en ms 
+            //await sleep(86400000);
+
+            //Stock recibido en la entrega + stockActual
+            const productoActualizado = await Producto.updateOne({ _id: id }, { $inc: { "stock": nuevoStock } }, { $set: { "stockDisponible": 0 } })
+
+
+            res.json({
+                ok: true,
+            })
+        } else {
+            res.json({
+                ok: false,
+                msg: 'Ya hay stock suficiente'
+            })
+        }
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 module.exports = {
@@ -155,4 +212,5 @@ module.exports = {
     getProductoById,
     eliminarProducto,
     actualizarProducto,
+    reabastecerStockAutomatico
 }

@@ -8,6 +8,9 @@ import { LineaPedidoService } from 'src/app/services/linea-pedido.service';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { Pedido } from 'src/app/models/pedido.mode';
 import { ProductoService } from 'src/app/services/producto.service';
+import { filtro } from 'src/app/global/filtroProducto';
+
+const minStock = 7;
 
 @Component({
   selector: 'app-header',
@@ -19,6 +22,7 @@ export class HeaderComponent implements OnInit {
 
   public usuario: Usuario;
   public lineaPedidos: LineaPedido[] = [];
+  public productos: Producto[] = [];
   private idPedido: string;
   public primeraVez: boolean = true;
 
@@ -30,6 +34,7 @@ export class HeaderComponent implements OnInit {
     this.usuario = usuarioService.usuario;
   }
   async ngOnInit() {
+
     if (this.primeraVez) {
       this.primeraVez = false;
       await this.pedidoService.cargarPedidoTemp(this.usuarioService.uid)
@@ -43,6 +48,14 @@ export class HeaderComponent implements OnInit {
           this.lineaPedidos = lineaPedidos;
         })
     }
+    await this.productoService.cargarProductos(filtro.filtroStock)
+      .toPromise()
+      .then((producto: Producto[]) => {
+        //Estaria ordenado de menor a mayor cantidad de stock
+        this.productos = producto.reverse();
+      })
+
+    this.productosConStockPorDebajoDeMinimo();
   }
 
   logout() {
@@ -96,5 +109,30 @@ export class HeaderComponent implements OnInit {
   }
   salir() {
     this.primeraVez = true;
+  }
+
+  reabastacerAutomaticoStock(id: string) {
+
+    this.productoService.reabastecimientoAutomaticoStockDelProducto(id, minStock)
+      .subscribe(resp => {
+        console.log("Reabastecido si");
+      })
+  }
+
+  getProductos() {
+    this.productoService.cargarProductos(filtro.filtroStock)
+      .subscribe((producto: Producto[]) => {
+        //Estaria ordenado de menor a mayor cantidad de stock
+        this.productos = producto.reverse();
+      })
+  }
+  productosConStockPorDebajoDeMinimo() {
+    for (let i = 0; this.productos.length > i; i++) {
+      console.log(this.productos[i].stock);
+      console.log(this.productos[i].stock <= minStock);
+      if (this.productos[i].stock <= minStock) {
+        this.reabastacerAutomaticoStock(this.productos[i]._id);
+      }
+    }
   }
 }

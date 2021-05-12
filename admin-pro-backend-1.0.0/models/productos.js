@@ -23,6 +23,9 @@ const ProductosSchema = Schema({
     },
     stock: {
         type: Number
+    },
+    stockDisponible: {
+        type: Number
     }
 
 });

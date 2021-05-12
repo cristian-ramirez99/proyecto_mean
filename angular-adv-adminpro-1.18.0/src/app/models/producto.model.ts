@@ -18,7 +18,9 @@ export class Producto {
         public img: string,
         public tipoProducto: TipoProducto,
         public _id?: string,
-        public stock?: number
+        public stock?: number,
+        public stockDisponible?: number
+
 
     ) { }
     get imagenUrl() {

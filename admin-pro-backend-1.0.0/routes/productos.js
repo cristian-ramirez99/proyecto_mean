@@ -15,7 +15,8 @@ const {
     eliminarProducto,
     actualizarProducto,
     getProductosFiltrarPrecio,
-    getProductosFiltrarStock
+    getProductosFiltrarStock,
+    reabastecerStockAutomatico
 } = require('../controllers/productos');
 
 const router = Router();
@@ -41,6 +42,8 @@ router.post('/',
     , crearProducto);
 
 router.put('/:id', validarJWT, actualizarProducto);
+
+router.put('/reabastecimiento/:id', validarJWT, reabastecerStockAutomatico);
 
 router.delete('/:id', validarJWT, eliminarProducto);
 
