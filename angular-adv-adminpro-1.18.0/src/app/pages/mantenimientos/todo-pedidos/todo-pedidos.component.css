@@ -1,0 +1,28 @@
+.filtroSeleccionado{
+    color: #7FE449;
+}
+.padre {
+    /*IMPORTANTE*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin:0px;
+  }
+  
+  .hijo {
+    width: 500px;
+  }
+
+  .icon{
+    font-size: 200px;
+}
+
+.myLabel{
+  border: 1px solid rgba(0,0,0,.15);
+  border-right: 0px solid;
+  padding: 6px;
+  background-color: #e9ecef;
+  border-radius: 10px 0px 0px 10px;
+  color: #495057;
+}

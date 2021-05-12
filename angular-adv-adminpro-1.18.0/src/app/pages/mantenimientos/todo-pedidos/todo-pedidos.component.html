@@ -1,0 +1,101 @@
+<div *ngIf="this.cargando" class="row animated fadeIn fast">
+    <div class="col-12">
+
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">Cargando</h4>
+            <i class="fa fa-spin fa-refresh fa-2x"></i>
+            <p class="mb-0">Por favor espere</p>
+        </div>
+
+    </div>
+</div>
+<div class="row animated fadeIn fast">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+                <div class="row">
+                    <div class="col-4">
+                        <h4 class="card-title">Pedidos ({{ pedidosMostrados.length }})</h4>
+                        <h6 class="card-subtitle">
+                            Pedidos realizados
+                        </h6>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-left">
+                            <form>
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text myLabel" for="estado">Estado</label>
+                                        </div>
+                                        <select (change)="cambiarEstado(e.value)" class="form-control" name="mySelect"
+                                            [(ngModel)]="estadoSeleccionado" #e>
+                                            <option value="Cualquier estado">Cualquier estado</option>
+                                            <option [value]="estado" *ngFor="let estado of estados">
+                                                {{estado}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID-Pedido</th>
+                                <th (click)="cargarPedidos(filtro.filtroFecha)" class="cursor">
+                                    Fecha
+                                    <i [ngClass]="toggle[0]? 'filtroSeleccionado' : ''"
+                                        class="fa fa-caret-up fa-lg"></i>
+                                    <i [ngClass]="toggle[1]? 'filtroSeleccionado' : ''"
+                                        class="fa fa-caret-down fa-lg"></i>
+                                </th>
+                                <th>Estado</th>
+                                <th (click)="cargarPedidos(filtro.filtroPrecio)" class="cursor">
+                                    Precio total (&euro;)
+                                    <i [ngClass]="toggle[2]? 'filtroSeleccionado' : ''"
+                                        class="fa fa-caret-up fa-lg"></i>
+                                    <i [ngClass]="toggle[3]? 'filtroSeleccionado' : ''"
+                                        class="fa fa-caret-down fa-lg"></i>
+                                </th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <div *ngFor="let pedidosUsuario of pedidosMostrados">
+                            <tr *ngFor="let pedido of pedidosUsuario">
+                                <td>{{pedido._id}}</td>
+                                <td>
+                                    {{pedido.auxDia}}{{pedido.fecha.getDate()}}/{{pedido.auxMes}}{{pedido.fecha.getMonth()}}/{{pedido.fecha.getFullYear()}}
+                                </td>
+                                <td>
+                                    <select class="form-control" [(ngModel)]="pedido.estado"
+                                        (change)="actualizarEstado(pedido)">
+                                        <option *ngFor="let estado of estados" value="{{estado}}">{{estado}}</option>
+                                    </select>
+                                </td>
+                                <td>{{pedido.precio}}</td>
+                                <td class="cursor text-nowrap text-center">
+                                    <a data-toggle="tooltip" data-original-title="Ver pedido"
+                                        (click)="abrirModal(pedido)">
+                                        <i class="fa fa-book text-inverse m-r-10" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-modal></app-modal>

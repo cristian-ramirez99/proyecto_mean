@@ -27,6 +27,7 @@ import { SitemaPagosComponent } from './sitema-pagos/sitema-pagos.component';
 import { TarjetaCreditoComponent } from './tarjeta-credito/tarjeta-credito.component';
 import { ShopPageComponent } from './beforeauth/shop-page/shop-page.component';
 import { PedidosPorIdComponent } from './mantenimientos/pedidos-por-id/pedidos-por-id.component';
+import { TodoPedidosComponent } from './mantenimientos/todo-pedidos/todo-pedidos.component';
 
 const routes: Routes = [
     {
@@ -53,6 +54,7 @@ const routes: Routes = [
             { path: 'productos', canActivate: [AdminGuard], component: ProductosComponent, data: { titulo: 'Mantenimiento de Productos' } },
             { path: 'nuevoProducto/:id', canActivate: [AdminGuard], component: NuevoProductoComponent, data: { titulo: 'Mantenimiento de Productos' } },
             { path: 'usuarios', canActivate: [AdminGuard], component: UsuariosComponent, data: { titulo: 'Matenimiento de Usuarios' } },
+            { path: 'todoPedidos', canActivate: [AdminGuard], component: TodoPedidosComponent, data: { titulo: 'Mantenimiento de pedidos' } },
             { path: 'pedidos/:id', canActivate: [AdminGuard], component: PedidosPorIdComponent, data: { titulo: 'Mantenimiento de Pedidos' } },
 
             //Estadisticas (ADMIN_ROLE)

@@ -22,6 +22,7 @@ const getMenuFrontEnd = (role = 'USER_ROLE') => {
       submenu: [
         { titulo: 'Usuarios', url: 'usuarios' },
         { titulo: 'Productos', url: 'productos' },
+        {titulo: 'Pedidos',url: 'todoPedidos'}
       ]
     });
   }

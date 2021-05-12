@@ -29,6 +29,7 @@ import { SitemaPagosComponent } from './sitema-pagos/sitema-pagos.component';
 import { TarjetaCreditoComponent } from './tarjeta-credito/tarjeta-credito.component';
 import { ShopPageComponent } from './beforeauth/shop-page/shop-page.component';
 import { PedidosPorIdComponent } from './mantenimientos/pedidos-por-id/pedidos-por-id.component';
+import { TodoPedidosComponent } from './mantenimientos/todo-pedidos/todo-pedidos.component';
 
 
 
@@ -55,6 +56,7 @@ import { PedidosPorIdComponent } from './mantenimientos/pedidos-por-id/pedidos-p
     TarjetaCreditoComponent,
     ShopPageComponent,
     PedidosPorIdComponent,
+    TodoPedidosComponent,
   ],
   exports: [
     DashboardComponent,
