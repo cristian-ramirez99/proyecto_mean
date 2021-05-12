@@ -17,7 +17,7 @@
 
                 <div class="row">
                     <div class="col-4">
-                        <h4 class="card-title">Pedidos ({{ pedidosMostrados.length }})</h4>
+                        <h4 class="card-title">Pedidos ({{ getPedidosTotales() }})</h4>
                         <h6 class="card-subtitle">
                             Pedidos realizados
                         </h6>
@@ -70,27 +70,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <div *ngFor="let pedidosUsuario of pedidosMostrados">
-                            <tr *ngFor="let pedido of pedidosUsuario">
-                                <td>{{pedido._id}}</td>
-                                <td>
-                                    {{pedido.auxDia}}{{pedido.fecha.getDate()}}/{{pedido.auxMes}}{{pedido.fecha.getMonth()}}/{{pedido.fecha.getFullYear()}}
-                                </td>
-                                <td>
-                                    <select class="form-control" [(ngModel)]="pedido.estado"
-                                        (change)="actualizarEstado(pedido)">
-                                        <option *ngFor="let estado of estados" value="{{estado}}">{{estado}}</option>
-                                    </select>
-                                </td>
-                                <td>{{pedido.precio}}</td>
-                                <td class="cursor text-nowrap text-center">
-                                    <a data-toggle="tooltip" data-original-title="Ver pedido"
-                                        (click)="abrirModal(pedido)">
-                                        <i class="fa fa-book text-inverse m-r-10" aria-hidden="true"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            </div>
+                            <ng-container *ngFor="let pedidosUsuario of pedidosMostrados">
+                                <tr *ngFor="let pedido of pedidosUsuario">
+                                    <td>{{pedido._id}}</td>
+                                    <td>
+                                        {{pedido.auxDia}}{{pedido.fecha.getDate()}}/{{pedido.auxMes}}{{pedido.fecha.getMonth()}}/{{pedido.fecha.getFullYear()}}
+                                    </td>
+                                    <td>
+                                        <select class="form-control" [(ngModel)]="pedido.estado"
+                                            (change)="actualizarEstado(pedido)">
+                                            <option *ngFor="let estado of estados" value="{{estado}}">{{estado}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>{{pedido.precio}}</td>
+                                    <td class="cursor text-nowrap text-center">
+                                        <a data-toggle="tooltip" data-original-title="Ver pedido"
+                                            (click)="abrirModal(pedido)">
+                                            <i class="fa fa-book text-inverse m-r-10" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </ng-container>
                         </tbody>
                     </table>
                 </div>

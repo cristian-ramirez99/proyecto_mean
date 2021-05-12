@@ -24,7 +24,6 @@ export class TodoPedidosComponent implements OnInit {
   public toggle: boolean[] = [true, false, false, false];
   public estados: string[] = [estado.proceso, estado.enviado, estado.entregado, estado.cancelado];
   public estadoSeleccionado = "Cualquier estado";
-  private usuarioActual: number;
 
   constructor(public modalService: ModalService,
     public pedidoService: PedidoService,
@@ -32,17 +31,14 @@ export class TodoPedidosComponent implements OnInit {
     public activatedRoute: ActivatedRoute) { }
 
   async ngOnInit(): Promise<void> {
-    await this.usuarioService.cargarUsuarios()
+    await this.usuarioService.cargarTodosLosUsuarios()
       .toPromise()
       .then(resp => {
+        console.log(resp);
         this.usuarios = resp.usuarios;
 
       })
-    for (let i = 0; this.usuarios.length > i; i++) {
-      this.usuarioActual = i;
-      this.cargarPedidos(filtro.filtroFecha);
-    }
-
+    this.cargarPedidos(filtro.filtroFecha);
   }
 
   abrirModal(pedido: Pedido) {
@@ -56,34 +52,41 @@ export class TodoPedidosComponent implements OnInit {
   }
 
   //Hace peticion http para cargar todos los pedidos excepto el temporal
-  cargarPedidos(filtro: number) {
+  async cargarPedidos(filtro: number) {
     this.cargando = true;
-    const uid = this.usuarios[this.usuarioActual].uid;
 
-    this.pedidoService.cargarPedidos(uid, filtro)
-      .subscribe((pedidos: Pedido[]) => {
-        this.cargando = false;
-        this.pedidos[this.usuarioActual] = pedidos;
-        this.pedidosMostrados[this.usuarioActual] = pedidos;
+    for (let i = 0; this.usuarios.length > i; i++) {
+      const uid = this.usuarios[i].uid;
+      console.log(uid);
+
+      await this.pedidoService.cargarPedidos(uid, filtro)
+        .toPromise()
+        .then((pedidos: Pedido[]) => {
+          console.log(pedidos);
+          this.cargando = false;
+          this.pedidos[i] = pedidos;
+          this.pedidosMostrados[i] = pedidos;
 
 
-        //Ponemos el value del select a Cualquier estado
-        this.estadoSeleccionado = "Cualquier estado";
+          //Ponemos el value del select a Cualquier estado
+          this.estadoSeleccionado = "Cualquier estado";
 
-        if (this.pedidos.length == 0) {
-          this.existenPedidos = false;
-        }
+          if (this.pedidos.length == 0) {
+            this.existenPedidos = false;
+          }
 
-        //Destacar el triangulo que indica como estan ordenados los pedidos
-        this.toggleFiltro(filtro);
+          //Destacar el triangulo que indica como estan ordenados los pedidos
+          this.toggleFiltro(filtro);
 
-        //Se tiene que crear un new Date, si no funciona
-        pedidos.forEach(pedido => {
-          pedido.fecha = new Date(pedido.fecha);
-        });
+          //Se tiene que crear un new Date, si no funciona
+          pedidos.forEach(pedido => {
+            pedido.fecha = new Date(pedido.fecha);
+          });
 
-      });
+        })
+    }
   }
+
 
   //Cambia de color el triangulo de ordenacion de los filtros
   toggleFiltro(pos: number) {
@@ -107,7 +110,18 @@ export class TodoPedidosComponent implements OnInit {
     if (estado === "Cualquier estado") {
       this.pedidosMostrados = this.pedidos;
     } else {
-      this.pedidosMostrados = this.pedidos.filter(pedido => pedido[this.usuarioActual].estado === estado);
+      this.pedidosMostrados = this.pedidos.filter(pedido =>
+        this.usuarios.forEach(usuario => {
+          pedido[usuario.uid].estado === estado;
+        }));
     }
+  }
+  getPedidosTotales() {
+    let pedidosTotales = 0;
+
+    this.pedidosMostrados.forEach(pedidos => {
+      pedidosTotales += pedidos.length;
+    });
+    return pedidosTotales;
   }
 }

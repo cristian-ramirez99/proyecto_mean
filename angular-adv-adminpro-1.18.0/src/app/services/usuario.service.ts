@@ -164,7 +164,20 @@ export class UsuarioService {
 
   }
 
-
+  cargarTodosLosUsuarios() {
+    const url = `${base_url}/usuarios/todos`;
+    return this.http.get<CargarUsuario>(url, this.headers)
+      .pipe(
+        map(resp => {
+          const usuarios = resp.usuarios.map(
+            user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
+          );
+          return {
+            usuarios
+          };
+        })
+      )
+  }
   cargarUsuarios(desde: number = 0) {
 
     const url = `${base_url}/usuarios?desde=${desde}`;
@@ -181,7 +194,7 @@ export class UsuarioService {
         })
       )
   }
-  
+
   cargarUsuariosFiltroNombre(desde: number = 0) {
 
     const url = `${base_url}/usuarios/filtroNombre?desde=${desde}`;
