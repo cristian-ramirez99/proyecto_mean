@@ -35,9 +35,10 @@
                                 [alt]="lineaPedido.producto.nombre" class="img-width">
                             {{lineaPedido.producto.nombre}}
                         </td>
-                        <td class="text-nowrap text-center">{{lineaPedido.producto.precio}}</td>
+                        <td class="text-nowrap text-center">{{lineaPedido.producto.precio | roundTwoDecimals }}</td>
                         <td class="text-nowrap text-center">{{lineaPedido.cantidad}}</td>
-                        <td class="text-nowrap text-center">{{lineaPedido.producto.precio * lineaPedido.cantidad}}
+                        <td class="text-nowrap text-center">
+                            {{(lineaPedido.producto.precio * lineaPedido.cantidad) | roundTwoDecimals }}
                         </td>
                         <td class="text-nowrap text-center" (click)="eliminarProducto(lineaPedido)"><i
                                 class="fa fa-trash cursor avatar" aria-hidden="true"></i>
@@ -45,8 +46,16 @@
                     </tr>
                 </tbody>
             </table>
+            <p class="text-center">
+                <b><i>
+                        Se aplicará una comisión de envío del 20% a las compras inferiores a los 20€
+                    </i></b>
+            </p>
             <div class="margin-precioTotal">
-                <p class="negrita">Precio total: {{getPrecioTotal()}} &euro;</p>
+                <p *ngIf="!hayCosteDeEnvio()" class="negrita">Precio total: {{getPrecioSinComisiones()}} &euro;</p>
+                <p *ngIf="hayCosteDeEnvio()" class="negrita">
+                    Precio total: {{getPrecioSinComisiones() +getPrecioEnvio()}} &euro;
+                </p>
             </div>
             <div class="padding-bottom">
                 <button routerLink="../../" class="btn btn-info btn-volver">

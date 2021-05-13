@@ -53,8 +53,8 @@
 }
 
 .avatar {
-    border-radius: 100%;
     width: 30px;
+    border-radius: 40%;
 }
 
 .img-producto{

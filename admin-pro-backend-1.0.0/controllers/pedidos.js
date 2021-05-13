@@ -86,9 +86,9 @@ const getPedidosFiltroPrecio = async (req, res) => {
 }
 const getTodosLosPedidos = async (req, res) => {
     const desde = Number(req.query.desde) || 0;
-    console.log(desde);
     const estado = req.query.estado || "Cualquier estado";
-    console.log(desde);
+    const sort = req.query.sort;
+
     try {
 
         if (estado === 'Cualquier estado') {
@@ -96,6 +96,8 @@ const getTodosLosPedidos = async (req, res) => {
             const [pedidos, total] = await Promise.all([
                 Pedido
                     .find({ estado: { $nin: ['entregado', 'temporal'] } })
+                    .populate('usuario','email')
+                    .sort({ fecha: sort })
                     .skip(desde)
                     .limit(10),
 
@@ -112,6 +114,8 @@ const getTodosLosPedidos = async (req, res) => {
             const [pedidos, total] = await Promise.all([
                 Pedido
                     .find({ estado: estado })
+                    .populate('usuario','email')
+                    .sort({ fecha: sort })
                     .skip(desde)
                     .limit(10),
 

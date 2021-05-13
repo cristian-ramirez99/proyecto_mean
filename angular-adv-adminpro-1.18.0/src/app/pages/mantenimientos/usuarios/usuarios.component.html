@@ -57,7 +57,7 @@
                         <tbody>
                             <tr *ngFor="let usuario of usuarios">
                                 <td class="text-center">
-                                    <img [src]="usuario.imagenUrl" alt="Avatar de usuario" class="avatar cursor"
+                                    <img [src]="usuario.imagenUrl" alt="Avatar de usuario" class="img cursor"
                                         (click)="abrirModal(usuario)">
                                 </td>
                                 <td>{{ usuario.email }}</td>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TarjetaCreditoService } from '../../services/tarjeta-credito.service';
 import { ModalTarjetaCreditoService } from '../../services/modal-tarjeta-credito.service';
 import { TarjetaCredito } from 'src/app/models/tarjetaCredito.model';
@@ -30,7 +30,7 @@ export class ModalTarjetaCreditoComponent implements OnInit {
     if (this.primeraVez) {
       //Obtiene el pedido temporal
       this.pedido = this.modalTarjetaCreditoService.pedido;
-      
+
       if (this.pedido) {
         this.primeraVez = false;
         this.cargarTarjetaCredito();
@@ -81,6 +81,16 @@ export class ModalTarjetaCreditoComponent implements OnInit {
   //Mostramos o ocultamos información de la tarjeta de crédito
   cambiarVisibilidadTarjeta() {
     this.mostrarTarjeta = !this.mostrarTarjeta;
+    let substitulo;
+
+    if (this.mostrarTarjeta) {
+      substitulo = "Haz click para ocultar";
+    } else {
+      substitulo = "Haz click para ver más";
+    }
+    document.getElementById("substitulo").innerHTML = substitulo;
+    document.getElementById("icono").className = "fa fa-caret-up";
+
   }
   //Cerra modal
   cerrarModal() {

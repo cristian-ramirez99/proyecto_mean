@@ -12,7 +12,7 @@ const PedidoSchema = Schema({
         required: true,
     },
     fecha: {
-        type: String,
+        type: Date,
     },
     precio: {
         type: Number,

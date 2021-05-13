@@ -28,6 +28,7 @@ export class PagesComponent implements OnInit {
     customInitFunctions();
     this.sidebarService.cargarMenu();
 
+    //Hace peticion http para cargar todos los productos
     await this.productoService.cargarProductos(filtro.filtroStock)
       .toPromise()
       .then((producto: Producto[]) => {

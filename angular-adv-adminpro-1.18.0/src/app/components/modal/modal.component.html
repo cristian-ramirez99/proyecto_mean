@@ -19,9 +19,9 @@
                         <table class="table table-striped">
                             <thead>
                                 <th>Productos</th>
-                                <th>Precio (&euro;)</th>
-                                <th>Cantidad</th>
-                                <th>Subtotal (&euro;)</th>
+                                <th class="text-center">Precio (&euro;)</th>
+                                <th class="text-center"> Cantidad</th>
+                                <th class="text-center">Subtotal (&euro;)</th>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let lineaPedido of lineaPedidos">
@@ -31,18 +31,26 @@
                                         {{lineaPedido.producto.nombre}}
                                     </td>
 
-                                    <td>
-                                        {{lineaPedido.producto.precio}}
+                                    <td class="text-center">
+                                        {{lineaPedido.producto.precio | roundTwoDecimals }}
                                     </td>
-                                    <td>{{lineaPedido.cantidad}}</td>
-                                    <td>{{lineaPedido.producto.precio * lineaPedido.cantidad}}</td>
+                                    <td class="text-center">{{lineaPedido.cantidad}}</td>
+                                    <td class="text-center">{{(lineaPedido.producto.precio * lineaPedido.cantidad ) |
+                                        roundTwoDecimals}}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+                    <p class="text-center comision-text">
+                        <b><i>
+                                Se aplicará una comisión de envío del 20% a las compras inferiores a los 20€
+                            </i></b>
+                    </p>
+
                     <div class="modal-footer">
                         <div class="left">
-                            <p class="negrita">Precio total: {{pedido.precio}} &euro;</p>
+                            <p class="negrita">Precio total: {{pedido.precio | roundTwoDecimals}} &euro;</p>
                         </div>
                         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cerrarModal()">
                             Cerrar

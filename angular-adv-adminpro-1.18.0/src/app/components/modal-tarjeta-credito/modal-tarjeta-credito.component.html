@@ -13,23 +13,24 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h6 class="modal-title negrita">Tarjeta de crédito</h6>
+                    <h6 id="substitulo" class="modal-title negrita">Haz click para ver más</h6>
                     <div (click)="cambiarVisibilidadTarjeta()" class="cursor">
                         <p *ngIf="!mostrarTarjeta"> {{ tarjetaCredito.numero | ocultarNumero}}
                             <i class="fa fa-caret-down" aria-hidden="true"></i>
                         </p>
+
                         <p *ngIf="mostrarTarjeta"> {{ tarjetaCredito.numero}}
-                            <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            <i class="fa fa-caret-up" aria-hidden="true"></i>
                         </p>
                     </div>
                     <div *ngIf="mostrarTarjeta">
-                        <p>{{tarjetaCredito.tipo}}</p>
-                        <p>{{tarjetaCredito.titular}}</p>
+                        <p><b class="negrita">Tipo: </b> {{tarjetaCredito.tipo}}</p>
+                        <p><b class="negrita">Titular: </b> {{tarjetaCredito.titular}}</p>
                         <p>
-                            {{tarjetaCredito.fechaCaducidad.getDate()
+                            <b class="negrita">Fecha de caducidad: </b> {{tarjetaCredito.fechaCaducidad.getDate()
                             |fecha:true}}/{{tarjetaCredito.fechaCaducidad.getFullYear() | fecha:false}}
                         </p>
-                        <p>{{tarjetaCredito.cvv}}</p>
+                        <p><b class="negrita">CVV: </b> {{tarjetaCredito.cvv}}</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cerrarModal()">

@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LineaPedido } from 'src/app/models/lineaPedido.model';
 import { Pedido } from 'src/app/models/pedido.mode';
-import { Producto, TipoProducto } from 'src/app/models/producto.model';
 import { LineaPedidoService } from 'src/app/services/linea-pedido.service';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { ProductoService } from 'src/app/services/producto.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
+
+//Comision del 20%
+const comisionEnvio: number = 0.2;
+const precioMinimoSinComisionDeEnvio: number = 20;
 
 @Component({
   selector: 'app-carrito-de-la-compra',
@@ -14,6 +17,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   styleUrls: ['./carrito-de-la-compra.component.css']
 })
 export class CarritoDeLaCompraComponent implements OnInit {
+
 
   constructor(public router: Router,
     public pedidoService: PedidoService,
@@ -27,6 +31,7 @@ export class CarritoDeLaCompraComponent implements OnInit {
   public pedido: Pedido;
   public idPedido: string;
   public lineaPedidos: LineaPedido[] = [];
+  public precio: number;
 
   async ngOnInit(): Promise<void> {
     const uid = this.usuarioService.uid;
@@ -48,8 +53,16 @@ export class CarritoDeLaCompraComponent implements OnInit {
       //Cargamos el carrito
       this.cargarLineaPedidos();
     }
+    await this.lineaPedidoService.cargarLineaPedidos(this.idPedido)
+      .toPromise()
+      .then((lineaPedidos: LineaPedido[]) => {
+        this.cargando = false;
+        this.lineaPedidos = lineaPedidos;
+      })
+
+    this.precio = this.getPrecioSinComisiones();
   }
-  /*Hace peticion http que devuelve las lineaPedidos pasondole el idPedido*/ 
+  /*Hace peticion http que devuelve las lineaPedidos pasondole el idPedido*/
   cargarLineaPedidos() {
     this.lineaPedidoService.cargarLineaPedidos(this.idPedido)
       .subscribe((lineaPedidos: LineaPedido[]) => {
@@ -63,7 +76,7 @@ export class CarritoDeLaCompraComponent implements OnInit {
   }
 
   /*Devuelve el precio total del pedido sin contar con las comisiones*/
-  getPrecioTotal(): number {
+  getPrecioSinComisiones(): number {
     let precioTotal: number = 0;
 
     this.lineaPedidos.forEach(linea => {
@@ -78,7 +91,7 @@ export class CarritoDeLaCompraComponent implements OnInit {
     this.lineaPedidoService.eliminarLineaPedido(lineaPedido._id)
       .subscribe(resp => {
       })
-    
+
     //Elimina el lineaPedido del array
     for (let i = 0; this.lineaPedidos.length > i; i++) {
       if (this.lineaPedidos[i]._id === lineaPedido._id) {
@@ -87,7 +100,7 @@ export class CarritoDeLaCompraComponent implements OnInit {
       }
     }
   }
-  
+
   /*Hace peticion http para añadir stock de un producto*/
   actualizarStockDelProducto(lineaPedido: LineaPedido) {
 
@@ -102,6 +115,15 @@ export class CarritoDeLaCompraComponent implements OnInit {
     this.productoService.actualizarStockDelProducto(data)
       .subscribe(resp => {
       });
+  }
+
+  //Devuelve true si hay costes de envio
+  hayCosteDeEnvio(): boolean {
+    return this.precio < precioMinimoSinComisionDeEnvio;
+  }
+  //Devuelve el precio de envio
+  getPrecioEnvio(): number {
+    return this.precio * comisionEnvio;
   }
 
 }

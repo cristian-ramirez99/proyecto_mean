@@ -24,8 +24,10 @@ export class TodoPedidosComponent implements OnInit {
   public existenPedidos = true;
   public toggle: boolean[] = [true, false, false, false];
   public estados: string[] = [estado.proceso, estado.enviado, estado.entregado, estado.cancelado];
+  public ultimoEstadoSeleccionado = "Cualquier estado";
   public estadoSeleccionado = "Cualquier estado";
   public totalPedidos: number = 0;
+  public sort: string = 'desc' || '';
 
   constructor(public modalService: ModalService,
     public pedidoService: PedidoService,
@@ -45,37 +47,44 @@ export class TodoPedidosComponent implements OnInit {
     this.pedidoService.actualizarPedido(pedido)
       .subscribe()
   }
+
+  //Se cargan todos los pedidos
   cargarPedidos(estado, hacerToggle: boolean) {
     this.cargando = true;
 
-    console.log(estado);
-    console.log(this.estadoSeleccionado);
+    //Si se cambia el estado se reinicia la paginacion 
+    if (estado != this.ultimoEstadoSeleccionado) {
+      this.ultimoEstadoSeleccionado = estado;
 
-    //EstadoSeleccionado esta en html binding
-    if (estado != this.estadoSeleccionado) {
+      //Reiniciamos paginacion
       this.desde = 0;
     }
 
-    this.pedidoService.cargarTodosLosPedidos(this.desde, estado)
+    //Si cambiamos ordenacion por fecha
+    if (hacerToggle) {
+      //Cambiar sort de mayor a menor o al reves 
+      this.changeSort();
+
+      //Reiniciamos paginacion
+      this.desde = 0;
+
+      //Destacar el triangulo que indica como estan ordenados los pedidos
+      this.toggleFiltro(filtro.filtroFecha);
+    }
+
+    //Hacemos peticion para cargar todos los pedidos de todos los usuarios
+    this.pedidoService.cargarTodosLosPedidos(this.desde, estado, this.sort)
       .subscribe(resp => {
         this.cargando = false;
         this.pedidos = resp.pedidos;
         this.pedidosMostrados = resp.pedidos;
         this.totalPedidos = resp.total;
 
-        //Ponemos el value del select a Cualquier estado
-        this.estadoSeleccionado = estado;
-
         if (this.pedidos.length == 0) {
           this.existenPedidos = false;
         }
 
-        if (hacerToggle) {
-          //Destacar el triangulo que indica como estan ordenados los pedidos
-          this.toggleFiltro(filtro.filtroFecha);
-        }
-
-        //Se tiene que crear un new Date, si no funciona
+        //Se tiene que crear un new Date, si no, no funciona
         resp.pedidos.forEach(pedido => {
           pedido.fecha = new Date(pedido.fecha);
         });
@@ -102,13 +111,20 @@ export class TodoPedidosComponent implements OnInit {
       this.toggle = [];
 
       this.toggle[pos + 1] = true;
-      this.pedidos.reverse()
 
     } else {
       //Vaciamos el array
       this.toggle = [];
 
       this.toggle[pos] = true;
+    }
+  }
+  //Cambia el orden de la fecha de mayor a menor o al reves 
+  changeSort() {
+    if (this.sort === 'desc') {
+      this.sort = '';
+    } else {
+      this.sort = 'desc';
     }
   }
 

@@ -59,7 +59,7 @@
                                         class="fa fa-caret-down fa-lg"></i>
                                 </th>
                                 <th>Estado</th>
-                                <th (click)="cargarPedidos(filtro.filtroPrecio)" class="cursor">
+                                <th (click)="cargarPedidos(filtro.filtroPrecio)" class="cursor text-center">
                                     Precio total (&euro;)
                                     <i [ngClass]="toggle[2]? 'filtroSeleccionado' : ''"
                                         class="fa fa-caret-up fa-lg"></i>
@@ -73,7 +73,7 @@
                             <tr *ngFor="let pedido of pedidosMostrados">
                                 <td>{{pedido._id}}</td>
                                 <td>
-                                    {{pedido.auxDia}}{{pedido.fecha.getDate()}}/{{pedido.auxMes}}{{pedido.fecha.getMonth()}}/{{pedido.fecha.getFullYear()}}
+                                    {{pedido.auxDia}}{{pedido.fecha.getDate()}}/{{pedido.auxMes}}{{pedido.fecha.getMonth()+1}}/{{pedido.fecha.getFullYear()}}
                                 </td>
                                 <td>
                                     <select class="form-control" [(ngModel)]="pedido.estado"
@@ -81,7 +81,7 @@
                                         <option *ngFor="let estado of estados" value="{{estado}}">{{estado}}</option>
                                     </select>
                                 </td>
-                                <td>{{pedido.precio}}</td>
+                                <td class="text-center">{{pedido.precio | roundTwoDecimals}}</td>
                                 <td class="cursor text-nowrap text-center">
                                     <a data-toggle="tooltip" data-original-title="Ver pedido"
                                         (click)="abrirModal(pedido)">

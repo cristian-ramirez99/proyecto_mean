@@ -78,14 +78,14 @@
                                         aria-hidden=" true"></i>
                                 </th>
                                 <th>Categoria</th>
-                                <th class="cursor" (click)="cargarProductos(true,filtro.filtroPrecio)">
+                                <th class="cursor text-center" (click)="cargarProductos(true,filtro.filtroPrecio)">
                                     Precio (&euro;)
                                     <i [ngClass]="toggle[2]? 'filtroSeleccionado' : ''" class="fa fa-caret-up fa-lg"
                                         aria-hidden="true"></i>
                                     <i [ngClass]="toggle[3]? 'filtroSeleccionado' : ''" class="fa fa-caret-down fa-lg"
                                         aria-hidden="true"></i>
                                 </th>
-                                <th class="cursor" (click)="cargarProductos(true,filtro.filtroStock)">
+                                <th class="cursor text-center" (click)="cargarProductos(true,filtro.filtroStock)">
                                     Stock
                                     <i [ngClass]="toggle[4]? 'filtroSeleccionado' : ''" class="fa fa-caret-up fa-lg"
                                         aria-hidden="true"></i>
@@ -108,7 +108,7 @@
                                     {{producto.tipoProducto.nombre}}
                                 </td>
                                 <td class="text-nowrap text-center">
-                                    {{producto.precio}}
+                                    {{producto.precio | roundTwoDecimals}}
                                 </td>
                                 <td class="text-nowrap text-center">
                                     {{producto.stock}}
@@ -129,11 +129,6 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- 
-                <button class="btn btn-secondary">Anteriores</button>
-                &nbsp;
-                <button class="btn btn-secondary">Siguientes</button> -->
-
             </div>
         </div>
     </div>

@@ -70,13 +70,18 @@
                                                 [routerLink]="['producto',lineaPedido.producto._id]"
                                                 [src]="lineaPedido.producto.img | imagen:'productos'"></td>
                                         <td>{{lineaPedido.producto.nombre}}</td>
-                                        <td>&euro;{{lineaPedido.producto.precio}}</td>
+                                        <td>&euro;{{lineaPedido.producto.precio | roundTwoDecimals}}</td>
                                         <td>{{lineaPedido.cantidad}}</td>
                                         <td (click)="eliminarProducto(lineaPedido)"><i class="fa fa-trash cursor avatar"
                                                 aria-hidden="true"></i></td>
                                     </tr>
                                 </tbody>
                             </table>
+                            <p class="text-center">
+                                <b><i><small>
+                                            Se aplicará una comisión de envío del 20% a las compras inferiores a los 20€
+                                        </small></i></b>
+                            </p>
                             <p class="negrita text-center">SubTotal &euro;{{getPrecioTotal()}}</p>
                             <button [routerLink]="['perfil','carrito']" class="btn btn-block btn-rounded btn-danger">
                                 Comprar ahora
@@ -96,7 +101,7 @@
                 <li class="nav-item dropdown" id="pedidoDropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        <img [src]="usuario.imagenUrl" alt="user" class="profile-pic" />
+                        <img [src]="usuario.imagenUrl" alt="user" class="avatar" />
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animated fadeIn fast">
                         <ul class="dropdown-user">

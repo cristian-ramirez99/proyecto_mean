@@ -5,3 +5,9 @@
     color: rgb(31, 118, 218);
     padding-right: 10px;
 }
+
+.img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}

@@ -30,8 +30,8 @@
                                         <div class="input-group-prepend">
                                             <label class="input-group-text myLabel" for="estado">Estado</label>
                                         </div>
-                                        <select (change)="cargarPedidos(e.value,false)" class="form-control" name="mySelect"
-                                            [(ngModel)]="estadoSeleccionado" #e>
+                                        <select (change)="cargarPedidos(e.value,false)" class="form-control"
+                                            name="mySelect" [(ngModel)]="estadoSeleccionado" #e>
                                             <option value="Cualquier estado">Cualquier estado</option>
                                             <option [value]="estado" *ngFor="let estado of estados">
                                                 {{estado}}
@@ -51,6 +51,7 @@
                         <thead>
                             <tr>
                                 <th>ID-Pedido</th>
+                                <th>Usuario (Correo)</th>
                                 <th (click)="cargarPedidos(this.estadoSeleccionado,true)" class="cursor">
                                     Fecha
                                     <i [ngClass]="toggle[0]? 'filtroSeleccionado' : ''"
@@ -59,15 +60,17 @@
                                         class="fa fa-caret-down fa-lg"></i>
                                 </th>
                                 <th>Estado</th>
-                                <th> Precio total (&euro;) </th>
+                                <th class="text-center"> Precio total (&euro;) </th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let pedido of pedidosMostrados">
                                 <td>{{pedido._id}}</td>
+                                <td *ngIf="pedido.usuario">{{pedido.usuario.email}}</td>
+                                <td class="text-danger" *ngIf="!pedido.usuario">Usuario fue eliminado</td>
                                 <td>
-                                    {{pedido.auxDia}}{{pedido.fecha.getDate()}}/{{pedido.auxMes}}{{pedido.fecha.getMonth()}}/{{pedido.fecha.getFullYear()}}
+                                    {{pedido.auxDia}}{{pedido.fecha.getDate()}}/{{pedido.auxMes}}{{pedido.fecha.getMonth()+1}}/{{pedido.fecha.getFullYear()}}
                                 </td>
                                 <td>
                                     <select class="form-control" [(ngModel)]="pedido.estado"
@@ -76,7 +79,7 @@
                                         </option>
                                     </select>
                                 </td>
-                                <td>{{pedido.precio}}</td>
+                                <td class="text-center">{{pedido.precio | roundTwoDecimals }}</td>
                                 <td class="cursor text-nowrap text-center">
                                     <a data-toggle="tooltip" data-original-title="Ver pedido"
                                         (click)="abrirModal(pedido)">

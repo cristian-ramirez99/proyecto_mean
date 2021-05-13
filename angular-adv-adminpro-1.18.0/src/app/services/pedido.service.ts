@@ -26,9 +26,9 @@ export class PedidoService {
     }
   }
 
-  cargarTodosLosPedidos( desde: number = 0,estado:string="Cualquier estado") {
-    const url = `${base_url}/pedidos?desde=${desde}&estado=${estado}`;
-    
+  cargarTodosLosPedidos(desde: number = 0, estado: string = "Cualquier estado", sort: string = "desc") {
+    const url = `${base_url}/pedidos?desde=${desde}&estado=${estado}&sort=${sort}`;
+
     return this.http.get(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, pedidos: Pedido[], total: number }) => resp)

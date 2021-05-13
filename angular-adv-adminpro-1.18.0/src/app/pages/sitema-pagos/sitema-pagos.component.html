@@ -1,5 +1,5 @@
 <div class="container">
-    <p class="textCenter">Se aplicará una comisión de envío del 20% a las compras inferiores a los 20€</p>
+    <p class="textCenter"><b><i>Se aplicará una comisión de envío del 20% a las compras inferiores a los 20€</i></b></p>
     <div class="row">
         <div class="col">
             <div class="weather-card one">
@@ -8,8 +8,8 @@
                         <h1 class="heading">Tarjeta de crédito</h1>
                         <h3 class="location">Sin comisión </h3>
                         <p class="temp">
-                            <span *ngIf="hayCosteDeEnvio()" class="temp-value">{{precioEnvio() + precio}}</span>
-                            <span *ngIf="!hayCosteDeEnvio()" class="temp-value">{{precio}}</span>
+                            <span *ngIf="hayCosteDeEnvio()" class="temp-value">{{(precioEnvio() + precio) | roundTwoDecimals}}</span>
+                            <span *ngIf="!hayCosteDeEnvio()" class="temp-value">{{precio | roundTwoDecimals}}</span>
                             <a><span class="temp-type">&euro;</span></a>
                         </p>
                     </div>
@@ -35,10 +35,10 @@
                         <h3 class="location">Comisión de 3%</h3>
                         <p class="temp">
                             <span *ngIf="hayCosteDeEnvio()" class="temp-value">
-                                {{precioEnvio()+precioContrarrembolso()+precio}}
+                                {{(precioEnvio()+precioContrarrembolso()+precio) | roundTwoDecimals}}
                             </span>
                             <span *ngIf="!hayCosteDeEnvio()" class="temp-value">
-                                {{precioContrarrembolso()+precio}}
+                                {{(precioContrarrembolso()+precio) | roundTwoDecimals}}
                             </span>
                             <a><span class="temp-type">&euro;</span></a>
                         </p>
