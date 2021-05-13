@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { ChartsModule } from 'ng2-charts';
 
-import { IncrementadorComponent } from './incrementador/incrementador.component';
 import { DonaComponent } from './dona/dona.component';
 import { ModalImagenComponent } from './modal-imagen/modal-imagen.component';
 import { ModalComponent } from './modal/modal.component';
@@ -18,7 +17,6 @@ import { ModalRecuperarPasswordComponent } from './modal-recuperar-password/moda
 
 @NgModule({
   declarations: [
-    IncrementadorComponent,
     DonaComponent,
     ModalImagenComponent,
     ModalComponent,
@@ -27,7 +25,6 @@ import { ModalRecuperarPasswordComponent } from './modal-recuperar-password/moda
     ModalRecuperarPasswordComponent,
   ],
   exports: [
-    IncrementadorComponent,
     DonaComponent,
     ModalImagenComponent,
     ModalComponent,

@@ -34,7 +34,6 @@ export class ModalComponent {
     this.lineaPedidoService.cargarLineaPedidos(this.pedido._id)
       .subscribe((lineaPedidos: LineaPedido[]) => {
         this.lineaPedidos = lineaPedidos;
-        console.log(this.lineaPedidos);
       })
   }
   //Cierr modal

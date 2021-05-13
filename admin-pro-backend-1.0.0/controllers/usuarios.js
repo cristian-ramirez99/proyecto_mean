@@ -29,15 +29,19 @@ const getUsuariosFiltroNombre = async (req, res) => {
 }
 
 const getUsuarios = async (req, res) => {
-
+    //const filtro = 'email' | 'nombre';
+    //const sort = 'desc' | '';
     const desde = Number(req.query.desde) || 0;
+
+    const sort = req.query.sort;
+    const filtro = req.query.filtro || "email";
 
     const [usuarios, total] = await Promise.all([
         Usuario
             .find({}, 'nombre email role google img')
             .skip(desde)
             .limit(5)
-            .sort({ email: 1 }),
+            .sort({ [filtro]: sort }),
 
         Usuario.countDocuments()
     ]);

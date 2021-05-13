@@ -30,7 +30,6 @@ export class PedidosComponent implements OnInit {
     this.cargarPedidos(filtro.filtroFecha);
   }
   abrirModal(pedido: Pedido) {
-    console.log("Abriendo modal");
     this.modalService.abrirModal(pedido);
   }
   /*Hace peticion http para cargar los pedidos excepto el temporal*/

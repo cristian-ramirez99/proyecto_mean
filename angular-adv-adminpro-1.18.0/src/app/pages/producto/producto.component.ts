@@ -90,7 +90,6 @@ export class ProductoComponent implements OnInit {
       this.lineaPedidoService.crearLineaPedido(data)
         .subscribe(resp => {
           Swal.fire('Accion realizada con éxito', 'Producto añadido al carrito', 'success');
-          console.log(resp);
         })
 
       //Modificamos el stock del producto

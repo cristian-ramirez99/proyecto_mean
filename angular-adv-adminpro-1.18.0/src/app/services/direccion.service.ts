@@ -35,7 +35,6 @@ export class DireccionService {
       );
   }
   crearDireccion(direccion: Direccion) {
-    console.log(direccion.telefono);
     const url = `${base_url}/direccion`;
     return this.http.post(url, direccion, this.headers)
   }

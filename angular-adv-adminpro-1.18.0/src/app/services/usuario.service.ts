@@ -164,23 +164,9 @@ export class UsuarioService {
 
   }
 
-  cargarTodosLosUsuarios() {
-    const url = `${base_url}/usuarios/todos`;
-    return this.http.get<CargarUsuario>(url, this.headers)
-      .pipe(
-        map(resp => {
-          const usuarios = resp.usuarios.map(
-            user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
-          );
-          return {
-            usuarios
-          };
-        })
-      )
-  }
-  cargarUsuarios(desde: number = 0) {
+  cargarUsuarios(desde: number = 0, filtro: string = "email", sort: string = '') {
 
-    const url = `${base_url}/usuarios?desde=${desde}`;
+    const url = `${base_url}/usuarios?desde=${desde}&filtro=${filtro}&sort=${sort}`;
     return this.http.get<CargarUsuario>(url, this.headers)
       .pipe(
         map(resp => {
@@ -194,25 +180,6 @@ export class UsuarioService {
         })
       )
   }
-
-  cargarUsuariosFiltroNombre(desde: number = 0) {
-
-    const url = `${base_url}/usuarios/filtroNombre?desde=${desde}`;
-    return this.http.get<CargarUsuario>(url, this.headers)
-      .pipe(
-        map(resp => {
-          const usuarios = resp.usuarios.map(
-            user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
-          );
-          return {
-            total: resp.total,
-            usuarios
-          };
-        })
-      )
-  }
-
-
 
   eliminarUsuario(usuario: Usuario) {
     const url = `${base_url}/usuarios/${usuario.uid}`;

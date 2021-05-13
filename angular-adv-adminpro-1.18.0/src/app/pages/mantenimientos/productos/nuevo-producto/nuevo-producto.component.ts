@@ -117,8 +117,6 @@ export class NuevoProductoComponent implements OnInit {
         ...this.productoForm.value,
         _id: this.productoSeleccionado._id
       }
-
-      console.log(data);
       
       this.productoService.actualizarProducto(data)
         .subscribe(resp => {
@@ -183,8 +181,6 @@ export class NuevoProductoComponent implements OnInit {
 
     //Miramos si algun produto tiene ese tipoProducto
     const borrarProducto = this.tipoProductoNoPerteneceANingunProducto(tipoProducto);
-
-    console.log(borrarProducto);
 
     //Si ningun producto tiene ese tipoProducto, borramos el tipoProducto
     if (borrarProducto) {

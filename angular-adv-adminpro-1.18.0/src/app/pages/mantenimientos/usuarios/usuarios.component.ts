@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import Swal from 'sweetalert2';
 import { delay } from 'rxjs/operators';
 
@@ -28,6 +28,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   public desde: number = 0;
   public cargando: boolean = true;
   public toggle: boolean[] = [true, false, false, false];
+  public filtroSeleccionado: string = "email" || "nombre";
+  public sortSeleccionado: string = '';
 
   constructor(private usuarioService: UsuarioService,
     private busquedasService: BusquedasService,
@@ -38,17 +40,24 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.cargarUsuarios(false);
+    this.cargarUsuarios(false, this.filtroSeleccionado);
 
     this.imgSubs = this.modalImagenService.nuevaImagen
       .pipe(delay(100))
-      .subscribe(img => this.cargarUsuarios(false));
+      .subscribe(img => this.cargarUsuarios(false, this.filtroSeleccionado));
   }
 
   //Hace peticion http para obtener todos los usuarios
-  cargarUsuarios(hacerToggle: boolean) {
+  cargarUsuarios(hacerToggle: boolean, filtro: string) {
     this.cargando = true;
-    this.usuarioService.cargarUsuarios(this.desde)
+
+
+    if (hacerToggle) {
+      this.desde = 0;
+      this.changeFiltro(filtro);
+    }
+
+    this.usuarioService.cargarUsuarios(this.desde, filtro, this.sortSeleccionado)
       .subscribe(({ total, usuarios }) => {
         this.totalUsuarios = total;
         this.usuarios = usuarios;
@@ -56,23 +65,18 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         this.cargando = false;
 
         if (hacerToggle) {
-          this.toggleFiltro(FILTRO_EMAIL);
-        }
-      })
-  }
+          let numberFiltro;
 
-  //Hace peticion http para obtener todos los usuarios ordenado alfabeticamente por nombre
-  cargarUsuariosFiltroNombre(hacerToggle: boolean) {
-    this.cargando = true;
-    this.usuarioService.cargarUsuariosFiltroNombre(this.desde)
-      .subscribe(({ total, usuarios }) => {
-        this.totalUsuarios = total;
-        this.usuarios = usuarios;
-        this.usuariosTemp = usuarios;
-        this.cargando = false;
+          //Actualizamos el nuevoFiltro
+          this.filtroSeleccionado = filtro;
 
-        if (hacerToggle) {
-          this.toggleFiltro(FILTRO_NOMBRE);
+          //Cambiamos a number filtro
+          if (filtro === "email") {
+            numberFiltro = FILTRO_EMAIL;
+          } else {
+            numberFiltro = FILTRO_NOMBRE;
+          }
+          this.toggleFiltro(numberFiltro);
         }
       })
   }
@@ -87,7 +91,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.desde -= valor;
     }
 
-    this.cargarUsuarios(false);
+    this.cargarUsuarios(false, this.filtroSeleccionado);
   }
 
   //Hace peticion http buscar con el termino introducido por el termino
@@ -125,7 +129,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         this.usuarioService.eliminarUsuario(usuario)
           .subscribe(resp => {
 
-            this.cargarUsuarios(false);
+            this.cargarUsuarios(false, this.filtroSeleccionado);
             Swal.fire(
               'Usuario borrado',
               `${usuario.nombre} fue eliminado correctamente`,
@@ -159,13 +163,21 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.toggle = [];
 
       this.toggle[pos + 1] = true;
-      this.usuarios.reverse()
-
     } else {
       //Vaciamos el array
       this.toggle = [];
-
       this.toggle[pos] = true;
     }
   }
+  //Cambia el filtro de ordenamiento
+  changeFiltro(filtro: string) {
+    if (filtro === this.filtroSeleccionado && this.sortSeleccionado === 'desc') {
+      this.sortSeleccionado = '';
+    } else if (filtro === this.filtroSeleccionado) {
+      this.sortSeleccionado = 'desc';
+    } else {
+      this.sortSeleccionado = '';
+    }
+  }
 }
+

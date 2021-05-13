@@ -126,7 +126,6 @@ export class TarjetaCreditoComponent implements OnInit {
 
     this.usuarioService.actualizarUsuario(data, uid)
       .subscribe((resp: { ok: Boolean, usuario: Usuario }) => {
-        console.log(resp);
         this.usuarioService.setTarjetaCredito(resp.usuario.tarjetaCredito);
       })
   }
