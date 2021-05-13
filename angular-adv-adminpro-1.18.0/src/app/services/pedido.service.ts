@@ -26,13 +26,9 @@ export class PedidoService {
     }
   }
 
-  cargarTodosLosPedidos(filtroValue: number, desde: number = 0) {
-    let url;
-    if (filtroValue == filtro.filtroFecha) {
-      url = `${base_url}/pedidos?desde=${desde}`;
-    } else {
-      url = `${base_url}/pedidos/filtroPrecio?desde=${desde}`;
-    }
+  cargarTodosLosPedidos( desde: number = 0,estado:string="Cualquier estado") {
+    const url = `${base_url}/pedidos?desde=${desde}&estado=${estado}`;
+    
     return this.http.get(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, pedidos: Pedido[], total: number }) => resp)

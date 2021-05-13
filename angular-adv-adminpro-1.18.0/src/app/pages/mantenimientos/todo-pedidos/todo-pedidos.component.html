@@ -30,7 +30,7 @@
                                         <div class="input-group-prepend">
                                             <label class="input-group-text myLabel" for="estado">Estado</label>
                                         </div>
-                                        <select (change)="cambiarEstado(e.value)" class="form-control" name="mySelect"
+                                        <select (change)="cargarPedidos(e.value,false)" class="form-control" name="mySelect"
                                             [(ngModel)]="estadoSeleccionado" #e>
                                             <option value="Cualquier estado">Cualquier estado</option>
                                             <option [value]="estado" *ngFor="let estado of estados">
@@ -51,7 +51,7 @@
                         <thead>
                             <tr>
                                 <th>ID-Pedido</th>
-                                <th (click)="cargarPedidos(filtro.filtroFecha)" class="cursor">
+                                <th (click)="cargarPedidos(this.estadoSeleccionado,true)" class="cursor">
                                     Fecha
                                     <i [ngClass]="toggle[0]? 'filtroSeleccionado' : ''"
                                         class="fa fa-caret-up fa-lg"></i>
@@ -59,13 +59,7 @@
                                         class="fa fa-caret-down fa-lg"></i>
                                 </th>
                                 <th>Estado</th>
-                                <th (click)="cargarPedidos(filtro.filtroPrecio)" class="cursor">
-                                    Precio total (&euro;)
-                                    <i [ngClass]="toggle[2]? 'filtroSeleccionado' : ''"
-                                        class="fa fa-caret-up fa-lg"></i>
-                                    <i [ngClass]="toggle[3]? 'filtroSeleccionado' : ''"
-                                        class="fa fa-caret-down fa-lg"></i>
-                                </th>
+                                <th> Precio total (&euro;) </th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -94,9 +88,9 @@
                     </table>
                 </div>
                 <div>
-                    <button (click)="cambiarPagina(-5)" class="btn btn-secondary">Anteriores</button>
+                    <button (click)="cambiarPagina(-10)" class="btn btn-secondary">Anteriores</button>
                     &nbsp;
-                    <button (click)="cambiarPagina(5)" class="btn btn-secondary">Siguientes</button>
+                    <button (click)="cambiarPagina(10)" class="btn btn-secondary">Siguientes</button>
                 </div>
             </div>
         </div>

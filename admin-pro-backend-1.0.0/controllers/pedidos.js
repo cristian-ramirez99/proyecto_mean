@@ -86,7 +86,9 @@ const getPedidosFiltroPrecio = async (req, res) => {
 }
 const getTodosLosPedidos = async (req, res) => {
     const desde = Number(req.query.desde) || 0;
-    const estado = 'Cualquier estado';
+    console.log(desde);
+    const estado = req.query.estado || "Cualquier estado";
+    console.log(desde);
     try {
 
         if (estado === 'Cualquier estado') {

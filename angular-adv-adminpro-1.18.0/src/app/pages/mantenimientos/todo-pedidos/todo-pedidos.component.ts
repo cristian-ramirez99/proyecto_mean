@@ -33,7 +33,7 @@ export class TodoPedidosComponent implements OnInit {
     public activatedRoute: ActivatedRoute) { }
 
   async ngOnInit(): Promise<void> {
-    this.cargarPedidos(filtro.filtroFecha);
+    this.cargarPedidos(this.estadoSeleccionado, false);
   }
 
   abrirModal(pedido: Pedido) {
@@ -45,26 +45,35 @@ export class TodoPedidosComponent implements OnInit {
     this.pedidoService.actualizarPedido(pedido)
       .subscribe()
   }
-  cargarPedidos(filtro: number) {
+  cargarPedidos(estado, hacerToggle: boolean) {
     this.cargando = true;
-    this.pedidoService.cargarTodosLosPedidos(filtro)
-      .toPromise()
-      .then(resp => {
-        console.log(resp.pedidos);
+
+    console.log(estado);
+    console.log(this.estadoSeleccionado);
+
+    //EstadoSeleccionado esta en html binding
+    if (estado != this.estadoSeleccionado) {
+      this.desde = 0;
+    }
+
+    this.pedidoService.cargarTodosLosPedidos(this.desde, estado)
+      .subscribe(resp => {
         this.cargando = false;
         this.pedidos = resp.pedidos;
         this.pedidosMostrados = resp.pedidos;
         this.totalPedidos = resp.total;
 
         //Ponemos el value del select a Cualquier estado
-        this.estadoSeleccionado = "Cualquier estado";
+        this.estadoSeleccionado = estado;
 
         if (this.pedidos.length == 0) {
           this.existenPedidos = false;
         }
 
-        //Destacar el triangulo que indica como estan ordenados los pedidos
-        this.toggleFiltro(filtro);
+        if (hacerToggle) {
+          //Destacar el triangulo que indica como estan ordenados los pedidos
+          this.toggleFiltro(filtro.filtroFecha);
+        }
 
         //Se tiene que crear un new Date, si no funciona
         resp.pedidos.forEach(pedido => {
@@ -79,12 +88,12 @@ export class TodoPedidosComponent implements OnInit {
 
     if (this.desde < 0) {
       this.desde = 0;
-    } else if (this.desde >= this.pedidosMostrados.length) {
+    } else if (this.desde >= this.totalPedidos) {
       this.desde -= valor;
     }
 
 
-    this.cargarPedidos(filtro.filtroFecha);
+    this.cargarPedidos(this.estadoSeleccionado, false);
   }
   //Cambia de color el triangulo de ordenacion de los filtros
   toggleFiltro(pos: number) {
@@ -102,13 +111,5 @@ export class TodoPedidosComponent implements OnInit {
       this.toggle[pos] = true;
     }
   }
-  //Filtra los pedidos por estado seleccionado
-  cambiarEstado(estado: string) {
-    //Si tiene cualquier pedido
-    if (estado === "Cualquier estado") {
-      this.pedidosMostrados = this.pedidos;
-    } else {
-      this.pedidosMostrados = this.pedidos.filter(pedido => pedido.estado === estado);
-    }
-  }
+
 }
