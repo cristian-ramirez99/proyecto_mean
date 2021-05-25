@@ -1,5 +1,3 @@
-# AdminPro - Backend
-
 Recuerden ejecutar 
 
 ```

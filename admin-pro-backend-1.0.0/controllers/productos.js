@@ -174,7 +174,7 @@ const reabastecerStockAutomatico = async (req, res) => {
             const actualizarStockDisponible = await Producto.updateOne({ _id: id }, { $set: { "stockDisponible": nuevoStock } });
 
             //1 dia en ms 
-            //await sleep(86400000);
+            await sleep(86400000);
 
             //Stock recibido en la entrega + stockActual
             const productoActualizado = await Producto.updateOne(
